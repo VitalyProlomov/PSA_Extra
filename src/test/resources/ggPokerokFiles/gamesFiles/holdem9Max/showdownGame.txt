@@ -1,0 +1,66 @@
+Poker Hand #HD1603656359: Hold'em No Limit ($0.05/$0.1) - 2024/01/24 10:50:55
+Table 'NLHARed32' 9-max Seat #4 is the button
+Seat 1: d783b710 ($22.87 in chips)
+Seat 2: 5ac5cf8c ($18.09 in chips)
+Seat 3: 52743c37 ($22.11 in chips)
+Seat 4: 6e1e5fb6 ($10.95 in chips)
+Seat 5: 76855856 ($22.38 in chips)
+Seat 6: Hero ($22.32 in chips)
+Seat 7: 7c304922 ($41.54 in chips)
+Seat 8: 2e5595a ($25.37 in chips)
+Seat 9: 57d8cf46 ($10.15 in chips)
+7c304922: posts the ante $0.05
+57d8cf46: posts the ante $0.05
+52743c37: posts the ante $0.05
+5ac5cf8c: posts the ante $0.05
+Hero: posts the ante $0.05
+2e5595a: posts the ante $0.05
+6e1e5fb6: posts the ante $0.05
+d783b710: posts the ante $0.05
+76855856: posts the ante $0.05
+76855856: posts small blind $0.05
+Hero: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to d783b710
+Dealt to 5ac5cf8c
+Dealt to 52743c37
+Dealt to 6e1e5fb6
+Dealt to 76855856
+Dealt to Hero [9d Td]
+Dealt to 7c304922
+Dealt to 2e5595a
+Dealt to 57d8cf46
+7c304922: raises $0.2 to $0.3
+2e5595a: folds
+57d8cf46: folds
+d783b710: folds
+5ac5cf8c: folds
+52743c37: folds
+6e1e5fb6: folds
+76855856: folds
+Hero: calls $0.2
+*** FLOP *** [Ah Qh Qd]
+Hero: checks
+7c304922: checks
+*** TURN *** [Ah Qh Qd] [2h]
+Hero: checks
+7c304922: checks
+*** RIVER *** [Ah Qh Qd 2h] [4s]
+Hero: bets $0.37
+7c304922: calls $0.37
+Hero: shows [9d Td] (Pair of Queens)
+7c304922: shows [Jd Ac] (Pair of Aces and Pair of Queens)
+*** SHOWDOWN ***
+7c304922 collected $1.75 from pot
+*** SUMMARY ***
+Total pot $1.84 | Rake $0.09 | Jackpot $0 | Bingo $0 | Fortune $0 | Tax $0
+Board [Ah Qh Qd 2h 4s]
+Seat 1: d783b710 folded before Flop
+Seat 2: 5ac5cf8c folded before Flop
+Seat 3: 52743c37 folded before Flop
+Seat 4: 6e1e5fb6 (button) folded before Flop
+Seat 5: 76855856 (small blind) folded before Flop
+Seat 6: Hero (big blind) showed [9d Td] and lost with Pair of Queens
+Seat 7: 7c304922 showed [Jd Ac] and won ($1.75) with Pair of Aces and Pair of Queens
+Seat 8: 2e5595a folded before Flop
+Seat 9: 57d8cf46 folded before Flop

@@ -1,0 +1,47 @@
+Poker Hand #RC1224657143: Hold'em No Limit  ($0.1/$0.25) - 2022/12/17 16:28:11
+Table 'RushAndCash332403' 6-max Seat #1 is the button
+Seat 1: 2a18a09c ($26.63 in chips)
+Seat 2: 7d806d2d ($32.61 in chips)
+Seat 3: Hero ($26.77 in chips)
+Seat 4: 40afedaa ($19.65 in chips)
+Seat 5: d579d6ed ($11.13 in chips)
+Seat 6: d338911a ($42 in chips)
+7d806d2d: posts small blind $0.1
+Hero: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to 2a18a09c
+Dealt to 7d806d2d
+Dealt to Hero [Qh 3c]
+Dealt to 40afedaa
+Dealt to d579d6ed
+Dealt to d338911a
+40afedaa: folds
+d579d6ed: raises $0.25 to $0.5
+d338911a: folds
+2a18a09c: calls $0.5
+7d806d2d: folds
+Hero: folds
+*** FLOP *** [Kd 6c 9d]
+d579d6ed: checks
+2a18a09c: checks
+*** TURN *** [Kd 6c 9d] [7s]
+d579d6ed: bets $0.7
+2a18a09c: raises $2.07 to $2.77
+d579d6ed: raises $7.86 to $10.63 and is all-in
+2a18a09c: calls $7.86
+d579d6ed: shows [4d Ad] (Ace-High)
+2a18a09c: shows [7h 7d] (Three Sevens)
+2a18a09c: Chooses to EV Cashout
+*** RIVER *** [Kd 6c 9d 7s] [6h]
+2a18a09c: Pays Cashout Risk ($2.79)
+*** SHOWDOWN ***
+2a18a09c collected $21.49 from pot
+*** SUMMARY ***
+Total pot $22.61 | Rake $0.75 | Jackpot $0.37 | Bingo $0 | Fortune $0
+Board [Kd 6c 9d 7s 6h]
+Seat 1: 2a18a09c (button) showed [7h 7d] and won ($21.49) with Sevens Full over Sixes, Cashout Risk ($2.79)
+Seat 2: 7d806d2d (small blind) folded before Flop
+Seat 3: Hero (big blind) folded before Flop
+Seat 4: 40afedaa folded before Flop (didn't bet)
+Seat 5: d579d6ed showed [4d Ad] and lost with Pair of Sixes
+Seat 6: d338911a folded before Flop (didn't bet)

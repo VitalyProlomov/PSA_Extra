@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="435.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.AssignNewPlayerController">
+   <children>
+      <Label layoutX="128.0" layoutY="14.0" text="Assign New Player">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="88.0" layoutY="63.0" text="Username" />
+      <Label layoutX="88.0" layoutY="127.0" text="Game ID" />
+      <Label layoutX="89.0" layoutY="199.0" prefHeight="18.0" prefWidth="43.0" text="Hash" />
+      <TextField fx:id="usernameTextField" layoutX="166.0" layoutY="59.0" prefHeight="26.0" prefWidth="146.0" />
+      <TextField fx:id="gameIdTextField" layoutX="167.0" layoutY="123.0" prefHeight="26.0" prefWidth="146.0" />
+      <TextField fx:id="hashTextField" layoutX="166.0" layoutY="195.0" prefHeight="26.0" prefWidth="146.0" />
+      <Label layoutX="89.0" layoutY="271.0" text="Position" />
+      <Button fx:id="assignButton" layoutX="174.0" layoutY="378.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" text="Assign" />
+      <Label fx:id="warningLabel" alignment="CENTER" layoutX="68.0" layoutY="320.0" prefHeight="47.0" prefWidth="266.0" text="In order to successfully assign new Player,&#10; you must enter Username, Game ID, Hash&#10;and Position of that player&#10;" textAlignment="CENTER" textFill="RED" visible="false" />
+      <ChoiceBox fx:id="positionChoiceBox" layoutX="167.0" layoutY="266.0" prefHeight="26.0" prefWidth="146.0" />
+   </children>
+</AnchorPane>

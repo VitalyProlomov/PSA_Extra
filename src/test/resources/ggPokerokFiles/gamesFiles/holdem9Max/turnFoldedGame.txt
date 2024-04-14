@@ -1,0 +1,65 @@
+Poker Hand #HD1603656575: Hold'em No Limit ($0.05/$0.1) - 2024/01/24 10:53:10
+Table 'NLHARed32' 9-max Seat #7 is the button
+Seat 1: d783b710 ($22.72 in chips)
+Seat 2: 5ac5cf8c ($17.94 in chips)
+Seat 3: 52743c37 ($22.56 in chips)
+Seat 4: 6e1e5fb6 ($12.7 in chips)
+Seat 5: 76855856 ($20.62 in chips)
+Seat 6: Hero ($21.45 in chips)
+Seat 7: 7c304922 ($42.32 in chips)
+Seat 8: 2e5595a ($25.12 in chips)
+Seat 9: 57d8cf46 ($10 in chips)
+7c304922: posts the ante $0.05
+57d8cf46: posts the ante $0.05
+52743c37: posts the ante $0.05
+Hero: posts the ante $0.05
+5ac5cf8c: posts the ante $0.05
+2e5595a: posts the ante $0.05
+6e1e5fb6: posts the ante $0.05
+76855856: posts the ante $0.05
+d783b710: posts the ante $0.05
+2e5595a: posts small blind $0.05
+57d8cf46: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to d783b710
+Dealt to 5ac5cf8c
+Dealt to 52743c37
+Dealt to 6e1e5fb6
+Dealt to 76855856
+Dealt to Hero [Kd 8d]
+Dealt to 7c304922
+Dealt to 2e5595a
+Dealt to 57d8cf46
+d783b710: raises $0.3 to $0.4
+5ac5cf8c: calls $0.4
+52743c37: folds
+6e1e5fb6: folds
+76855856: calls $0.4
+Hero: folds
+7c304922: folds
+2e5595a: folds
+57d8cf46: folds
+*** FLOP *** [Qs 2s Th]
+d783b710: bets $0.6
+5ac5cf8c: calls $0.6
+76855856: calls $0.6
+*** TURN *** [Qs 2s Th] [4c]
+d783b710: checks
+5ac5cf8c: bets $1.8
+76855856: folds
+d783b710: folds
+Uncalled bet ($1.8) returned to 5ac5cf8c
+*** SHOWDOWN ***
+5ac5cf8c collected $3.35 from pot
+*** SUMMARY ***
+Total pot $3.6 | Rake $0.17 | Jackpot $0.08 | Bingo $0 | Fortune $0 | Tax $0
+Board [Qs 2s Th 4c]
+Seat 1: d783b710 folded on the Turn
+Seat 2: 5ac5cf8c won ($3.35)
+Seat 3: 52743c37 folded before Flop
+Seat 4: 6e1e5fb6 folded before Flop
+Seat 5: 76855856 folded on the Turn
+Seat 6: Hero folded before Flop
+Seat 7: 7c304922 (button) folded before Flop
+Seat 8: 2e5595a (small blind) folded before Flop
+Seat 9: 57d8cf46 (big blind) folded before Flop

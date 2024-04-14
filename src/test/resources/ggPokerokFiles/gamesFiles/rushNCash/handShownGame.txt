@@ -1,0 +1,45 @@
+Poker Hand #RC1292105656: Hold'em No Limit  ($0.02/$0.05) - 2023/01/20 23:31:52
+Table 'RushAndCash170916' 6-max Seat #1 is the button
+Seat 1: 1e9152a8 ($9.41 in chips)
+Seat 2: Hero ($8.02 in chips)
+Seat 3: 480564b2 ($5.23 in chips)
+Seat 4: 59435a5e ($2.02 in chips)
+Seat 5: dd1dce69 ($5.49 in chips)
+Seat 6: 363e9d13 ($5.36 in chips)
+Hero: posts small blind $0.02
+480564b2: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to 1e9152a8
+Dealt to Hero [Ts Td]
+Dealt to 480564b2
+Dealt to 59435a5e
+Dealt to dd1dce69
+Dealt to 363e9d13
+59435a5e: folds
+dd1dce69: folds
+363e9d13: folds
+1e9152a8: folds
+Hero: raises $0.1 to $0.15
+480564b2: raises $0.29 to $0.44
+Hero: calls $0.29
+*** FLOP *** [5h 7d Jh]
+Hero: checks
+480564b2: bets $0.3
+Hero: calls $0.3
+*** TURN *** [5h 7d Jh] [4c]
+Hero: checks
+480564b2: bets $1.11
+Hero: folds
+Uncalled bet ($1.11) returned to 480564b2
+480564b2: shows [Kd Ks] (Pair of Kings)
+*** SHOWDOWN ***
+480564b2 collected $1.41 from pot
+*** SUMMARY ***
+Total pot $1.48 | Rake $0.07 | Jackpot $0 | Bingo $0 | Fortune $0
+Board [5h 7d Jh 4c]
+Seat 1: 1e9152a8 (button) folded before Flop (didn't bet)
+Seat 2: Hero (small blind) folded on the Turn
+Seat 3: 480564b2 (big blind) showed [Kd Ks] and won ($1.41) with Pair of Kings
+Seat 4: 59435a5e folded before Flop (didn't bet)
+Seat 5: dd1dce69 folded before Flop (didn't bet)
+Seat 6: 363e9d13 folded before Flop (didn't bet)

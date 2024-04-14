@@ -1,0 +1,51 @@
+Poker Hand #RC1317304843: Hold'em No Limit  ($0.05/$0.1) - 2023/02/02 16:55:19
+Table 'RushAndCash5190103' 6-max Seat #1 is the button
+Seat 1: Hero ($16.52 in chips)
+Seat 2: 6b21e9b9 ($8.08 in chips)
+Seat 3: ac1e214a ($8.54 in chips)
+Seat 4: 76d3c88f ($10.37 in chips)
+Seat 5: 6362b6d1 ($21.39 in chips)
+Seat 6: 820e8a4 ($13.78 in chips)
+6b21e9b9: posts small blind $0.05
+ac1e214a: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to Hero [6s Jd]
+Dealt to 6b21e9b9
+Dealt to ac1e214a
+Dealt to 76d3c88f
+Dealt to 6362b6d1
+Dealt to 820e8a4
+76d3c88f: folds
+6362b6d1: folds
+820e8a4: raises $0.15 to $0.25
+Hero: folds
+6b21e9b9: raises $0.65 to $0.9
+ac1e214a: folds
+820e8a4: raises $1.4 to $2.3
+6b21e9b9: raises $4.7 to $7
+820e8a4: raises $4.7 to $11.7
+6b21e9b9: calls $1.08 and is all-in
+Uncalled bet ($3.62) returned to 820e8a4
+820e8a4: shows [Qc Qd]
+6b21e9b9: shows [Kd Ah]
+*** FIRST FLOP *** [6h 7d 4c]
+*** FIRST TURN *** [6h 7d 4c] [2d]
+*** FIRST RIVER *** [6h 7d 4c 2d] [8c]
+*** SECOND FLOP *** [Jc 6d 9c]
+*** SECOND TURN *** [Jc 6d 9c] [3s]
+*** SECOND RIVER *** [Jc 6d 9c 3s] [5s]
+*** FIRST SHOWDOWN ***
+820e8a4 collected $7.91 from pot
+*** SECOND SHOWDOWN ***
+820e8a4 collected $7.9 from pot
+*** SUMMARY ***
+Total pot $16.26 | Rake $0.3 | Jackpot $0.15 | Bingo $0 | Fortune $0
+Hand was run two times
+FIRST Board [6h 7d 4c 2d 8c]
+SECOND Board [Jc 6d 9c 3s 5s]
+Seat 1: Hero (button) folded before Flop (didn't bet)
+Seat 2: 6b21e9b9 (small blind) showed [Kd Ah] and lost with Ace-High, and lost with Ace-High
+Seat 3: ac1e214a (big blind) folded before Flop
+Seat 4: 76d3c88f folded before Flop (didn't bet)
+Seat 5: 6362b6d1 folded before Flop (didn't bet)
+Seat 6: 820e8a4 showed [Qc Qd] and won ($7.91) with Pair of Queens, and won ($7.9) with Pair of Queens

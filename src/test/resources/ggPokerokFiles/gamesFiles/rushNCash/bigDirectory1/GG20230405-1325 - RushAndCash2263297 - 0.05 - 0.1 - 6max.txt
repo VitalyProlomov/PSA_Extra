@@ -1,0 +1,70 @@
+Poker Hand #RC1452778037: Hold'em No Limit  ($0.05/$0.1) - 2023/04/05 16:25:47
+Table 'RushAndCash2263297' 6-max Seat #1 is the button
+Seat 1: 283fd67a ($13.52 in chips)
+Seat 2: Hero ($10.05 in chips)
+Seat 3: 2999d088 ($10 in chips)
+Seat 4: fd24f0 ($9.46 in chips)
+Seat 5: 5f5c8a29 ($10 in chips)
+Seat 6: 25f1f1d3 ($51.03 in chips)
+Hero: posts small blind $0.05
+2999d088: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to 283fd67a 
+Dealt to Hero [7h Qs]
+Dealt to 2999d088 
+Dealt to fd24f0 
+Dealt to 5f5c8a29 
+Dealt to 25f1f1d3 
+fd24f0: folds
+5f5c8a29: folds
+25f1f1d3: folds
+283fd67a: folds
+Hero: folds
+Uncalled bet ($0.05) returned to 2999d088
+*** SHOWDOWN ***
+2999d088 collected $0.1 from pot
+*** SUMMARY ***
+Total pot $0.1 | Rake $0 | Jackpot $0 | Bingo $0 | Fortune $0
+Seat 1: 283fd67a (button) folded before Flop (didn't bet)
+Seat 2: Hero (small blind) folded before Flop
+Seat 3: 2999d088 (big blind) collected ($0.1)
+Seat 4: fd24f0 folded before Flop (didn't bet)
+Seat 5: 5f5c8a29 folded before Flop (didn't bet)
+Seat 6: 25f1f1d3 folded before Flop (didn't bet)
+
+
+Poker Hand #RC1452777939: Hold'em No Limit  ($0.05/$0.1) - 2023/04/05 16:25:34
+Table 'RushAndCash2263199' 6-max Seat #1 is the button
+Seat 1: 97850021 ($4.35 in chips)
+Seat 2: a7f5dcfa ($9.9 in chips)
+Seat 3: Hero ($10 in chips)
+Seat 4: 92ca16a4 ($21.81 in chips)
+Seat 5: 8f5c5b57 ($14.89 in chips)
+Seat 6: 2f26b135 ($19.36 in chips)
+a7f5dcfa: posts small blind $0.05
+Hero: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to 97850021 
+Dealt to a7f5dcfa 
+Dealt to Hero [5c Kd]
+Dealt to 92ca16a4 
+Dealt to 8f5c5b57 
+Dealt to 2f26b135 
+92ca16a4: folds
+8f5c5b57: folds
+2f26b135: folds
+97850021: folds
+a7f5dcfa: folds
+Uncalled bet ($0.05) returned to Hero
+*** SHOWDOWN ***
+Hero collected $0.1 from pot
+*** SUMMARY ***
+Total pot $0.1 | Rake $0 | Jackpot $0 | Bingo $0 | Fortune $0
+Seat 1: 97850021 (button) folded before Flop (didn't bet)
+Seat 2: a7f5dcfa (small blind) folded before Flop
+Seat 3: Hero (big blind) collected ($0.1)
+Seat 4: 92ca16a4 folded before Flop (didn't bet)
+Seat 5: 8f5c5b57 folded before Flop (didn't bet)
+Seat 6: 2f26b135 folded before Flop (didn't bet)
+
+

@@ -1,0 +1,34 @@
+Poker Hand #RC1281882647: Hold'em No Limit  ($0.02/$0.05) - 2023/01/15 20:19:00
+Table 'RushAndCash11247907' 6-max Seat #1 is the button
+Seat 1: cdd7fe2b ($10 in chips)
+Seat 2: a5003d17 ($9.36 in chips)
+Seat 3: 6be2f5ab ($5 in chips)
+Seat 4: Hero ($5.65 in chips)
+Seat 5: 9a4f339a ($17.79 in chips)
+Seat 6: 1ef61f80 ($15.01 in chips)
+a5003d17: posts small blind $0.02
+6be2f5ab: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to cdd7fe2b
+Dealt to a5003d17
+Dealt to 6be2f5ab
+Dealt to Hero [Tc 5s]
+Dealt to 9a4f339a
+Dealt to 1ef61f80
+Hero: folds
+9a4f339a: raises $0.08 to $0.13
+1ef61f80: folds
+cdd7fe2b: folds
+a5003d17: folds
+6be2f5ab: folds
+Uncalled bet ($0.08) returned to 9a4f339a
+*** SHOWDOWN ***
+9a4f339a collected $0.12 from pot
+*** SUMMARY ***
+Total pot $0.12 | Rake $0 | Jackpot $0 | Bingo $0 | Fortune $0
+Seat 1: cdd7fe2b (button) folded before Flop (didn't bet)
+Seat 2: a5003d17 (small blind) folded before Flop
+Seat 3: 6be2f5ab (big blind) folded before Flop
+Seat 4: Hero folded before Flop (didn't bet)
+Seat 5: 9a4f339a collected ($0.12)
+Seat 6: 1ef61f80 folded before Flop (didn't bet)

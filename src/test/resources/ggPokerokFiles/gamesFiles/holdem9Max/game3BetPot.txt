@@ -1,0 +1,38 @@
+Poker Hand #HD1517789305: Hold'em No Limit ($0.05/$0.1) - 2023/12/01 23:10:59
+Table 'NLHARed15' 9-max Seat #1 is the button
+Seat 1: f1ba23db ($12.29 in chips)
+Seat 2: Hero ($16.73 in chips)
+Seat 3: fdeaae24 ($8.75 in chips)
+Seat 4: da52607b ($31.92 in chips)
+fdeaae24: posts the ante $0.05
+Hero: posts the ante $0.05
+f1ba23db: posts the ante $0.05
+da52607b: posts the ante $0.05
+Hero: posts small blind $0.05
+fdeaae24: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to f1ba23db
+Dealt to Hero [Ah 5h]
+Dealt to fdeaae24
+Dealt to da52607b
+da52607b: folds
+f1ba23db: raises $0.1 to $0.2
+Hero: raises $0.7 to $0.9
+fdeaae24: folds
+f1ba23db: calls $0.7
+*** FLOP *** [Jd 3c 2c]
+Hero: checks
+f1ba23db: checks
+*** TURN *** [Jd 3c 2c] [5d]
+Hero: bets $0.7
+f1ba23db: folds
+Uncalled bet ($0.7) returned to Hero
+*** SHOWDOWN ***
+Hero collected $2 from pot
+*** SUMMARY ***
+Total pot $2.1 | Rake $0.1 | Jackpot $0 | Bingo $0 | Fortune $0 | Tax $0
+Board [Jd 3c 2c 5d]
+Seat 1: f1ba23db (button) folded on the Turn
+Seat 2: Hero (small blind) won ($2)
+Seat 3: fdeaae24 (big blind) folded before Flop
+Seat 4: da52607b folded before Flop

@@ -1,0 +1,77 @@
+
+Poker Hand #HD1605996240: Hold'em No Limit ($0.05/$0.1) - 2024/01/25 19:32:33
+Table 'NLHARed4' 9-max Seat #4 is the button
+Seat 1: 2167de6f ($3.2 in chips)
+Seat 2: 8b392761 ($19 in chips)
+Seat 3: ac68be5e ($22.31 in chips)
+Seat 4: a73da897 ($18.62 in chips)
+Seat 5: 1351bced ($14.58 in chips)
+Seat 6: 1ab99c1b ($19.45 in chips)
+Seat 7: 197f14e3 ($41.3 in chips)
+Seat 8: Hero ($25.8 in chips)
+Seat 9: 5567ee7f ($20.16 in chips)
+a73da897: posts the ante $0.05
+8b392761: posts the ante $0.05
+5567ee7f: posts the ante $0.05
+1351bced: posts the ante $0.05
+ac68be5e: posts the ante $0.05
+Hero: posts the ante $0.05
+197f14e3: posts the ante $0.05
+2167de6f: posts the ante $0.05
+1ab99c1b: posts the ante $0.05
+1351bced: posts small blind $0.05
+1ab99c1b: posts big blind $0.1
+*** HOLE CARDS ***
+Dealt to 2167de6f
+Dealt to 8b392761
+Dealt to ac68be5e
+Dealt to a73da897
+Dealt to 1351bced
+Dealt to 1ab99c1b
+Dealt to 197f14e3
+Dealt to Hero [Qh Qd]
+Dealt to 5567ee7f
+197f14e3: folds
+Hero: raises $0.3 to $0.4
+5567ee7f: folds
+2167de6f: folds
+8b392761: calls $0.4
+ac68be5e: folds
+a73da897: raises $1.35 to $1.75
+1351bced: folds
+1ab99c1b: folds
+Hero: calls $1.35
+8b392761: calls $1.35
+*** FLOP *** [Qs Ac 7h]
+Hero: checks
+8b392761: checks
+a73da897: checks
+*** TURN *** [Qs Ac 7h] [Js]
+Hero: bets $2.93
+8b392761: raises $5.98 to $8.91
+a73da897: calls $8.91
+Hero: raises $15.09 to $24 and is all-in
+8b392761: calls $8.29 and is all-in
+a73da897: calls $7.91 and is all-in
+Uncalled bet ($6.8) returned to Hero
+Hero: shows [Qh Qd] (Three Queens)
+8b392761: shows [7s 7c] (Three Sevens)
+a73da897: shows [Ad As] (Three Aces)
+a73da897: Chooses to EV Cashout
+*** RIVER *** [Qs Ac 7h Js] [Qc]
+a73da897: Receives Cashout ($28.16)
+*** SHOWDOWN ***
+Hero collected $54.76 from pot
+Hero collected $0.74 from pot
+*** SUMMARY ***
+Total pot $57.07 | Rake $1.49 | Jackpot $0.08 | Bingo $0 | Fortune $0 | Tax $0
+Board [Qs Ac 7h Js Qc]
+Seat 1: 2167de6f folded before Flop with Pair of Queens
+Seat 2: 8b392761 showed [7s 7c] and lost with Sevens Full over Queens
+Seat 3: ac68be5e folded before Flop with Pair of Queens
+Seat 4: a73da897 (button) showed [Ad As] and lost with Aces Full over Queens, EV Cashout ($0)
+Seat 5: 1351bced (small blind) folded before Flop with Pair of Queens
+Seat 6: 1ab99c1b (big blind) folded before Flop with Pair of Queens
+Seat 7: 197f14e3 folded before Flop with Pair of Queens
+Seat 8: Hero showed [Qh Qd] and won ($55.5) with Four Queens
+Seat 9: 5567ee7f folded before Flop with Pair of Queens

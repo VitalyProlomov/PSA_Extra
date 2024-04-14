@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPaneProfile" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.ProfileController">
+   <top>
+      <Label fx:id="profileId" text="Profile" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="playersAssignedAmountLabel" alignment="CENTER" layoutX="172.0" layoutY="64.0" prefHeight="17.0" prefWidth="256.0" text="Players Assigned to profiles:  " textAlignment="CENTER" />
+            <Label fx:id="gamesAmountLabel" alignment="CENTER" layoutX="180.0" layoutY="101.0" prefHeight="17.0" prefWidth="239.0" text="Total Games Downloaded:  " textAlignment="CENTER" />
+            <Label fx:id="threebetPotLabel" alignment="CENTER" layoutX="207.0" layoutY="172.0" prefHeight="17.0" prefWidth="185.0" text="3Bet Pots:  " />
+            <Label fx:id="potsPostFlopLabel" alignment="CENTER" layoutX="217.0" layoutY="137.0" prefHeight="17.0" prefWidth="164.0" text="Pots Post FLop:  " />
+            <Label fx:id="fourBetPotLabel" alignment="CENTER" layoutX="206.0" layoutY="207.0" prefHeight="17.0" prefWidth="186.0" text="4Bet Pot:  " />
+            <Label fx:id="fiveBetPotLabel" alignment="CENTER" layoutX="229.0" layoutY="242.0" prefHeight="17.0" prefWidth="141.0" text="5Bet Pots:  " />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

@@ -1,0 +1,44 @@
+Poker Hand #RC1281883052: Hold'em No Limit  ($0.02/$0.05) - 2023/01/15 20:20:28
+Table 'RushAndCash11248312' 6-max Seat #1 is the button
+Seat 1: c491325f ($6.12 in chips)
+Seat 2: Hero ($13.4 in chips)
+Seat 3: 16d75d78 ($6.28 in chips)
+Seat 4: c1f81489 ($10.52 in chips)
+Seat 5: 361dc4bb ($2.31 in chips)
+Seat 6: 219f215e ($7.88 in chips)
+Hero: posts small blind $0.02
+16d75d78: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to c491325f
+Dealt to Hero [3s 9d]
+Dealt to 16d75d78
+Dealt to c1f81489
+Dealt to 361dc4bb
+Dealt to 219f215e
+c1f81489: folds
+361dc4bb: folds
+219f215e: raises $0.08 to $0.13
+c491325f: calls $0.13
+Hero: folds
+16d75d78: folds
+*** FLOP *** [5s 3c Ks]
+219f215e: bets $0.2
+c491325f: raises $5.79 to $5.99 and is all-in
+219f215e: calls $5.79
+c491325f: shows [5h 5d] (Three Fives)
+219f215e: shows [Kh Ah] (Pair of Kings)
+c491325f: Chooses to EV Cashout
+*** TURN *** [5s 3c Ks] [Kd]
+*** RIVER *** [5s 3c Ks Kd] [6c]
+c491325f: Pays Cashout Risk ($0.51)
+*** SHOWDOWN ***
+c491325f collected $12.09 from pot
+*** SUMMARY ***
+Total pot $12.31 | Rake $0.15 | Jackpot $0.07 | Bingo $0 | Fortune $0
+Board [5s 3c Ks Kd 6c]
+Seat 1: c491325f (button) showed [5h 5d] and won ($12.09) with Fives Full over Kings, Cashout Risk ($0.51)
+Seat 2: Hero (small blind) folded before Flop
+Seat 3: 16d75d78 (big blind) folded before Flop
+Seat 4: c1f81489 folded before Flop (didn't bet)
+Seat 5: 361dc4bb folded before Flop (didn't bet)
+Seat 6: 219f215e showed [Kh Ah] and lost with Three Kings

@@ -1,0 +1,49 @@
+Poker Hand #RC1221774448: Hold'em No Limit  ($0.1/$0.25) - 2022/12/16 00:06:55
+Table 'RushAndCash5519708' 6-max Seat #1 is the button
+Seat 1: Hero ($39.13 in chips)
+Seat 2: ea0c9d4e ($51.37 in chips)
+Seat 3: 195539ef ($27.37 in chips)
+Seat 4: 392d7ce5 ($25.35 in chips)
+Seat 5: e41b54eb ($26.82 in chips)
+Seat 6: a7067c39 ($82.87 in chips)
+Cash Drop to Pot : total $2.5
+ea0c9d4e: posts small blind $0.1
+195539ef: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to Hero [3c 9h]
+Dealt to ea0c9d4e
+Dealt to 195539ef
+Dealt to 392d7ce5
+Dealt to e41b54eb
+Dealt to a7067c39
+392d7ce5: folds
+e41b54eb: folds
+a7067c39: raises $0.33 to $0.58
+Hero: folds
+ea0c9d4e: calls $0.48
+195539ef: calls $0.33
+*** FLOP *** [9c 3s 8s]
+ea0c9d4e: checks
+195539ef: checks
+a7067c39: bets $2.75
+ea0c9d4e: folds
+195539ef: calls $2.75
+*** TURN *** [9c 3s 8s] [Kd]
+195539ef: checks
+a7067c39: checks
+*** RIVER *** [9c 3s 8s Kd] [6h]
+195539ef: checks
+a7067c39: checks
+195539ef: shows [8h Ah] (Pair of Eights)
+a7067c39: shows [5s 3d] (Pair of Treys)
+*** SHOWDOWN ***
+195539ef collected $8.91 from pot
+*** SUMMARY ***
+Total pot $9.74 | Rake $0.46 | Jackpot $0.37 | Bingo $0 | Fortune $0
+Board [9c 3s 8s Kd 6h]
+Seat 1: Hero (button) folded before Flop (didn't bet)
+Seat 2: ea0c9d4e (small blind) folded on the Flop
+Seat 3: 195539ef (big blind) showed [8h Ah] and won ($8.91) with Pair of Eights
+Seat 4: 392d7ce5 folded before Flop (didn't bet)
+Seat 5: e41b54eb folded before Flop (didn't bet)
+Seat 6: a7067c39 showed [5s 3d] and lost with Pair of Treys

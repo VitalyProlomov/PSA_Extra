@@ -1,0 +1,45 @@
+Poker Hand #RC1221829603: Hold'em No Limit  ($0.1/$0.25) - 2022/12/15 21:35:07
+Table 'RushAndCash5524863' 6-max Seat #1 is the button
+Seat 1: 96112e6e ($42.6 in chips)
+Seat 2: bdfdf5d3 ($35.23 in chips)
+Seat 3: Hero ($58.12 in chips)
+Seat 4: 906a880b ($148.44 in chips)
+Seat 5: 40b398d7 ($30.35 in chips)
+Seat 6: 805c6855 ($21.99 in chips)
+bdfdf5d3: posts small blind $0.1
+Hero: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to 96112e6e
+Dealt to bdfdf5d3
+Dealt to Hero [Ad Ts]
+Dealt to 906a880b
+Dealt to 40b398d7
+Dealt to 805c6855
+906a880b: folds
+40b398d7: folds
+805c6855: raises $0.38 to $0.63
+96112e6e: folds
+bdfdf5d3: folds
+Hero: calls $0.38
+*** FLOP *** [8d 6d Qh]
+Hero: checks
+805c6855: checks
+*** TURN *** [8d 6d Qh] [4s]
+Hero: checks
+805c6855: checks
+*** RIVER *** [8d 6d Qh 4s] [9s]
+Hero: checks
+805c6855: checks
+Hero: shows [Ad Ts] (Ace-High)
+805c6855: shows [4h Ah] (Pair of Fours)
+*** SHOWDOWN ***
+805c6855 collected $1.3 from pot
+*** SUMMARY ***
+Total pot $1.36 | Rake $0.06 | Jackpot $0 | Bingo $0
+Board [8d 6d Qh 4s 9s]
+Seat 1: 96112e6e (button) folded before Flop (didn't bet)
+Seat 2: bdfdf5d3 (small blind) folded before Flop
+Seat 3: Hero (big blind) showed [Ad Ts] and lost with Ace-High
+Seat 4: 906a880b folded before Flop (didn't bet)
+Seat 5: 40b398d7 folded before Flop (didn't bet)
+Seat 6: 805c6855 showed [4h Ah] and won ($1.3) with Pair of Fours

@@ -1,0 +1,67 @@
+Poker Hand #HD1716118212: Hold'em No Limit ($0.05/$0.1) - 2024/04/05 00:43:33
+Table 'NLHARed42' 9-max Seat #4 is the button
+Seat 1: 2f7211df ($24.87 in chips)
+Seat 2: 290d7ea8 ($75.44 in chips)
+Seat 3: Hero ($104.76 in chips)
+Seat 4: 9933cedb ($61.19 in chips)
+Seat 5: 161e7c76 ($29.77 in chips)
+Seat 6: 7221acc3 ($47.73 in chips)
+Seat 7: d0bfd2e1 ($20 in chips)
+Seat 8: e04a92c4 ($46.2 in chips)
+Seat 9: 7b057d27 ($114.84 in chips)
+9933cedb: posts the ante $0.05
+161e7c76: posts the ante $0.05
+290d7ea8: posts the ante $0.05
+Hero: posts the ante $0.05
+d0bfd2e1: posts the ante $0.05
+7221acc3: posts the ante $0.05
+2f7211df: posts the ante $0.05
+e04a92c4: posts the ante $0.05
+7b057d27: posts the ante $0.05
+161e7c76: posts small blind $0.05
+7221acc3: posts big blind $0.1
+Hero: straddle $0.2
+161e7c76: straddle $0.4
+161e7c76: straddle $0.8
+161e7c76: straddle $1.6
+*** HOLE CARDS ***
+Dealt to 2f7211df
+Dealt to 290d7ea8
+Dealt to Hero [Js Jd]
+Dealt to 9933cedb
+Dealt to 161e7c76
+Dealt to 7221acc3
+Dealt to d0bfd2e1
+Dealt to e04a92c4
+Dealt to 7b057d27
+7221acc3: folds
+d0bfd2e1: raises $18.35 to $19.95 and is all-in
+e04a92c4: folds
+7b057d27: folds
+2f7211df: folds
+290d7ea8: folds
+Hero: raises $42.05 to $62
+9933cedb: folds
+161e7c76: calls $28.12 and is all-in
+Uncalled bet ($32.28) returned to Hero
+Hero: shows [Js Jd]
+161e7c76: shows [As 7c]
+d0bfd2e1: shows [Ac 9d]
+*** FLOP *** [Td 2c 3d]
+*** TURN *** [Td 2c 3d] [5c]
+*** RIVER *** [Td 2c 3d 5c] [Ah]
+*** SHOWDOWN ***
+d0bfd2e1 collected $59.19 from pot
+161e7c76 collected $19.18 from pot
+*** SUMMARY ***
+Total pot $79.94 | Rake $1.49 | Jackpot $0.08 | Bingo $0 | Fortune $0 | Tax $0
+Board [Td 2c 3d 5c Ah]
+Seat 1: 2f7211df folded before Flop
+Seat 2: 290d7ea8 folded before Flop
+Seat 3: Hero showed [Js Jd] and lost with Pair of Jacks
+Seat 4: 9933cedb (button) folded before Flop
+Seat 5: 161e7c76 (small blind) showed [As 7c] and won ($19.18) with Pair of Aces
+Seat 6: 7221acc3 (big blind) folded before Flop
+Seat 7: d0bfd2e1 showed [Ac 9d] and won ($59.19) with Pair of Aces
+Seat 8: e04a92c4 folded before Flop
+Seat 9: 7b057d27 folded before Flop
