@@ -3,9 +3,6 @@ package appinterface.controllers;
 
 import appinterface.PSAApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -208,10 +205,10 @@ public class GamesListController {
                     try {
                         Game rowData = row.getItem();
 
-                        FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplayView.fxml"));
+                        FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
                         Stage stage = new Stage();
                         stage.setScene(new Scene(loader.load()));
-                        GameDisplayController controller = loader.getController();
+                        GameDisplay6MaxController controller = loader.getController();
                         controller.setGame(rowData);
                         stage.setResizable(false);
                         stage.show();

@@ -7,11 +7,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
 import models.Game;
 import models.GamesSet;
+import parsers.gg.GGPokerokHoldem9MaxParser;
 import parsers.gg.GGPokerokRushNCashParser;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +19,41 @@ import java.util.List;
 
 public class UploadController {
     public ArrayList<Game> uploadFiles(List<File> files) throws IOException {
+        GGPokerokRushNCashParser ggPokerokRushNCashParser = new GGPokerokRushNCashParser();
+        GGPokerokHoldem9MaxParser ggPokerokHoldem9MaxParser = new GGPokerokHoldem9MaxParser();
+
         ArrayList<Game> allGames = new ArrayList<>();
         ArrayList<Exception> allExceptions = new ArrayList<>();
-        GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
+        BufferedReader reader;
         for (File f : files) {
             try {
-                allGames.addAll(parser.parseFile(f.toString()));
+                reader = new BufferedReader(new FileReader(f));
+                String firstLine;
+                try {
+                    firstLine = reader.readLine();
+                } catch (IOException ex) {
+                    throw new IOException("Could not read the first line of the file (might be because file is opened or corrupted)");
+                }
+                switch (firstLine.split(" ")[2].substring(1,3)) {
+                    case "RC":
+                      if (firstLine.split(" ")[3].equals("Hold'em")) {
+                          allGames.addAll(ggPokerokRushNCashParser.parseFile(f.toString()));
+                      } else {
+                          throw new RuntimeException("Omaha is currently not supported");
+                      }
+                    case "HD":
+                        String gameIdentification;
+                        try {
+                            gameIdentification = reader.readLine().split(" ")[2];
+                        } catch (IOException ex) {
+                            throw new IOException("Could not read the second line of the file (might be because file is opened or corrupted)");
+                        }
+                        if (gameIdentification.equals("9-max")) {
+                            allGames.addAll(ggPokerokHoldem9MaxParser.parseFile(f.toString()));
+                        }
+                }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 allExceptions.add(ex);
             }
         }
