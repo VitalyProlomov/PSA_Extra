@@ -172,11 +172,6 @@ public class GameAnalyzerTest {
 
         path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/gameSession2.txt";
         ArrayList<Game> games = parser.parseFile(path);
-        for (int i = 0; i < games.size(); ++i) {
-            if (GameAnalyzer.isFlopCheckRaisedByCaller(games.get(i))) {
-                System.out.println(games.get(i).getGameId());
-            }
-        }
     }
 
 

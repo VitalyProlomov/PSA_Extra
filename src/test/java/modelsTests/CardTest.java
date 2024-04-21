@@ -131,7 +131,6 @@ public class CardTest {
                 repr += j;
 
                 assertEquals(hash++, (new Card(repr).hashCode()));
-//                System.out.println(new Card(repr).toString() + ", Hash: " + new Card(repr).hashCode());
             }
         }
     }

@@ -1,0 +1,65 @@
+Poker Hand #HD1739046164: Hold'em No Limit ($0.05/$0.1) - 2024/04/20 17:49:29
+Table 'NLHARed57' 9-max Seat #9 is the button
+Seat 1: fd181360 ($42.36 in chips)
+Seat 2: b9b72710 ($6.8 in chips)
+Seat 3: 7e8ea7f5 ($15.37 in chips)
+Seat 4: 92639c3b ($33.92 in chips)
+Seat 6: a9b0a723 ($23.65 in chips)
+Seat 7: 47bec60f ($28.02 in chips)
+Seat 8: Hero ($19.55 in chips)
+Seat 9: 69dc8349 ($59.39 in chips)
+b9b72710: posts the ante $0.05
+47bec60f: posts the ante $0.05
+fd181360: posts the ante $0.05
+Hero: posts the ante $0.05
+7e8ea7f5: posts the ante $0.05
+92639c3b: posts the ante $0.05
+a9b0a723: posts the ante $0.05
+69dc8349: posts the ante $0.05
+fd181360: posts small blind $0.05
+b9b72710: posts big blind $0.1
+Hero: posts big blind $0.1
+Hero: posts missed blind $0.05
+*** HOLE CARDS ***
+Dealt to fd181360
+Dealt to b9b72710
+Dealt to 7e8ea7f5
+Dealt to 92639c3b
+Dealt to a9b0a723
+Dealt to 47bec60f
+Dealt to Hero [7c Ah]
+Dealt to 69dc8349
+7e8ea7f5: folds
+92639c3b: folds
+a9b0a723: folds
+47bec60f: folds
+Hero: checks
+69dc8349: folds
+fd181360: calls $0.05
+b9b72710: checks
+*** FLOP *** [6s 5d 9c]
+fd181360: checks
+b9b72710: checks
+Hero: bets $0.57
+fd181360: calls $0.57
+b9b72710: folds
+*** TURN *** [6s 5d 9c] [Qh]
+fd181360: checks
+Hero: checks
+*** RIVER *** [6s 5d 9c Qh] [As]
+fd181360: bets $2.6
+Hero: folds
+Uncalled bet ($2.6) returned to fd181360
+*** SHOWDOWN ***
+fd181360 collected $1.8 from pot
+*** SUMMARY ***
+Total pot $1.89 | Rake $0.09 | Jackpot $0 | Bingo $0 | Fortune $0 | Tax $0
+Board [6s 5d 9c Qh As]
+Seat 1: fd181360 (small blind) won ($1.8)
+Seat 2: b9b72710 (big blind) folded on the Flop
+Seat 3: 7e8ea7f5 folded before Flop
+Seat 4: 92639c3b folded before Flop
+Seat 6: a9b0a723 folded before Flop
+Seat 7: 47bec60f folded before Flop
+Seat 8: Hero folded on the River
+Seat 9: 69dc8349 (button) folded before Flop

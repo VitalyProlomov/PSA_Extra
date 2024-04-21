@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 
-import static models.Action.ActionType.*;
 import static models.PositionType.*;
 
 /**
@@ -56,7 +55,6 @@ public class Game {
 //    private double finalPot;
     private double rake;
 
-    private int preFlopRaisesAmount = -1;
 
     /**
      * Contains all the single shown cards assigned to the players that showed them.
@@ -66,7 +64,7 @@ public class Game {
     /**
      * Constructs a new game with given ID and BB (given in dollars) and players.
      *
-     * @param gameId        Id of the game from PokerCraft parsed text view of the game
+     * @param gameId        ID of the game from PokerCraft parsed text view of the game
      * @param bigBlindSize$ value of 1 big blind in dollars
      */
     @JsonIgnore
@@ -88,7 +86,7 @@ public class Game {
     /**
      * Constructs a new game with given ID and BB (given in dollars)
      *
-     * @param gameId        Id of the game from PokerCraft parsed text view of the game
+     * @param gameId        ID of the game from PokerCraft parsed text view of the game
      * @param bigBlindSize$ value of 1 big blind in dollars
      */
     @JsonCreator
@@ -136,6 +134,19 @@ public class Game {
     public double getHeroWinloss() {
         if (players.get("Hero") != null) {
             return players.get("Hero").getBalance() - initialBalances.get("Hero");
+        }
+        return 0;
+    }
+
+    /**
+     * If player with given hash doesn't exist in this game, returns 0.
+     * @param hash hash of player, whose winloss will be counted
+     * @return winloss of player with given hash
+     */
+    @JsonIgnore
+    public double getPlayerWinloss(String hash) {
+        if (players.get(hash) != null) {
+            return players.get(hash).getBalance() - initialBalances.get(hash);
         }
         return 0;
     }
@@ -250,7 +261,7 @@ public class Game {
     }
 
     /**
-     * Sets players with given map of (Id -> PlayerInGame) pairs and updates the initial balances (inside the Game).
+     * Sets players with given map of (ID -> PlayerInGame) pairs and updates the initial balances (inside the Game).
      *
      * @param playersMap players Map (id -> PlayerInGame) to set
      */
@@ -288,9 +299,9 @@ public class Game {
     }
 
     /**
-     * Subtracts given amount from the balance of the player with given Id.
+     * Subtracts given amount from the balance of the player with given ID.
      *
-     * @param id         Id of player whose balance is needed to be decreased
+     * @param id         ID of player whose balance is needed to be decreased
      * @param decrAmount amount that will be decreased from given player`s balance
      * @throws IllegalArgumentException if {@code decrAmount} is less than players balance or decrAmount is less than 0
      */
@@ -472,7 +483,7 @@ public class Game {
         if (allWinners == null) {
             return null;
         }
-        return new HashMap<String, Double>(allWinners);
+        return new HashMap<>(allWinners);
     }
 
     public void setWinners(HashMap<String, Double> map) {
@@ -490,15 +501,16 @@ public class Game {
      *
      * @param winnerId hash of the player who has won the pot
      * @param amount amount of the final pot that the player has taken.
-     * @return true if the winner is in the game, and the adding is successful, false otherwise (if
-     * there is no player with such hash in game, so winner is not added)
+     * @return true if the winner is in the game, and the adding is successful,
+     * false otherwise (if there is no player with such hash in game,
+     * so winner is not added)
      */
     public boolean addWinner(String winnerId, double amount) {
         if (players.get(winnerId) == null) {
             return false;
         }
-        players.get(winnerId).setBalance( players.get(winnerId).getBalance() + amount);
-        allWinners.put(winnerId, players.get(winnerId).getBalance() - initialBalances.get(winnerId));
+        players.get(winnerId).setBalance(players.get(winnerId).getBalance() + amount);
+        allWinners.put(winnerId, amount);
 
         return true;
     }

@@ -4,7 +4,6 @@ import analizer.GameAnalyzer;
 import exceptions.IncorrectBoardException;
 import exceptions.IncorrectCardException;
 import exceptions.IncorrectHandException;
-import javafx.geometry.Pos;
 import models.*;
 import org.junit.jupiter.api.Test;
 import parsers.Parser;
@@ -22,8 +21,7 @@ public class holdem9MaxParserTest {
     @Test
     public void testParsingExtraCashGame() throws IncorrectHandException, IncorrectBoardException, IncorrectCardException, IOException {
         Parser parser = new GGPokerokHoldem9MaxParser();
-        String path = "";
-        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/extraCashGames.txt");
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/extraCashGames.txt");
 
         Game game = g.get(0);
         assertEquals(8, game.getPlayers().size());
@@ -78,7 +76,6 @@ public class holdem9MaxParserTest {
     @Test
     public void testParse3betPotGame() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
         Parser parser = new GGPokerokHoldem9MaxParser();
-        String path = "";
         ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/game3BetPot.txt");
 
         Game game = g.get(0);
@@ -111,7 +108,7 @@ public class holdem9MaxParserTest {
         assertTrue(GameAnalyzer.isPlayer3BetRaiser(game, "Hero"));
 
         assertTrue(Math.abs(game.getHeroWinloss() - 1.05) < 0.005);
-        assertTrue(Math.abs(game.getWinners().get("Hero") - 1.05) < 0.0005);
+        assertTrue(Math.abs(game.getWinners().get("Hero") - 2) < 0.0005);
         assertEquals(1, game.getWinners().size());
 
         assertEquals(game.getTurn().getBoard(), new Board("Jd", "3c", "2c", "5d"));
@@ -156,7 +153,6 @@ public class holdem9MaxParserTest {
         for (String hash : posMap.keySet()) {
             assertEquals(posMap.get(hash), game.getPlayer(hash).getPosition());
         }
-
     }
 
     @Test
@@ -167,7 +163,7 @@ public class holdem9MaxParserTest {
         Game game = g.get(0);
         assertEquals(3, game.getPreFlop().getPlayersAfterBetting().size());
         assertEquals(1, game.getWinners().size());
-        assertTrue(Math.abs(2.3 - game.getWinners().get("5ac5cf8c")) < 0.0005);
+        assertTrue(Math.abs(3.35 - game.getWinners().get("5ac5cf8c")) < 0.0005);
 
         assertTrue(Math.abs(game.getHeroWinloss() - (-0.05)) < 0.0005);
 
@@ -185,7 +181,7 @@ public class holdem9MaxParserTest {
         assertEquals(new Hand("Ac", "Jd"), game.getPlayer("7c304922").getHand());
 
         assertTrue(Math.abs(game.getHeroWinloss() - (-0.72)) < 0.0005);
-        assertTrue(Math.abs(game.getWinners().get("7c304922") - 1.03) < 0.0005);
+        assertTrue(Math.abs(game.getWinners().get("7c304922") - 1.75) < 0.0005);
         assertEquals(1, game.getWinners().size());
     }
 
@@ -196,11 +192,151 @@ public class holdem9MaxParserTest {
         Game game = g.get(0);
         assertTrue(Math.abs(game.getHeroWinloss() - (-0.72)) < 0.005);
 
-        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/missedBlindsMultiWayGame.txt");
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/missedBlindsMultiWayGame.txt");
         game = g.get(0);
-//        assertTrue();
+        assertTrue(Math.abs(game.getHeroWinloss() - (-0.15)) < 0.005);
+
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/superStraddledGame.txt");
+        game = g.get(0);
+        assertTrue(Math.abs(game.getHeroWinloss() - (-29.77)) < 0.005);
+    }
+
+    // region Unusual Preflop Actions
+
+    @Test
+    public void testParsingStraddledGame() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/superStraddledGame.txt");
+        Game game = g.get(0);
+
+        assertTrue(Math.abs(game.getPreFlop().getPotAfterBetting() - 79.94) < 0.005);
+
+        ArrayList<Action> expectedActions = new ArrayList<>();
+        expectedActions.add(new Action(ANTE,"9933cedb" ,0.05, 0));
+        expectedActions.add(new Action(ANTE,"161e7c76" ,0.05, 0.05));
+        expectedActions.add(new Action(ANTE,"290d7ea8" ,0.05, 0.10));
+        expectedActions.add(new Action(ANTE,"Hero" ,0.05, 0.15));
+        expectedActions.add(new Action(ANTE,"d0bfd2e1" ,0.05, 0.20));
+        expectedActions.add(new Action(ANTE,"7221acc3" ,0.05, 0.25));
+        expectedActions.add(new Action(ANTE,"2f7211df" ,0.05, 0.3));
+        expectedActions.add(new Action(ANTE,"e04a92c4" ,0.05, 0.35));
+        expectedActions.add(new Action(ANTE,"7b057d27" ,0.05, 0.4));
+
+        expectedActions.add(new Action(BLIND, "161e7c76", 0.05, 0.45));
+        expectedActions.add(new Action(BLIND, "7221acc3", 0.1, 0.5));
+
+        expectedActions.add(new Action(STRADDLE, "Hero", 0.2, 0.6));
+        expectedActions.add(new Action(STRADDLE, "161e7c76", 0.4, 0.8));
+        expectedActions.add(new Action(STRADDLE, "161e7c76", 0.8, 1.15));
+        expectedActions.add(new Action(STRADDLE, "161e7c76", 1.6, 1.55));
+
+        expectedActions.add(new Action(FOLD, "7221acc3", 0, 2.35));
+        expectedActions.add(new Action(RAISE, "d0bfd2e1", 19.95, 2.35));
+        expectedActions.add(new Action(FOLD, "e04a92c4", 0, 22.3));
+        expectedActions.add(new Action(FOLD, "7b057d27", 0, 22.3));
+        expectedActions.add(new Action(FOLD, "2f7211df", 0, 22.3));
+        expectedActions.add(new Action(FOLD, "290d7ea8", 0, 22.3));
+        expectedActions.add(new Action(RAISE, "Hero", 62, 22.3));
+        expectedActions.add(new Action(FOLD, "9933cedb", 0, 84.1));
+        expectedActions.add(new Action(CALL, "161e7c76", 28.12, 84.1));
 
 
+        assertEquals(expectedActions.size(), game.getPreFlop().getAllActions().size());
+        for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
+            assertEquals(game.getPreFlop().getAllActions().get(i), expectedActions.get(i));
+        }
+
+        assertTrue(Math.abs(game.getPlayer("Hero").getBalance() - 74.99) < 0.005);
+        assertTrue(Math.abs(game.getPlayer("161e7c76").getBalance() - 19.18) < 0.005);
+        assertTrue(Math.abs(game.getPlayer("d0bfd2e1").getBalance() - 59.19) < 0.005);
+        assertTrue(Math.abs(game.getPlayer("2f7211df").getBalance() - 24.82) < 0.005);
+        assertTrue(Math.abs(game.getPlayer("7221acc3").getBalance() - 47.58) < 0.005);
+
+        assertEquals(game.getPlayer("Hero").getHand(), new Hand("Js", "Jd"));
+        assertEquals(game.getPlayer("161e7c76").getHand(), new Hand("As", "7c"));
+        assertEquals(game.getPlayer("d0bfd2e1").getHand(), new Hand("Ac", "9d"));
+
+        assertTrue(GameAnalyzer.isPot3Bet(game));
+    }
+
+    @Test
+    public void testParsingMissedBlinds() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/missedBlindsMultiWayGame.txt");
+        Game game = g.get(0);
+
+       assertTrue(Math.abs(game.getFinalPot() - 1.72) < 0.005);
+
+        ArrayList<Action> expectedActions = new ArrayList<>();
+        expectedActions.add(new Action(ANTE,"4d83f902" ,0.05, 0));
+        expectedActions.add(new Action(ANTE,"271d9d85" ,0.05, 0.05));
+        expectedActions.add(new Action(ANTE,"Hero" ,0.05, 0.10));
+        expectedActions.add(new Action(ANTE,"21bd2a49", 0.05, 0.15));
+        expectedActions.add(new Action(ANTE,"97989988" ,0.05, 0.20));
+        expectedActions.add(new Action(ANTE,"140e2d1d" ,0.05, 0.25));
+
+        expectedActions.add(new Action(BLIND, "271d9d85", 0.05, 0.3));
+        expectedActions.add(new Action(BLIND, "140e2d1d", 0.1, 0.35));
+        expectedActions.add(new Action(BLIND, "97989988", 0.1, 0.45));
+        expectedActions.add(new Action(MISSED_BLIND, "97989988", 0.05, 0.55));
+
+        expectedActions.add(new Action(CALL,"4d83f902",0.1, 0.6));
+        expectedActions.add(new Action(FOLD,"21bd2a49",0, 0.7));
+        expectedActions.add(new Action(CHECK, "97989988", 0, 0.7));
+        expectedActions.add(new Action(CALL,"Hero",0.1, 0.7));
+        expectedActions.add(new Action(CALL,"271d9d85",0.05, 0.8));
+        expectedActions.add(new Action(CHECK,"140e2d1d",0, 0.85));
+
+        assertEquals(expectedActions.size(), game.getPreFlop().getAllActions().size());
+        for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
+            assertEquals(game.getPreFlop().getAllActions().get(i), expectedActions.get(i));
+        }
+
+        assertTrue(Math.abs(game.getPreFlop().getPotAfterBetting() - 0.85) < 0.005);
+        assertTrue(Math.abs(game.getWinners().get("97989988") - 1.64) < 0.005);
+        assertTrue(Math.abs(game.getPlayerWinloss("97989988") - 1.15) <0.005);
+
+        assertTrue(Math.abs(game.getHeroWinloss() - (-0.15)) < 0.005);
 
     }
+
+    @Test
+    public void testHeroMissedBlinds() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/heroMissedBlindsNoSitout.txt");
+        Game game = g.get(0);
+
+        ArrayList<Action> expectedActions = new ArrayList<>();
+        expectedActions.add(new Action(ANTE,"fd181360" ,0.05, 0));
+        expectedActions.add(new Action(ANTE,"47bec60f" ,0.05, 0.05));
+        expectedActions.add(new Action(ANTE,"Hero" ,0.05, 0.10));
+        expectedActions.add(new Action(ANTE,"7e8ea7f5", 0.05, 0.15));
+        expectedActions.add(new Action(ANTE,"92639c3b" ,0.05, 0.20));
+        expectedActions.add(new Action(ANTE,"a9b0a723" ,0.05, 0.25));
+        expectedActions.add(new Action(ANTE,"69dc8349" ,0.05, 0.3));
+
+        expectedActions.add(new Action(BLIND, "a9b0a723", 0.05, 0.35));
+        expectedActions.add(new Action(BLIND, "47bec60f", 0.1, 0.4));
+        expectedActions.add(new Action(BLIND, "Hero", 0.1, 0.5));
+
+        expectedActions.add(new Action(RAISE, "Hero", 0.4, 0.6));
+        expectedActions.add(new Action(FOLD, "69dc8349", 0, 0.9));
+        expectedActions.add(new Action(RAISE, "fd181360", 1.2, 0.9));
+        expectedActions.add(new Action(FOLD, "7e8ea7f5", 0, 2.1));
+        expectedActions.add(new Action(RAISE, "92639c3b", 3.62, 2.1));
+        expectedActions.add(new Action(FOLD, "a9b0a723", 0, 5.72));
+        expectedActions.add(new Action(FOLD, "47bec60f", 0, 5.72));
+        expectedActions.add(new Action(FOLD, "Hero", 0, 5.72));
+        expectedActions.add(new Action(CALL, "fd181360", 2.42, 5.72));
+
+
+//        assertEquals(expectedActions.size(), game.getPreFlop().getAllActions().size());
+        for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
+            assertEquals(game.getPreFlop().getAllActions().get(i), expectedActions.get(i));
+        }
+
+        assertTrue(Math.abs(game.getHeroWinloss() - (-0.45)) < 0.0005);
+        assertTrue(GameAnalyzer.isPot4Bet(game));
+    }
+    // endregion
 }

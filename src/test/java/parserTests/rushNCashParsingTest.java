@@ -287,7 +287,7 @@ public class rushNCashParsingTest {
         }
 
         assertNotNull(topG.getWinners().get("480564b2"));
-        assertTrue(Math.abs(topG.getWinners().get("480564b2") - 0.67) < 0.005);
+        assertTrue(Math.abs(topG.getWinners().get("480564b2") - 1.41) < 0.005);
         assertEquals(1, topG.getWinners().size());
 
         assertEquals(0, topG.getExtraCashAmount());
@@ -452,9 +452,6 @@ public class rushNCashParsingTest {
 
         ArrayList<Game> games = parser.parseFile(path);
         assertEquals(166, games.size());
-//        for (Game miniG : games) {
-//            System.out.println(miniG + "\n");
-//        }
     }
 
     @Test
@@ -466,10 +463,6 @@ public class rushNCashParsingTest {
 
         ArrayList<Game> games = parser.parseFile(path);
         assertEquals(375, games.size());
-//        for (Game miniG : games) {
-//            System.out.println(miniG + "\n");
-//        }
-//        System.out.println(games.size());
     }
 
     @Test

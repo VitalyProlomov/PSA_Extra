@@ -3,7 +3,6 @@ package parsers.gg;
 import exceptions.IncorrectBoardException;
 import exceptions.IncorrectCardException;
 import exceptions.IncorrectHandException;
-import javafx.geometry.Pos;
 import models.*;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
-import static models.Action.ActionType.ANTE;
+import static models.Action.ActionType.*;
 import static models.PositionType.*;
 
 public class GGPokerokHoldem9MaxParser implements GGParser {
@@ -184,9 +183,10 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
 //        parseFlop(game, wordsInLines, pot);
     }
 
-    private void parseBlindsAndRest(ArrayList<ArrayList<String>> wordsInLines, Game game, StreetDescription st) {
+    private void parseMissedBlindsAndAntes(ArrayList<ArrayList<String>> wordsInLines, Game game, StreetDescription st) {
         ArrayList<Action> actionArray = new ArrayList<>();
         double curPot = 0;
+        // Antes
         while (wordsInLines.get(curLine).size() == 5 && wordsInLines.get(curLine).get(3).equals("ante")) {
             // cutting ':' at the end.
             String hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
@@ -200,8 +200,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
             ++curLine;
         }
 
-        // Should also do Straddles.
-
+        // Small Blind
         String hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
         double amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
         st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, hash, amount, curPot), amount);
@@ -209,12 +208,53 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         game.decrementPlayersBalance(hash, amount);
         ++curLine;
 
+        // Big Blind
         hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
         amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
         st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND,hash, amount, curPot), amount);
         curPot += amount;
         game.decrementPlayersBalance(hash, amount);
-        curLine += 2;
+        ++curLine;
+
+        while (!wordsInLines.get(curLine).get(0).equals("***")) {
+            Action action;
+            amount = 0;
+            if (wordsInLines.get(curLine).get(1).equals("straddle")) {
+                hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
+                amount = Double.parseDouble(wordsInLines.get(curLine).get(2).substring(1));
+                action = new Action(STRADDLE, hash, amount, curPot);
+
+                // Uses the fact that antes are placed before straddle
+                int ind = st.getAllActions().size() - 1;
+                while (!st.getAllActions().get(ind).getPlayerId().equals(hash) && ind >= 0) {
+                    --ind;
+                }
+                if (!st.getAllActions().get(ind).getActionType().equals(ANTE)) {
+                    amount -= st.getAllActions().get(ind).getAmount();
+                }
+
+                // If chips are going straight into the pot, then MISSED_BLIND is assigned
+                // as ActionType, but if chips are going into players bet, then BLIND type is assigned.
+            } else if (wordsInLines.get(curLine).get(2).equals("missed")) {
+                hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
+                amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+                action = new Action(MISSED_BLIND, hash, amount, curPot);
+            } else if (wordsInLines.get(curLine).get(2).equals("big")) {
+                hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
+                amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+                action = new Action(BLIND, hash, amount, curPot);
+            } else {
+                throw new RuntimeException("Unexpected preflop action, make sure file is not corrupted.");
+            }
+            st.addActionAndUpdateBalances(action, amount);
+            game.decrementPlayersBalance(hash, amount);
+
+            curPot += amount;
+            ++curLine;
+        }
+
+        // Now the line must be "*** HOLE CARDS ***"
+        curLine += 1;
 
         st.setPotAfterBetting(curPot);
         while (wordsInLines.get(curLine).get(0).equals("Dealt")) {
@@ -230,9 +270,8 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         while (!wordsInLines.get(curLine).get(1).equals("posts")) {
             ++curLine;
         }
-        double initPot = game.getBigBlindSize$() + game.getSB() + extraCashAmount;
 
-        StreetDescription pfsd = parseStreetAction(game, wordsInLines, initPot);
+        StreetDescription pfsd = parseStreetAction(game, wordsInLines, 0);
         game.setPreFlop(pfsd);
     }
 
@@ -342,8 +381,8 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
     private StreetDescription parseStreetAction(Game game, ArrayList<ArrayList<String>> wordsInLines, double curPot) throws IncorrectCardException, IncorrectHandException {
         StreetDescription st = new StreetDescription();
         // Adding blinds posting and antes and players left on pre-flop.
-        if (curPot - (game.getBigBlindSize$() + game.getSB() + game.getExtraCashAmount()) < 0.01) {
-            parseBlindsAndRest(wordsInLines, game, st);
+        if (Math.abs(curPot) < 0.001) {
+            parseMissedBlindsAndAntes(wordsInLines, game, st);
             st.setPlayersAfterBetting(game.getPlayers().values());
             curPot = st.getPotAfterBetting();
         }
@@ -438,7 +477,8 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
                     if (st.getAllActions().get(i).getPlayerId().equals(curPlayer.getId())) {
                         // If he folded, he wouldnt be raising now, so old case is impossible.
                         // If he checked, it meant no one bet before him (or it is BB on pre-flop)
-                        if (!st.getAllActions().get(i).getActionType().equals(ANTE)) {
+                        if (!st.getAllActions().get(i).getActionType().equals(ANTE) &&
+                                !st.getAllActions().get(i).getActionType().equals(MISSED_BLIND)) {
                             lastAmount = st.getAllActions().get(i).getAmount();
                         }
                         break;

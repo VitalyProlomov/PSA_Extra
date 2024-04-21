@@ -40,7 +40,6 @@ public class SerializerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src/test/resources/serializedFiles/serializedGames1.txt");
-        System.out.println(file.getAbsolutePath());
 
         HashMap<String, Game> gamesMap = new HashMap<String, Game>();
         for (Game g : allGames) {
@@ -49,7 +48,6 @@ public class SerializerTest {
         GamesSet gamesSet = new GamesSet(gamesMap);
 
         objectMapper.writeValue(file, gamesSet);
-        System.out.println("pause");
 
 //        StringBuilder text = new StringBuilder();
 //        FileReader fr = new FileReader(file);
@@ -191,8 +189,5 @@ public class SerializerTest {
         Object obj = serializeAndDeserializeGivenObject(gameSet, GamesSet.class);
         GamesSet deserializedGameSet = (GamesSet) obj;
         assertTrue(gameSet.getGames().containsKey("RC1328499375"));
-        System.out.println(gameSet.getGames().get("RC1328499375").getHeroWinloss());
-
-
     }
 }

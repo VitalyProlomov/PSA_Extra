@@ -44,7 +44,6 @@ public class ComboCardsPairTest {
         ComboCardsPair cbp = new ComboCardsPair(Combination.STRAIGHT, sameCards);
 
         assertEquals("(ComboBoardPair| Combination: STRAIGHT, Cards: [4♣, 5♦, 6♣, 7♣, 8♥])", cbp.toString());
-//        System.out.println(cbp.toString());
     }
 
     @Test
