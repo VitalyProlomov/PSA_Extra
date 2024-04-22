@@ -1,14 +1,282 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="appinterface.controllers.GameDisplay9MaxController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.GameDisplay9MaxController">
+   <children>
+      <Ellipse fx:id="tableEllipse" fill="#cf558d" layoutX="268.0" layoutY="187.0" radiusX="209.0" radiusY="120.0" stroke="BLACK" strokeType="INSIDE" />
+      <Line endX="-54.4000244140625" endY="382.0" layoutX="589.0" layoutY="57.0" startX="-54.4000244140625" startY="-56.999996185302734" />
+      <Label fx:id="heroWinLossLabel" alignment="BOTTOM_LEFT" layoutX="546.0" layoutY="125.0" prefHeight="18.0" prefWidth="203.0" text="Hero WinLoss:         " />
+      <Label fx:id="gameIdLabel" layoutX="546.0" layoutY="14.0" prefHeight="18.0" prefWidth="203.0" text="Game ID:                 " />
+      <Label fx:id="playersPostFlopLabel" layoutX="546.0" layoutY="99.0" prefHeight="18.0" prefWidth="203.0" text="Players Post Flop:    " />
+      <Label fx:id="potTypeLabel" layoutX="546.0" layoutY="70.0" prefHeight="18.0" prefWidth="203.0" text="Pot Type:                 " />
+      <Label fx:id="totalPotLabel" layoutX="546.0" layoutY="152.0" prefHeight="18.0" prefWidth="203.0" text="Total Pot:                 " />
+      <Label fx:id="dateLabel" layoutX="546.0" layoutY="42.0" prefHeight="18.0" prefWidth="203.0" text="Date:                       " />
+      <ImageView fx:id="player4RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="226.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player4LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="189.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player6RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="433.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player6LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="396.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player3RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="121.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player3LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="84.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="47.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="16.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player1RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="139.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player1LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="102.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player7RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="480.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player7LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="443.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player8RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="389.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player8LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="352.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player5RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="333.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player5LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="296.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/cardBackImage.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="heroPositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="335.0" prefHeight="18.0" prefWidth="95.0" text="SB: Hero" textAlignment="CENTER" />
+      <Label fx:id="heroBalanceLabel" alignment="CENTER" layoutX="242.0" layoutY="353.0" prefHeight="18.0" prefWidth="62.0" text="10$" />
+      <Label fx:id="player1PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="297.0" prefHeight="18.0" prefWidth="95.0" text="BB: Label" />
+      <Label fx:id="player1BalanceLabel" alignment="CENTER" layoutX="107.0" layoutY="318.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
+      <Label fx:id="player2PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-14.0" layoutY="223.0" prefHeight="18.0" prefWidth="95.0" text="BB: Label" />
+      <Label fx:id="player2BalanceLabel" alignment="CENTER" layoutX="3.0" layoutY="237.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
+      <Label fx:id="player3PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="60.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
+      <Label fx:id="player3BalanceLabel" alignment="CENTER" layoutX="72.0" layoutY="42.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
+      <Label fx:id="player4PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="176.0" layoutY="32.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
+      <Label fx:id="player4BalanceLabel" alignment="CENTER" layoutX="192.0" layoutY="14.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
+      <Label fx:id="player5PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" layoutY="32.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
+      <Label fx:id="player5BalanceLabel" alignment="CENTER" layoutX="301.0" layoutY="14.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
+      <Label fx:id="player6PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="385.0" layoutY="73.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
+      <Label fx:id="player6BalanceLabel" alignment="CENTER" layoutX="401.0" layoutY="55.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
+      <Label fx:id="player7PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" layoutY="213.0" prefHeight="18.0" prefWidth="95.0" text="BB: Label" />
+      <Label fx:id="player7BalanceLabel" alignment="CENTER" layoutX="467.0" layoutY="232.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
+      <Label fx:id="player8PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="341.0" layoutY="309.0" prefHeight="18.0" prefWidth="95.0" text="SB: Hero" textAlignment="CENTER" />
+      <Label fx:id="player8BalanceLabel" alignment="CENTER" layoutX="359.0" layoutY="327.0" prefHeight="18.0" prefWidth="62.0" text="10$" />
+      <Rectangle fx:id="heroLeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="236.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="heroRightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="272.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="heroLeftCardLabel" alignment="CENTER" layoutX="236.0" layoutY="296.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="heroRightCardLabel" alignment="CENTER" layoutX="272.0" layoutY="296.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player8LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="353.0" layoutY="257.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player8RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="389.0" layoutY="257.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player8LeftCardLabel" alignment="CENTER" layoutX="353.0" layoutY="270.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player8RightCardLabel" alignment="CENTER" layoutX="389.0" layoutY="270.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player1LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="103.0" layoutY="244.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player1RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="139.0" layoutY="244.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player1LeftCardLabel" alignment="CENTER" layoutX="103.0" layoutY="257.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1RightCardLabel" alignment="CENTER" layoutX="139.0" layoutY="257.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player7LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="444.0" layoutY="161.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player7RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="480.0" layoutY="161.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player7LeftCardLabel" alignment="CENTER" layoutX="444.0" layoutY="174.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player7RightCardLabel" alignment="CENTER" layoutX="480.0" layoutY="174.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player2LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="17.0" layoutY="171.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player2RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="53.0" layoutY="171.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player2LeftCardLabel" alignment="CENTER" layoutX="17.0" layoutY="184.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player2RightCardLabel" alignment="CENTER" layoutX="53.0" layoutY="184.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player3LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="84.0" layoutY="82.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player3RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="120.0" layoutY="82.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player3LeftCardLabel" alignment="CENTER" layoutX="84.0" layoutY="95.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player3RightCardLabel" alignment="CENTER" layoutX="120.0" layoutY="95.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player4LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="190.0" layoutY="47.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player4RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="226.0" layoutY="47.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player4LeftCardLabel" alignment="CENTER" layoutX="190.0" layoutY="60.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player4RightCardLabel" alignment="CENTER" layoutX="226.0" layoutY="60.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player5LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="296.0" layoutY="47.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player5RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="332.0" layoutY="47.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player5LeftCardLabel" alignment="CENTER" layoutX="296.0" layoutY="60.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player5RightCardLabel" alignment="CENTER" layoutX="332.0" layoutY="60.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Rectangle fx:id="player6LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="396.0" layoutY="91.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player6RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="432.0" layoutY="91.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player6LeftCardLabel" alignment="CENTER" layoutX="396.0" layoutY="104.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="player6RightCardLabel" alignment="CENTER" layoutX="432.0" layoutY="104.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="potLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="225.0" layoutY="222.0" prefHeight="18.0" prefWidth="95.0" text="POT: " textFill="WHITE" />
+      <Polygon fx:id="nextActionTriangle" fill="#3d51ffe7" layoutX="463.0" layoutY="422.0" points="53.20001220703125, -23.60003662109375, 0.0, 10.0, 0.0, -60.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fx:id="restartImageView" fitHeight="70.0" fitWidth="69.0" layoutX="13.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/restartIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="heroButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="208.0" layoutY="252.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player1ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="103.0" layoutY="206.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player2ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="85.0" layoutY="144.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player3ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="159.0" layoutY="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player4ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="251.0" layoutY="100.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player5ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="342.0" layoutY="104.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player6ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="384.0" layoutY="144.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player7ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="408.0" layoutY="203.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player8ButtonIcon" fitHeight="34.0" fitWidth="37.0" layoutX="316.0" layoutY="235.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/dealerButton.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>

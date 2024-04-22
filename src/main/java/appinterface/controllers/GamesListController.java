@@ -205,16 +205,33 @@ public class GamesListController {
                     try {
                         Game rowData = row.getItem();
 
-                        FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
+                        FXMLLoader loader;
+                        loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
+
                         Stage stage = new Stage();
-                        stage.setScene(new Scene(loader.load()));
-                        GameDisplay6MaxController controller = loader.getController();
-                        controller.setGame(rowData);
+
+                        if (rowData.getGameType().equals(Game.GameType.HOLDEM_RNC_6MAX)) {
+                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
+                            stage.setScene(new Scene(loader.load()));
+                            GameDisplay6MaxController controller = loader.getController();
+                            controller.setGame(rowData);
+                        } else if (rowData.getGameType().equals(Game.GameType.HOLDEM_9MAX)) {
+                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
+                            stage.setScene(new Scene(loader.load()));
+                            GameDisplay9MaxController controller = loader.getController();
+                        }
+                        else {
+                            throw new Exception("Unknown game type, currently not supported");
+                        }
+
                         stage.setResizable(false);
                         stage.show();
                     } catch (Exception ex) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("Could not properly load game page.");
+                        if (ex.getMessage().equals("Unknown game type, currently not supported")) {
+                            alert.setContentText(ex.getMessage());
+                        }
                         alert.show();
                     }
                 }

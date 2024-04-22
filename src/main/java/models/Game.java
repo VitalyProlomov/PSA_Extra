@@ -24,14 +24,26 @@ public class Game {
     /**
      *
      */
-    private String gameType;
 
-    public String getGameType() {
-        return gameType;
+
+    public enum GameType {
+        HOLDEM_9MAX,
+        HOLDEM_RNC_6MAX,
+        UNKNOWN
     }
-    public void setGameType(String gameType) {
-        this.gameType = gameType;
+
+    private GameType gameType = GameType.UNKNOWN;
+
+    public GameType getGameType() {
+        return this.gameType;
     }
+
+    public void setGameType(GameType gameType) {
+        if (this.gameType == GameType.UNKNOWN) {
+            this.gameType = gameType;
+        }
+    }
+
 
     /**
      * Map containing pairs hash - player, that are present in given Game

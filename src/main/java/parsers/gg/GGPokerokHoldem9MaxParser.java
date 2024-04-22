@@ -145,6 +145,8 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         game.setDate(date);
         game.setTable(table);
 
+        game.setGameType(Game.GameType.HOLDEM_9MAX);
+
         return game;
     }
 

@@ -118,6 +118,8 @@ public class GGPokerokRushNCashParser implements GGParser {
         game.setDate(date);
         game.setTable(table);
 
+        game.setGameType(Game.GameType.HOLDEM_RNC_6MAX);
+
         return game;
     }
 
