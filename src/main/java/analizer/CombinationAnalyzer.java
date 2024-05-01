@@ -9,6 +9,9 @@ import models.Hand;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static analizer.Combination.FLUSH;
+import static analizer.Combination.FLUSH_ROYAL;
+
 /**
  * Class that contains methods for analyzing the board and identifying the
  * combination that are present on the board.
@@ -93,7 +96,7 @@ public class CombinationAnalyzer {
      * @param board community cards
      * @param hand  hand of the player, that will be used to make combination.
      * @return a pair of combination and the board that recreates this combination (the exact 5 cards)
-     * @throws IncorrectBoardException
+     * @throws IncorrectBoardException if the board is illegal (ex: doubling cards)
      * @throws IllegalArgumentException if amount of cards of the board and the hand combined is less than 5.
      */
     public static ComboCardsPair recognizeCombinationOnBoard(Board board, Hand hand)
@@ -116,7 +119,7 @@ public class CombinationAnalyzer {
 
         ArrayList<Card> combCards = findBestRoyalFlush(extendedCards);
         if (combCards != null) {
-            return new ComboCardsPair(Combination.FLUSH_ROYAL, combCards);
+            return new ComboCardsPair(FLUSH_ROYAL, combCards);
         }
 
         combCards = findBestStraightFlush(extendedCards);
@@ -136,7 +139,7 @@ public class CombinationAnalyzer {
 
         combCards = findBestFlush(extendedCards);
         if (combCards != null) {
-            return new ComboCardsPair(Combination.FLUSH, combCards);
+            return new ComboCardsPair(FLUSH, combCards);
         }
 
         combCards = findBestStraight(extendedCards);
@@ -176,9 +179,9 @@ public class CombinationAnalyzer {
         }
 
         ArrayList<Card> suitedCards = new ArrayList<>();
-        for (int i = 0; i < extendedCards.size(); ++i) {
-            if (extendedCards.get(i).getSuit() == majorSuit) {
-                suitedCards.add(extendedCards.get(i));
+        for (Card extendedCard : extendedCards) {
+            if (extendedCard.getSuit() == majorSuit) {
+                suitedCards.add(extendedCard);
             }
         }
 
@@ -254,7 +257,7 @@ public class CombinationAnalyzer {
      * Checks if there is a full house on the board and finds the best one there is.
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
      *                            for method to work correctly
-     * @return Board containing the cards of the combination or {@code null}if the combination was not found
+     * @return Board containing the cards of the combination or {@code null} if the combination was not found
      */
     private static ArrayList<Card> findBestFullHouse(ArrayList<Card> extendedCards) {
         boolean isThreeSame = false;
@@ -537,4 +540,82 @@ public class CombinationAnalyzer {
     }
 
 
+    /**
+     * Determines which hand is best at showdown (only works for full 5 cards board)
+     *
+     * @param board valid 5 cards board
+     * @param hands arrayList with all the hands that participate in the game
+     * @return arrayList of hand that will win at the board (side pots are not considered)
+     * @throws IllegalArgumentException if Board consist of less than 5 cards or no hands are given (empty arraylist)
+     */
+     public static ArrayList<Hand> determineWinningHand(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
+        if (board.size() < 5) {
+            throw new IllegalArgumentException("Board must consist of 5 cards");
+        }
+        if (hands.isEmpty()) {
+            throw new IllegalArgumentException("At least 1 hand must be provided for method to work");
+        }
+        if (hands.size() == 1) {
+            return hands;
+        }
+        ArrayList<ComboCardsPair> bestHandsCombos = new ArrayList<>();
+        ArrayList<Hand> bestHands = new ArrayList<>();
+        int maxCombo = 0;
+        for (Hand h : hands) {
+            ComboCardsPair c = recognizeCombinationOnBoard(board, h);
+            if (maxCombo == c.getCombination().value) {
+                bestHandsCombos.add(c);
+                bestHands.add(h);
+            }
+            if (maxCombo < c.getCombination().value) {
+                maxCombo = c.getCombination().value;
+                bestHandsCombos.clear();
+                bestHandsCombos.add(c);
+
+                bestHands.clear();
+                bestHands.add(h);
+            }
+        }
+        if (bestHands.size() == 1) {
+            return bestHands;
+        }
+        ArrayList<Card> bestCombo = new ArrayList<>(bestHandsCombos.get(0).getCards());
+        sortBoard(bestCombo);
+
+        ArrayList<Hand> winnerHands = new ArrayList<>();
+        for (int curComboInd = 0; curComboInd < bestHandsCombos.size(); ++curComboInd) {
+            ComboCardsPair ccp = bestHandsCombos.get(curComboInd);
+            ArrayList<Card> combinationCards = new ArrayList<>(ccp.getCards());
+            sortBoard(combinationCards);
+            winnerHands.add(bestHands.get(curComboInd));
+            for (int i = 0; i < 5; ++i) {
+                if (combinationCards.get(i).getRank().value > bestCombo.get(i).getRank().value) {
+                    bestCombo = combinationCards;
+                    winnerHands.clear();
+                    winnerHands.add(bestHands.get(curComboInd));
+                    break;
+                }
+            }
+        }
+        return winnerHands;
+    }
+
+    public static void countEVPreFlop(ArrayList<Hand> playersHands) {
+         Board b;
+         for (int index1 = 0; index1 < 52;++index1) {
+             for (int index2 = index1 + 1; index2 < 52;++index2) {
+                 for (int index3 = index2 + 1; index3 < 52;++index3) {
+                     for (int index4 = index3 + 1; index4 < 52;++index4) {
+                         for (int index5 = index4 + 1; index5 < 52;++index5) {
+//                            b = new Board(new Card(52));
+                         }
+                     }
+                 }
+             }
+         }
+    }
+
+    public static void countEVPostFlop(ArrayList<Hand> playersHands, Board board) {
+
+    }
 }

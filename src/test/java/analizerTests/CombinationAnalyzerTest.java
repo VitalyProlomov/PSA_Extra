@@ -12,6 +12,7 @@ import models.Hand;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -503,4 +504,75 @@ public class CombinationAnalyzerTest {
         assertEquals(cards3, expCards3);
     }
     // endregion
+
+
+    private ArrayList<Hand> prepareArrayWithHands(Hand... hands) {
+        return new ArrayList<>(Arrays.asList(hands));
+    }
+    @Test
+    public void testDeterminingBestHandFrom2Hands() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
+        Board board = new Board("7c", "5h", "6h", "Qs", "9h");
+        ArrayList<Hand> hands = prepareArrayWithHands(new Hand("2h", "7h"), new Hand("Ah", "Kh"));
+        ArrayList<Hand> winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(1, winnerArray.size());
+        assertEquals(new Hand("Ah", "Kh"), winnerArray.get(0));
+
+        hands = prepareArrayWithHands(new Hand("Ad", "Ah"), new Hand("7c", "8c"));
+        board = new Board("4c", "5c", "Jh", "Td", "6h");
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(1, winnerArray.size());
+        assertEquals(new Hand("7c", "8c"), winnerArray.get(0));
+
+        hands = prepareArrayWithHands(new Hand("As", "5d"), new Hand("Ad", "2c"));
+        board = new Board("Ks", "Ts", "Js", "4d", "8h");
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(2, winnerArray.size());
+        assertTrue(winnerArray.contains(new Hand("As", "5d")));
+        assertTrue(winnerArray.contains(new Hand("Ad", "2c")));
+
+        hands = prepareArrayWithHands(new Hand("As", "5d"), new Hand("Ad", "5c"));
+        board = new Board("4c", "5h", "Jh", "Td", "6h");
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(2, winnerArray.size());
+        assertTrue(winnerArray.contains(new Hand("As", "5d")));
+        assertTrue(winnerArray.contains(new Hand("Ad", "5c")));
+
+
+    }
+
+    @Test
+    public void testDeterminingBestHandFromMultipleHands() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
+        Board board = new Board("7c", "5h", "6h", "Qs", "9h");
+        ArrayList<Hand> hands = prepareArrayWithHands(new Hand("2h", "7h"), new Hand("8d", "Ts"), new Hand("Ah", "Kh"));
+        ArrayList<Hand> winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(1, winnerArray.size());
+        assertEquals(new Hand("Ah", "Kh"), winnerArray.get(0));
+
+        hands = prepareArrayWithHands(new Hand("As", "5d"), new Hand("Ad", "5c"), new Hand("Ah", "5s"));
+        board = new Board("4c", "5h", "Jh", "Td", "6h");
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(3, winnerArray.size());
+        assertTrue(winnerArray.contains(new Hand("As", "5d")));
+        assertTrue(winnerArray.contains(new Hand("Ad", "5c")));
+        assertTrue(winnerArray.contains(new Hand("Ah", "5s")));
+
+
+        hands = prepareArrayWithHands(new Hand("As", "5d"), new Hand("Ad", "5c"), new Hand("Jd", "Ah"));
+        board = new Board("4c", "5h", "Jh", "Td", "6h");
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(1, winnerArray.size());
+        assertTrue(winnerArray.contains(new Hand("Ah", "Jd")));
+
+        hands = prepareArrayWithHands(new Hand("As", "Ac"), new Hand("Ad", "5c"), new Hand("Jd", "Js"), new Hand("Ts", "Td"));
+        board = new Board("8c", "7c", "6h", "5d", "4h");
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(4, winnerArray.size());
+        assertTrue(winnerArray.contains(new Hand("ac", "As")));
+        assertTrue(winnerArray.contains(new Hand("Ad", "5c")));
+        assertTrue(winnerArray.contains(new Hand("Jd", "Js")));
+        assertTrue(winnerArray.contains(new Hand("Td", "Ts")));
+
+        hands = prepareArrayWithHands(new Hand("6d", "6s"), new Hand("5h", "4h"), new Hand("Tc", "Jc"));
+        board = new Board("Ah", "Ad", "9c", "9s", "Kd");
+    }
 }

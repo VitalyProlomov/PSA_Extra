@@ -541,8 +541,13 @@ public class rushNCashParsingTest {
         assertTrue(Math.abs(0.82 -  game.getHeroWinloss()) < 0.005);
         assertTrue(Math.abs(1.75 - game.getFinalPot()) < 0.005);
         assertTrue(GameAnalyzer.isPot3Bet(game));
+    }
 
-
+    @Test
+    public void parseProblemSession() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
+        String path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/problemSession.txt";
+        assertDoesNotThrow(() -> parser.parseFile(path));
     }
 
 }
