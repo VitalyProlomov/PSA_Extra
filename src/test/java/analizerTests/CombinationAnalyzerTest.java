@@ -11,9 +11,7 @@ import models.ComboCardsPair;
 import models.Hand;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -505,7 +503,6 @@ public class CombinationAnalyzerTest {
     }
     // endregion
 
-
     private ArrayList<Hand> prepareArrayWithHands(Hand... hands) {
         return new ArrayList<>(Arrays.asList(hands));
     }
@@ -536,8 +533,6 @@ public class CombinationAnalyzerTest {
         assertEquals(2, winnerArray.size());
         assertTrue(winnerArray.contains(new Hand("As", "5d")));
         assertTrue(winnerArray.contains(new Hand("Ad", "5c")));
-
-
     }
 
     @Test
@@ -556,7 +551,6 @@ public class CombinationAnalyzerTest {
         assertTrue(winnerArray.contains(new Hand("Ad", "5c")));
         assertTrue(winnerArray.contains(new Hand("Ah", "5s")));
 
-
         hands = prepareArrayWithHands(new Hand("As", "5d"), new Hand("Ad", "5c"), new Hand("Jd", "Ah"));
         board = new Board("4c", "5h", "Jh", "Td", "6h");
         winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
@@ -572,7 +566,71 @@ public class CombinationAnalyzerTest {
         assertTrue(winnerArray.contains(new Hand("Jd", "Js")));
         assertTrue(winnerArray.contains(new Hand("Td", "Ts")));
 
+        hands = prepareArrayWithHands(new Hand("Ah", "Kh"), new Hand("As", "Ks"), new Hand("8s", "8c"));
+        board = new Board("Qs", "Js", "2h", "Jd", "Qd");
+
+        winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        CombinationAnalyzer.recognizeCombinationOnBoard(board, new Hand("Ah", "Kh"));
+        CombinationAnalyzer.recognizeCombinationOnBoard(board, new Hand("8s", "8c"));
+
+        assertEquals(2, winnerArray.size());
+
         hands = prepareArrayWithHands(new Hand("6d", "6s"), new Hand("5h", "4h"), new Hand("Tc", "Jc"));
         board = new Board("Ah", "Ad", "9c", "9s", "Kd");
     }
+
+    @Test
+    public void testEvPreflopMonteCarloCalculation() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
+        ArrayList<Hand> hands = new ArrayList<>();
+
+        hands.add(new Hand("As", "Ks"));
+        hands.add(new Hand("Ah", "Kh"));
+        hands.add(new Hand("8s", "8c"));
+        HashMap<Hand, Double> ev = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
+        for (Hand h : ev.keySet()) {
+            System.out.println(h + ": " + ev.get(h));
+        }
+
+        hands = new ArrayList<>();
+        hands.add(new Hand("Ah", "As"));
+        hands.add(new Hand("Ad", "Ks"));
+        ev = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
+        for (Hand h : ev.keySet()) {
+            System.out.println(h + ": " + ev.get(h));
+        }
+    }
+
+    @Test
+    public void testEvPreflopPreciseCalculation() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
+        ArrayList<Hand> hands = new ArrayList<>();
+        hands.add(new Hand("As", "Ks"));
+        hands.add(new Hand("Ah", "Kh"));
+        hands.add(new Hand("8s", "8c"));
+        HashMap<Hand, Double> ev = CombinationAnalyzer.countEVPreFlopPrecise(hands);
+        for (Hand h : ev.keySet()) {
+            System.out.println(h + ": " + ev.get(h));
+        }
+
+        hands.clear();
+        hands.add(new Hand("Ah", "As"));
+        hands.add(new Hand("Ad", "Ks"));
+        ev = CombinationAnalyzer.countEVPreFlopPrecise(hands);
+        for (Hand h : ev.keySet()) {
+            System.out.println(h + ": " + ev.get(h));
+        }
+    }
+
+    @Test
+    public void a() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
+        ArrayList<Hand> hands = new ArrayList<>();
+        hands.add(new Hand("As", "Ks"));
+        hands.add(new Hand("Ah", "Kh"));
+        hands.add(new Hand("8s", "8c"));
+        Board b = new Board("Kc", "Tc", "5h", "Jh", "2d");
+        ArrayList<Hand> wonHands = CombinationAnalyzer.determineWinningHand(b, hands);
+        for (Hand h : wonHands) {
+            System.out.println(h);
+        }
+    }
+
 }

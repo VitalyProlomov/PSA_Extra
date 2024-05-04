@@ -112,7 +112,7 @@ public class CardTest {
     public void testHashCode() throws IncorrectCardException {
 
         char[] symbols = new char[] {'♦', '♥', '♣', '♠'};
-        int hash = 1;
+        int hash = 0;
         for (char j : symbols) {
             for (int i = 2; i <= 14; ++i) {
                 String repr = String.valueOf(i);
@@ -139,4 +139,45 @@ public class CardTest {
 //    public void equalsHashCodeContracts() {
 //        EqualsVerifier.forClass(Card.class).verify();
 //    }
+
+    @Test
+    public void testHashcodeConstructor() throws IncorrectCardException {
+        Card c = new Card(51);
+        assertEquals(new Card("As"), c);
+        for (int i = 0; i <= 51; ++i) {
+            System.out.println(new Card(i));
+        }
+
+        c = new Card("2d");
+        assertEquals(c, new Card(0));
+        c = new Card("3d");
+        assertEquals(c, new Card(1));
+        c = new Card("Ks");
+        assertEquals(c, new Card(50));
+        c = new Card("4h");
+        assertEquals(c, new Card(15));
+
+        char[] symbols = new char[] {'♦', '♥', '♣', '♠'};
+        int hash = 0;
+        for (char j : symbols) {
+            for (int i = 2; i <= 14; ++i) {
+                String repr = String.valueOf(i);
+                if (i == 10) {
+                    repr = "T";
+                } else if (i == 11) {
+                    repr = "J";
+                } else if (i == 12) {
+                    repr = "Q";
+                } else if (i == 13) {
+                    repr = "K";
+                } else if (i == 14) {
+                    repr = "A";
+                }
+
+                repr += j;
+
+                assertEquals(hash++, (new Card(repr).hashCode()));
+            }
+        }
+    }
 }

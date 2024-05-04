@@ -97,6 +97,43 @@ public class Card {
         }
     }
 
+    /**
+     * Constructs the Card using its hashcode (ex: 2d = 0, 5d = 4, Ks = 50, As = 51).
+     *
+     * @param hashcode int representation o given card (its hashcode)
+     */
+    public Card(int hashcode) {
+        if (hashcode > 51 || hashcode < 0) {
+            throw new IllegalArgumentException("hashcode must be an integer in [0; 51]");
+        }
+        int rankHash = hashcode % 13;
+        Rank rankToGive = Rank.TWO;
+        for (Rank r : Rank.values()) {
+            if (rankHash == r.value - 2) {
+                rankToGive = r;
+            }
+        }
+        this.rank = rankToGive;
+
+        int suitHash = hashcode / 13 ;
+        switch (suitHash) {
+            case 0:
+                this.suit = Suit.DIAMONDS;
+                break;
+            case 1:
+                this.suit = Suit.HEARTS;
+                break;
+            case 2:
+                this.suit = Suit.CLUBS;
+                break;
+            case 3:
+                this.suit = Suit.SPADES;
+                break;
+            default:
+                throw new RuntimeException("Suit was not determined in hashcode constructor of Card");
+        }
+    }
+
 
     /**
      * Suit of the card. Has a field w char icon.
@@ -173,7 +210,7 @@ public class Card {
 
     /**
      * @return hashcode of the Card object. Every one of the 52 possible cards is
-     * assigned a unique hashcode - a number between 1 and 52.
+     * assigned a unique hashcode - a number between 0 and 51.
      */
     @Override
     public int hashCode() {
@@ -185,7 +222,7 @@ public class Card {
         } else if (suit == Suit.SPADES) {
             suitHash = 3;
         }
-        return (suitHash * 13) + rank.value - 1;
+        return (suitHash * 13) + rank.value - 2;
     }
 
     /**

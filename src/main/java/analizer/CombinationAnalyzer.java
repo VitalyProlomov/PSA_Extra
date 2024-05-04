@@ -6,8 +6,7 @@ import models.Card;
 import models.ComboCardsPair;
 import models.Hand;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 import static analizer.Combination.FLUSH;
 import static analizer.Combination.FLUSH_ROYAL;
@@ -96,7 +95,7 @@ public class CombinationAnalyzer {
      * @param board community cards
      * @param hand  hand of the player, that will be used to make combination.
      * @return a pair of combination and the board that recreates this combination (the exact 5 cards)
-     * @throws IncorrectBoardException if the board is illegal (ex: doubling cards)
+     * @throws IncorrectBoardException  if the board is illegal (ex: doubling cards)
      * @throws IllegalArgumentException if amount of cards of the board and the hand combined is less than 5.
      */
     public static ComboCardsPair recognizeCombinationOnBoard(Board board, Hand hand)
@@ -112,6 +111,24 @@ public class CombinationAnalyzer {
 
         if (extendedCards.size() < 5) {
             throw new IllegalArgumentException("Combination must consist of 5 cards, so at least 5 cards must be given");
+        }
+
+        return recognizeCombinationOnBoardChecked(board, hand);
+    }
+
+    /**
+     * recognizes the best combination on board, but all inputs must be already VALID !
+     *
+     * @param board
+     * @param hand
+     * @return
+     * @throws IncorrectBoardException
+     */
+    private static ComboCardsPair recognizeCombinationOnBoardChecked(Board board, Hand hand)
+            throws IncorrectBoardException {
+        ArrayList<Card> extendedCards = new ArrayList<Card>(board.getCards());
+        if (hand != null) {
+            extendedCards.addAll(hand.getCards());
         }
 
         // Sorts the board by increasing the card rank.
@@ -200,7 +217,7 @@ public class CombinationAnalyzer {
      * Checks if there is a straight flush on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *      *                            for method to work correctly
+     *                      *                            for method to work correctly
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      * @throws IncorrectBoardException in case the cards do not form a valid board
      */
@@ -255,8 +272,9 @@ public class CombinationAnalyzer {
 
     /**
      * Checks if there is a full house on the board and finds the best one there is.
+     *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      */
     private static ArrayList<Card> findBestFullHouse(ArrayList<Card> extendedCards) {
@@ -319,7 +337,7 @@ public class CombinationAnalyzer {
      * Checks if there is a flush on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
     private static ArrayList<Card> findBestFlush(ArrayList<Card> extendedCards) throws IncorrectBoardException {
@@ -342,7 +360,7 @@ public class CombinationAnalyzer {
      * Checks if there is a straight on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
     private static ArrayList<Card> findBestStraight(ArrayList<Card> extendedCards) {
@@ -386,7 +404,7 @@ public class CombinationAnalyzer {
      * Checks if there is a set on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      */
     private static ArrayList<Card> findBestSet(ArrayList<Card> extendedCards) {
@@ -425,7 +443,7 @@ public class CombinationAnalyzer {
      * Checks if there are two pairs on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
     private static ArrayList<Card> findBestTwoPairs(ArrayList<Card> extendedCards) {
@@ -455,7 +473,7 @@ public class CombinationAnalyzer {
      * Checks if there is a pair on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
     private static ArrayList<Card> findBestPair(ArrayList<Card> extendedCards) {
@@ -485,8 +503,9 @@ public class CombinationAnalyzer {
 
     /**
      * Returns the best high card combination.
+     *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination.
      */
     private static ArrayList<Card> findBestHighCard(ArrayList<Card> extendedCards) {
@@ -548,7 +567,7 @@ public class CombinationAnalyzer {
      * @return arrayList of hand that will win at the board (side pots are not considered)
      * @throws IllegalArgumentException if Board consist of less than 5 cards or no hands are given (empty arraylist)
      */
-     public static ArrayList<Hand> determineWinningHand(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
+    public static ArrayList<Hand> determineWinningHand(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
         if (board.size() < 5) {
             throw new IllegalArgumentException("Board must consist of 5 cards");
         }
@@ -558,6 +577,28 @@ public class CombinationAnalyzer {
         if (hands.size() == 1) {
             return hands;
         }
+
+        ArrayList<Card> cards = new ArrayList<>();
+        for (Hand h : hands) {
+            cards.add(h.getCard1());
+            cards.add(h.getCard2());
+        }
+        if (!isBoardValid(board, cards)) {
+            throw new IllegalArgumentException("Board and hands must contain unique cards");
+        }
+
+        return determineWinningHandChecked(board, hands);
+    }
+
+    /**
+     * determines the hand that will win in given situation, but all inputs must be VALID !
+     *
+     * @param board
+     * @param hands
+     * @return
+     * @throws IncorrectBoardException
+     */
+    private static ArrayList determineWinningHandChecked(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
         ArrayList<ComboCardsPair> bestHandsCombos = new ArrayList<>();
         ArrayList<Hand> bestHands = new ArrayList<>();
         int maxCombo = 0;
@@ -594,26 +635,127 @@ public class CombinationAnalyzer {
                     winnerHands.clear();
                     winnerHands.add(bestHands.get(curComboInd));
                     break;
+                } else if (combinationCards.get(i).getRank().value < bestCombo.get(i).getRank().value) {
+                    winnerHands.remove(bestHands.get(curComboInd));
                 }
             }
         }
         return winnerHands;
     }
 
-    public static void countEVPreFlop(ArrayList<Hand> playersHands) {
-         Board b;
-         for (int index1 = 0; index1 < 52;++index1) {
-             for (int index2 = index1 + 1; index2 < 52;++index2) {
-                 for (int index3 = index2 + 1; index3 < 52;++index3) {
-                     for (int index4 = index3 + 1; index4 < 52;++index4) {
-                         for (int index5 = index4 + 1; index5 < 52;++index5) {
-//                            b = new Board(new Card(52));
-                         }
-                     }
-                 }
-             }
-         }
+
+    public static HashMap<Hand, Double> countEVPreFlopPrecise(ArrayList<Hand> playersHands) throws IncorrectBoardException {
+        Board b;
+        HashMap<Hand, Double> boardsWon = new HashMap<>();
+        for (int i = 0; i < playersHands.size(); ++i) {
+            boardsWon.put(playersHands.get(i), 0.0);
+        }
+
+        ArrayList<Card> cards = new ArrayList<>();
+        for (int i = 0; i < 52; ++i) {
+            cards.add(new Card(i));
+        }
+
+        for (Hand h : playersHands) {
+            cards.remove(h.getCard1());
+            cards.remove(h.getCard2());
+        }
+
+        for (int index1 = 0; index1 < cards.size(); ++index1) {
+            for (int index2 = index1 + 1; index2 < cards.size(); ++index2) {
+                for (int index3 = index2 + 1; index3 < cards.size(); ++index3) {
+                    for (int index4 = index3 + 1; index4 < cards.size(); ++index4) {
+                        for (int index5 = index4 + 1; index5 < cards.size(); ++index5) {
+
+                            b = new Board(cards.get(index1), cards.get(index2),
+                                    cards.get(index3), cards.get(index4),
+                                    cards.get(index5));
+                            try {
+                                ArrayList<Hand> handsWon = determineWinningHand(b, playersHands);
+                                for (Hand h : handsWon) {
+                                    boardsWon.put(h, boardsWon.get(h) + 1.0 / (double) handsWon.size());
+                                }
+                            } catch (IncorrectBoardException exception) {
+                                // Incorrect board means that cards from the hand were in
+                                // generated board, hence we ignore that board (it is impossible to achieve).
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Double sum = 0.0;
+        for (Hand h : boardsWon.keySet()) {
+            sum += boardsWon.get(h);
+        }
+        HashMap<Hand, Double> evMap = new HashMap<>();
+        for (Hand h : boardsWon.keySet()) {
+            evMap.put(h, boardsWon.get(h) / sum);
+        }
+        return evMap;
     }
+
+    public static HashMap<Hand, Double> countEVPreFlopMonteCarlo(ArrayList<Hand> playersHands) throws IncorrectBoardException {
+        ArrayList<Card> cards = new ArrayList<>();
+        for (Hand h : playersHands) {
+            cards.add(h.getCard1());
+            cards.add(h.getCard2());
+        }
+
+        if (!isBoardValid(cards)) {
+            throw new IllegalArgumentException("Hands must contain unique cards");
+        }
+
+        long gamesGenerated = (long) Math.pow(10L, 5);
+        Random r = new Random();
+        Board b;
+        cards = new ArrayList<>();
+
+        for (int i = 0; i < 52; ++i) {
+            cards.add(new Card(i));
+        }
+
+        for (Hand h : playersHands) {
+             cards.remove(h.getCard1());
+             cards.remove(h.getCard2());
+        }
+
+        HashMap<Hand, Double> boardsWon = new HashMap<>();
+        for (Hand h : playersHands) {
+            boardsWon.put(h, 0.0);
+        }
+
+        HashSet<Card> curBoardCards = new HashSet<>();
+        for (int i = 0; i < gamesGenerated; ++i) {
+            curBoardCards.clear();
+
+            while (curBoardCards.size() < 5) {
+                curBoardCards.add(cards.get(Math.abs(r.nextInt()) % cards.size()));
+            }
+            b = new Board(new ArrayList<>(curBoardCards));
+            try {
+                ArrayList<Hand> handsWon = determineWinningHand(b, playersHands);
+                for (Hand h : handsWon) {
+                    boardsWon.put(h, boardsWon.get(h) + 1.0 / (double) handsWon.size());
+                }
+            } catch (IncorrectBoardException ex) {
+                // Incorrect board means that cards from the hand were in
+                // generated board, hence we ignore that board (it is impossible to achieve).
+            }
+        }
+
+        long gamesPLayed = 0;
+        for (Hand h : boardsWon.keySet()) {
+            gamesPLayed += boardsWon.get(h);
+        }
+
+        HashMap<Hand, Double> evArray = new HashMap<>();
+        for (Hand h : boardsWon.keySet()) {
+            evArray.put(h, boardsWon.get(h) * 1.0 / gamesPLayed);
+        }
+        return evArray;
+    }
+
 
     public static void countEVPostFlop(ArrayList<Hand> playersHands, Board board) {
 
