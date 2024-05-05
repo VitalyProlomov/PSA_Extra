@@ -598,7 +598,7 @@ public class CombinationAnalyzer {
      * @return
      * @throws IncorrectBoardException
      */
-    private static ArrayList determineWinningHandChecked(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
+    private static ArrayList<Hand> determineWinningHandChecked(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
         ArrayList<ComboCardsPair> bestHandsCombos = new ArrayList<>();
         ArrayList<Hand> bestHands = new ArrayList<>();
         int maxCombo = 0;
@@ -662,14 +662,16 @@ public class CombinationAnalyzer {
         }
 
         for (int index1 = 0; index1 < cards.size(); ++index1) {
+            Card c1 = cards.get(index1);
             for (int index2 = index1 + 1; index2 < cards.size(); ++index2) {
+                Card c2 = cards.get(index2);
                 for (int index3 = index2 + 1; index3 < cards.size(); ++index3) {
+                    Card c3 = cards.get(index3);
                     for (int index4 = index3 + 1; index4 < cards.size(); ++index4) {
+                        Card c4 = cards.get(index4);
                         for (int index5 = index4 + 1; index5 < cards.size(); ++index5) {
-
-                            b = new Board(cards.get(index1), cards.get(index2),
-                                    cards.get(index3), cards.get(index4),
-                                    cards.get(index5));
+                            Card c5 = cards.get(index5);
+                            b = new Board(c1, c2, c3, c4, c5);
                             try {
                                 ArrayList<Hand> handsWon = determineWinningHand(b, playersHands);
                                 for (Hand h : handsWon) {
@@ -716,8 +718,8 @@ public class CombinationAnalyzer {
         }
 
         for (Hand h : playersHands) {
-             cards.remove(h.getCard1());
-             cards.remove(h.getCard2());
+            cards.remove(h.getCard1());
+            cards.remove(h.getCard2());
         }
 
         HashMap<Hand, Double> boardsWon = new HashMap<>();
@@ -757,7 +759,85 @@ public class CombinationAnalyzer {
     }
 
 
-    public static void countEVPostFlop(ArrayList<Hand> playersHands, Board board) {
+    public static HashMap<Hand, Double> countEVPostFlop(Board board, ArrayList<Hand> playersHands) throws IncorrectBoardException {
+        ArrayList<Card> usedCards = new ArrayList<>(board.getCards());
+        for (Hand h : playersHands) {
+            usedCards.add(h.getCard1());
+            usedCards.add(h.getCard2());
+        }
+        if (!isBoardValid(usedCards)) {
+            throw new IllegalArgumentException("Board cards and hands cards must be unique");
+        }
+        if (board.size() == 5) {
+            ArrayList<Hand> wonHands = determineWinningHandChecked(board, playersHands);
+            HashMap<Hand, Double> r = new HashMap<>();
+            for (Hand h : playersHands) {
+                if (wonHands.contains(h)) {
+                    r.put(h, 1.0 / wonHands.size());
+                } else {
+                    r.put(h, 0.0);
+                }
+            }
 
+            return r;
+        }
+
+        ArrayList<Card> leftCards = new ArrayList<>();
+        for (int i = 0; i < 51; ++i) {
+            leftCards.add(new Card(i));
+        }
+        for (int i = 0; i < usedCards.size(); ++i) {
+            leftCards.remove(usedCards.get(i));
+        }
+
+        HashMap<Hand, Double> evMap=  new HashMap<>();
+        for (Hand h : playersHands) {
+            evMap.put(h, 0.0);
+        }
+        Board finalBoard = null;
+        ArrayList<Card> cards = new ArrayList<>();
+        if (board.size() == 3) {
+            for (int index1 = 0; index1 < leftCards.size(); ++index1) {
+                Card riverCard = leftCards.get(index1);
+                for (int index2 = index1 + 1; index2 < leftCards.size(); ++index2) {
+                    Card turnCard = leftCards.get(index2);
+                    cards.clear();
+                    cards.addAll(board.getCards());
+                    cards.add(turnCard);
+                    cards.add(riverCard);
+
+                    finalBoard = new Board(cards);
+
+                    ArrayList<Hand> wonHands = determineWinningHandChecked(finalBoard, playersHands);
+
+                    for (Hand h : wonHands) {
+                        evMap.put(h, evMap.get(h) + 1.0 / wonHands.size());
+                    }
+                }
+            }
+        } else {
+            for (int index1 = 0; index1 < leftCards.size(); ++index1) {
+                cards = new ArrayList<>(board.getCards());
+                cards.add(leftCards.get(index1));
+                finalBoard = new Board(cards);
+                determineWinningHand(finalBoard, playersHands);
+
+                ArrayList<Hand> wonHands = determineWinningHandChecked(finalBoard, playersHands);
+
+                for (Hand h : wonHands) {
+                    evMap.put(h, evMap.get(h) + 1.0 / wonHands.size());
+                }
+            }
+        }
+
+        Double sum = 0.0;
+        for (Hand h : evMap.keySet()) {
+            sum += evMap.get(h);
+        }
+        for (Hand h : evMap.keySet()) {
+            evMap.put(h, evMap.get(h) / sum);
+        }
+
+        return evMap;
     }
 }
