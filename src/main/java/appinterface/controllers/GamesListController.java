@@ -219,6 +219,7 @@ public class GamesListController {
                             loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
                             stage.setScene(new Scene(loader.load()));
                             GameDisplay9MaxController controller = loader.getController();
+                            controller.setGame(rowData);
                         }
                         else {
                             throw new Exception("Unknown game type, currently not supported");

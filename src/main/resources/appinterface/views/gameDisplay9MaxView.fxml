@@ -10,9 +10,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.GameDisplay9MaxController">
+<AnchorPane fx:id="gameDisplayAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.GameDisplay9MaxController">
    <children>
-      <Ellipse fx:id="tableEllipse" fill="#cf558d" layoutX="268.0" layoutY="187.0" radiusX="209.0" radiusY="120.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="tableEllipse" fill="#cf558d" layoutX="270.0" layoutY="186.0" radiusX="209.0" radiusY="120.0" stroke="BLACK" strokeType="INSIDE" />
       <Line endX="-54.4000244140625" endY="382.0" layoutX="589.0" layoutY="57.0" startX="-54.4000244140625" startY="-56.999996185302734" />
       <Label fx:id="heroWinLossLabel" alignment="BOTTOM_LEFT" layoutX="546.0" layoutY="125.0" prefHeight="18.0" prefWidth="203.0" text="Hero WinLoss:         " />
       <Label fx:id="gameIdLabel" layoutX="546.0" layoutY="14.0" prefHeight="18.0" prefWidth="203.0" text="Game ID:                 " />
@@ -30,22 +30,22 @@
             <Image url="@../assets/cardBackImage.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player6RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="433.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player6RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="441.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/cardBackImage.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player6LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="396.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player6LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="404.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/cardBackImage.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player3RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="121.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player3RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="112.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/cardBackImage.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player3LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="84.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player3LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="75.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/cardBackImage.png" />
          </image>
@@ -70,12 +70,12 @@
             <Image url="@../assets/cardBackImage.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player7RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="480.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player7RightCardShirt" fitHeight="52.0" fitWidth="42.0" layoutX="487.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/cardBackImage.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="player7LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="443.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player7LeftCardShirt" fitHeight="52.0" fitWidth="37.0" layoutX="450.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/cardBackImage.png" />
          </image>
@@ -106,16 +106,16 @@
       <Label fx:id="player1BalanceLabel" alignment="CENTER" layoutX="107.0" layoutY="318.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
       <Label fx:id="player2PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-14.0" layoutY="223.0" prefHeight="18.0" prefWidth="95.0" text="BB: Label" />
       <Label fx:id="player2BalanceLabel" alignment="CENTER" layoutX="3.0" layoutY="237.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
-      <Label fx:id="player3PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="60.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
-      <Label fx:id="player3BalanceLabel" alignment="CENTER" layoutX="72.0" layoutY="42.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
+      <Label fx:id="player3PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="50.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
+      <Label fx:id="player3BalanceLabel" alignment="CENTER" layoutX="63.0" layoutY="32.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
       <Label fx:id="player4PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="176.0" layoutY="32.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
       <Label fx:id="player4BalanceLabel" alignment="CENTER" layoutX="192.0" layoutY="14.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
       <Label fx:id="player5PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" layoutY="32.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
       <Label fx:id="player5BalanceLabel" alignment="CENTER" layoutX="301.0" layoutY="14.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
-      <Label fx:id="player6PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="385.0" layoutY="73.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
-      <Label fx:id="player6BalanceLabel" alignment="CENTER" layoutX="401.0" layoutY="55.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
-      <Label fx:id="player7PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" layoutY="213.0" prefHeight="18.0" prefWidth="95.0" text="BB: Label" />
-      <Label fx:id="player7BalanceLabel" alignment="CENTER" layoutX="467.0" layoutY="232.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
+      <Label fx:id="player6PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="393.0" layoutY="52.0" prefHeight="18.0" prefWidth="95.0" text="LJ: Label" />
+      <Label fx:id="player6BalanceLabel" alignment="CENTER" layoutX="409.0" layoutY="34.0" prefHeight="18.0" prefWidth="62.0" text="0.05$" />
+      <Label fx:id="player7PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="457.0" layoutY="217.0" prefHeight="18.0" prefWidth="95.0" text="BB: Label" />
+      <Label fx:id="player7BalanceLabel" alignment="CENTER" layoutX="474.0" layoutY="236.0" prefHeight="18.0" prefWidth="62.0" text="21.54$" />
       <Label fx:id="player8PositionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="341.0" layoutY="309.0" prefHeight="18.0" prefWidth="95.0" text="SB: Hero" textAlignment="CENTER" />
       <Label fx:id="player8BalanceLabel" alignment="CENTER" layoutX="359.0" layoutY="327.0" prefHeight="18.0" prefWidth="62.0" text="10$" />
       <Rectangle fx:id="heroLeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="236.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
@@ -154,14 +154,14 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Rectangle fx:id="player7LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="444.0" layoutY="161.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
-      <Rectangle fx:id="player7RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="480.0" layoutY="161.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
-      <Label fx:id="player7LeftCardLabel" alignment="CENTER" layoutX="444.0" layoutY="174.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+      <Rectangle fx:id="player7LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="451.0" layoutY="165.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player7RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="487.0" layoutY="165.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player7LeftCardLabel" alignment="CENTER" layoutX="451.0" layoutY="178.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="player7RightCardLabel" alignment="CENTER" layoutX="480.0" layoutY="174.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+      <Label fx:id="player7RightCardLabel" alignment="CENTER" layoutX="487.0" layoutY="178.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
@@ -178,14 +178,14 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Rectangle fx:id="player3LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="84.0" layoutY="82.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
-      <Rectangle fx:id="player3RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="120.0" layoutY="82.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
-      <Label fx:id="player3LeftCardLabel" alignment="CENTER" layoutX="84.0" layoutY="95.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+      <Rectangle fx:id="player3LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="75.0" layoutY="72.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player3RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="111.0" layoutY="72.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player3LeftCardLabel" alignment="CENTER" layoutX="75.0" layoutY="85.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="player3RightCardLabel" alignment="CENTER" layoutX="120.0" layoutY="95.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+      <Label fx:id="player3RightCardLabel" alignment="CENTER" layoutX="111.0" layoutY="85.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
@@ -214,14 +214,14 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Rectangle fx:id="player6LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="396.0" layoutY="91.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
-      <Rectangle fx:id="player6RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="432.0" layoutY="91.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
-      <Label fx:id="player6LeftCardLabel" alignment="CENTER" layoutX="396.0" layoutY="104.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+      <Rectangle fx:id="player6LeftCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="404.0" layoutY="70.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="player6RightCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#09b700" height="52.0" layoutX="440.0" layoutY="70.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="player6LeftCardLabel" alignment="CENTER" layoutX="404.0" layoutY="83.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="player6RightCardLabel" alignment="CENTER" layoutX="432.0" layoutY="104.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+      <Label fx:id="player6RightCardLabel" alignment="CENTER" layoutX="440.0" layoutY="83.0" opacity="0.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
@@ -278,5 +278,46 @@
             <Image url="@../assets/dealerButton.png" />
          </image>
       </ImageView>
+      <Rectangle fx:id="flopCard1Rectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="160.0" layoutY="149.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="flopCard2Rectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="207.0" layoutY="149.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="flopCard3Rectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="254.0" layoutY="149.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="turnCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="300.0" layoutY="149.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Rectangle fx:id="riverCardRectangle" arcHeight="5.0" arcWidth="5.0" fill="#c41e1e" height="52.0" layoutX="347.0" layoutY="149.0" stroke="BLACK" strokeType="INSIDE" width="36.0" />
+      <Label fx:id="flopCard1Label" alignment="CENTER" layoutX="160.0" layoutY="161.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="flopCard2Label" alignment="CENTER" layoutX="208.0" layoutY="162.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="flopCard3Label" alignment="CENTER" layoutX="253.0" layoutY="161.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="turnCardLabel" alignment="CENTER" layoutX="299.0" layoutY="162.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="riverCardLabel" alignment="CENTER" layoutX="347.0" layoutY="161.0" prefHeight="18.0" prefWidth="36.0" text="K" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="heroActionLabel" alignment="CENTER" layoutX="220.0" layoutY="261.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player1ActionLabel" alignment="CENTER" layoutX="88.0" layoutY="223.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player2ActionLabel" alignment="CENTER" layoutX="56.0" layoutY="152.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player3ActionLabel" alignment="CENTER" layoutX="91.0" layoutY="125.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player4ActionLabel" alignment="CENTER" layoutX="174.0" layoutY="101.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player5ActionLabel" alignment="CENTER" layoutX="281.0" layoutY="101.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player6ActionLabel" alignment="CENTER" layoutX="357.0" layoutY="125.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="heroActionLabel7" alignment="CENTER" layoutX="230.0" layoutY="298.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="heroActionLabel8" alignment="CENTER" layoutX="230.0" layoutY="298.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player7ActionLabel" alignment="CENTER" layoutX="358.0" layoutY="217.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
+      <Label fx:id="player8ActionLabel" alignment="CENTER" layoutX="337.0" layoutY="237.0" prefHeight="18.0" prefWidth="102.0" textFill="WHITE" />
    </children>
 </AnchorPane>
