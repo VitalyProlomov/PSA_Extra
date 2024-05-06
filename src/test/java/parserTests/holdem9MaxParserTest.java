@@ -26,6 +26,13 @@ public class holdem9MaxParserTest {
         Game game = g.get(0);
         assertEquals(8, game.getPlayers().size());
 
+        assertEquals(1, game.getPlayer("a3aa3c05").getSeatNumber());
+        assertEquals(3, game.getPlayer("b858c98b").getSeatNumber());
+        assertEquals(4, game.getPlayer("Hero").getSeatNumber());
+        assertEquals(5, game.getPlayer("917be6aa").getSeatNumber());
+        assertEquals(6, game.getPlayer("b1807748").getSeatNumber());
+
+
         assertEquals(SB, game.getPlayer("Hero").getPosition());
         assertEquals(BTN, game.getPlayer("b858c98b").getPosition());
         assertEquals(UTG, game.getPlayer("b1807748").getPosition());
@@ -47,6 +54,13 @@ public class holdem9MaxParserTest {
         assertEquals(UTG_2, game.getPlayer("Hero").getPosition());
         assertEquals(BB, game.getPlayer("f334408a").getPosition());
         assertEquals(UTG_1, game.getPlayer("b858c98b").getPosition());
+
+        assertEquals(2, game.getPlayer("68f87b81").getSeatNumber());
+        assertEquals(3, game.getPlayer("b858c98b").getSeatNumber());
+        assertEquals(4, game.getPlayer("Hero").getSeatNumber());
+        assertEquals(5, game.getPlayer("2d6ccd2e").getSeatNumber());
+        assertEquals(6, game.getPlayer("c4893b3c").getSeatNumber());
+        assertEquals(7, game.getPlayer("f334408a").getSeatNumber());
 
         assertEquals(45.43, game.getInitialBalances().get("68f87b81"));
         assertEquals(56.97, game.getInitialBalances().get("2d6ccd2e"));
@@ -339,4 +353,6 @@ public class holdem9MaxParserTest {
         assertTrue(GameAnalyzer.isPot4Bet(game));
     }
     // endregion
+
+
 }

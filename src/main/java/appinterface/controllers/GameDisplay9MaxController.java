@@ -20,10 +20,11 @@ import static models.PositionType.*;
 import static models.PositionType.BTN;
 
 public class GameDisplay9MaxController {
+    private static final int MAX_PLAYERS = 9;
     private static final HashMap<Card.Suit, Color> suitColorMap = new HashMap<>();
     private static final HashMap<Card.Rank, Character> rankCharMap = new HashMap<>();
     private static final HashMap<Action.ActionType, String> actionStringMap = new HashMap<>();
-    private static final HashMap<String, Integer> hashPlayerIndexMap = new HashMap<>();
+    private final HashMap<String, Integer> hashPlayerIndexMap = new HashMap<>();
     @FXML
     private Label dateLabel;
 
@@ -358,18 +359,74 @@ public class GameDisplay9MaxController {
     private Rectangle turnCardRectangle;
 
     private Game displayedGame;
+
     @FXML
     void initialize() {
         nextActionTriangle.setOnMouseClicked(action -> showNextAction());
         restartImageView.setOnMouseClicked(action -> resetAllStates());
-
         fillMaps();
         // helpImageView.setOnMouseClicked(action -> onHelpImageViewClicked());
     }
 
+    private void setInitialParameters() {
+        for (int i = 1; i <= 8; ++i) {
+            Label actionLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "ActionLabel");
+            Label leftCardLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardLabel");
+            Label rightCardLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardLabel");
+            Label hashLabel= (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "PositionLabel");
+            Label balanceLabel = (Label)  this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "BalanceLabel");
+
+            Rectangle leftCardRectangle = (Rectangle) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardRectangle");
+            Rectangle rightCardRectangle = (Rectangle) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardRectangle");
+            ImageView leftCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardShirt");
+            ImageView rightCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardShirt");
+
+            actionLabel.setText("");
+            leftCardLabel.setVisible(false);
+            leftCardRectangle.setVisible(false);
+            leftCardShirtView.setVisible(false);
+            hashLabel.setVisible(false);
+            balanceLabel.setVisible(false);
+
+            rightCardLabel.setVisible(false);
+            rightCardRectangle.setVisible(false);
+            rightCardShirtView.setVisible(false);
+        }
+
+        for (int i = 1; i <= 3; ++i) {
+            this.gameDisplayAnchorPane.getScene().lookup("#flopCard" + i + "Label").setVisible(false);
+            this.gameDisplayAnchorPane.getScene().lookup("#flopCard" + i + "Rectangle").setVisible(false);
+        }
+
+        turnCardLabel.setVisible(false);
+        turnCardRectangle.setVisible(false);
+
+        riverCardLabel.setVisible(false);
+        riverCardRectangle.setVisible(false);
+
+        for (int i : hashPlayerIndexMap.values()) {
+            ImageView leftCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardShirt");
+            ImageView rightCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardShirt");
+
+            Label hashLabel= (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "PositionLabel");
+            Label balanceLabel = (Label)  this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "BalanceLabel");
+
+            leftCardShirtView.setVisible(true);
+            rightCardShirtView.setVisible(true);
+            hashLabel.setVisible(true);
+            balanceLabel.setVisible(true);
+        }
+
+    }
+
+
     public void setGame(Game game) {
         this.displayedGame = game;
         updateTableInfo();
+        resetAllStates();
+        setInitialParameters();
+
+
         initializeLabels();
     }
 
@@ -392,10 +449,10 @@ public class GameDisplay9MaxController {
             heroButtonIcon.setVisible(true);
         }
 
-        ArrayList<PlayerInGame> orderedPlayers = new ArrayList<>();
+//        ArrayList<PlayerInGame> orderedPlayers = new ArrayList<>();
         ArrayList<PositionType> orderedPositions = new ArrayList<>(List.of(
                 BTN, SB, BB,
-                UTG, UTG_1,UTG_2,
+                UTG, UTG_1, UTG_2,
                 LJ, HJ, CO));
         while (orderedPositions.size() > displayedGame.getPlayers().size()) {
             orderedPositions.remove(orderedPositions.size() - 1);
@@ -404,15 +461,31 @@ public class GameDisplay9MaxController {
         int heroPositionIndex = 0;
 
         HashMap<PositionType, PlayerInGame> posPlayers = displayedGame.getPosPlayersMap();
+
+        // In parser if there are only 2 players present in the game, then the positions are BTN and BB (not SB)
+        if (orderedPositions.size() == 2) {
+            orderedPositions.remove(1);
+            orderedPositions.add(BB);
+        }
         for (int i = 0; i < orderedPositions.size(); ++i) {
-            orderedPlayers.add(posPlayers.get(orderedPositions.get(i)));
+//            orderedPlayers.add(posPlayers.get(orderedPositions.get(i)));
             if (posPlayers.get(orderedPositions.get(i)).getId().equals("Hero")) {
                 heroPositionIndex = i;
             }
         }
 
-        for (int index = 1; index < displayedGame.getPlayers().size(); ++index) {
-            PlayerInGame curPlayer = orderedPlayers.get((heroPositionIndex + index) % orderedPlayers.size());
+        int heroSeatNumber = displayedGame.getPlayer("Hero").getSeatNumber();
+        for (PlayerInGame p : displayedGame.getPlayers().values()) {
+
+            if (p.getId().equals("Hero")) {
+                continue;
+            }
+            int index = p.getSeatNumber() - heroSeatNumber;
+            if (index < 0) {
+                index += MAX_PLAYERS;
+            }
+//            PlayerInGame curPlayer = orderedPlayers.get((heroPositionIndex + index) % orderedPlayers.size());
+            PlayerInGame curPlayer = p;
             hashPlayerIndexMap.put(curPlayer.getId(), index);
             Label labelToChange = ((Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + index + "BalanceLabel"));
 
@@ -432,6 +505,7 @@ public class GameDisplay9MaxController {
             if (curPlayer.getPosition().equals(BTN)) {
                 ((ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + index + "ButtonIcon")).setVisible(true);
             }
+
         }
     }
 
@@ -580,6 +654,7 @@ public class GameDisplay9MaxController {
         HashSet<Action.ActionType> nonBetTypes = new HashSet<>(List.of(CALL, FOLD, CHECK));
 
         curActionLabel.setText(actionStringMap.get(nextAction.getActionType()));
+
         if (!nonBetTypes.contains(nextAction.getActionType())) {
             String balanceStr = new DecimalFormat("#0.00").format(nextAction.getAmount()).replace(',', '.');
             curActionLabel.setText(curActionLabel.getText() + " " + balanceStr + "$");
@@ -593,8 +668,8 @@ public class GameDisplay9MaxController {
 //                gameDisplayAnchorPane.getScene().lookup("#player" + index + "LeftCardShirt").setVisible(false);
 //                gameDisplayAnchorPane.getScene().lookup("#player" + index + "RightCardShirt").setVisible(false);
 
-                ((ImageView)gameDisplayAnchorPane.getScene().lookup("#player" + index + "LeftCardShirt")).setOpacity(0.1);
-                ((ImageView)gameDisplayAnchorPane.getScene().lookup("#player" + index + "RightCardShirt")).setOpacity(0.1);
+                ((ImageView) gameDisplayAnchorPane.getScene().lookup("#player" + index + "LeftCardShirt")).setOpacity(0.1);
+                ((ImageView) gameDisplayAnchorPane.getScene().lookup("#player" + index + "RightCardShirt")).setOpacity(0.1);
 
             }
         }
@@ -608,13 +683,12 @@ public class GameDisplay9MaxController {
     }
 
     private void initializeLabels() {
-        resetAllStates();
         this.gameIdLabel.setText(gameIdLabel.getText() + displayedGame.getGameId());
         this.dateLabel.setText(dateLabel.getText() + formateDate(displayedGame.getDate()));
 
         String strRep = new DecimalFormat("#0.00").format(displayedGame.getHeroWinloss()).replace(',', '.');
-        System.out.println(displayedGame.getGameId() + ": " + displayedGame.getHeroWinloss());
-        System.out.println(displayedGame.getHeroWinloss());
+//        System.out.println(displayedGame.getGameId() + ": " + displayedGame.getHeroWinloss());
+//        System.out.println(displayedGame.getHeroWinloss());
         this.heroWinLossLabel.setText(heroWinLossLabel.getText() + strRep + "$");
 
 
@@ -662,6 +736,13 @@ public class GameDisplay9MaxController {
 
             leftRectangle.setVisible(true);
             rightRectangle.setVisible(true);
+
+            ImageView leftCardShirt = (ImageView) gameDisplayAnchorPane.getScene().lookup("#player" + curIndex + "LeftCardShirt");
+            ImageView rightCardShirt = (ImageView) gameDisplayAnchorPane.getScene().lookup("#player" + curIndex + "RightCardShirt");
+
+            leftCardShirt.setOpacity(0);
+            rightCardShirt.setOpacity(0);
+
         }
     }
 
@@ -702,9 +783,27 @@ public class GameDisplay9MaxController {
         potLabel.setText("POT: ");
 
         for (int i = 1; i <= 8; ++i) {
-            Label actionLabel = (Label)this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "ActionLabel");
-            Label leftCardLabel = (Label)this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardLabel");
-            Label rightCardLabel = (Label)this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardLabel");
+            Label actionLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "ActionLabel");
+            Label leftCardLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardLabel");
+            Label rightCardLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardLabel");
+            Rectangle leftCardRectangle = (Rectangle) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardRectangle");
+            Rectangle rightCardRectangle = (Rectangle) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardRectangle");
+            ImageView leftCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardShirt");
+            ImageView rightCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardShirt");
+            actionLabel.setText("");
+
+            leftCardLabel.setVisible(false);
+            leftCardRectangle.setVisible(false);
+            rightCardLabel.setVisible(false);
+            rightCardRectangle.setVisible(false);
+            leftCardShirtView.setVisible(false);
+            rightCardShirtView.setVisible(false);
+        }
+
+        for (int i : hashPlayerIndexMap.values()) {
+            Label actionLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "ActionLabel");
+            Label leftCardLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardLabel");
+            Label rightCardLabel = (Label) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardLabel");
             Rectangle leftCardRectangle = (Rectangle) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardRectangle");
             Rectangle rightCardRectangle = (Rectangle) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "RightCardRectangle");
             ImageView leftCardShirtView = (ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + i + "LeftCardShirt");
@@ -717,6 +816,9 @@ public class GameDisplay9MaxController {
             rightCardRectangle.setVisible(false);
             leftCardShirtView.setOpacity(1);
             rightCardShirtView.setOpacity(1);
+            leftCardShirtView.setVisible(true);
+            rightCardShirtView.setVisible(true);
+
         }
 
         heroLeftCardRectangle.setOpacity(1);
@@ -736,5 +838,6 @@ public class GameDisplay9MaxController {
         riverCardRectangle.setVisible(false);
         riverCardLabel.setVisible(false);
     }
+
 
 }

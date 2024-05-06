@@ -84,16 +84,19 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         // Getting info about players abd setting to the game
         ArrayList<String> hashes = new ArrayList<>();
         ArrayList<Double> balances = new ArrayList<>();
+        ArrayList<Integer> seatNumbers = new ArrayList<>();
 
         int btnSeatNumber = Integer.parseInt(wordsInLines.get(curLine).get(4).substring(1));
 
         ++curLine;
 
         int btnIndex = 0;
-        while (wordsInLines.get(curLine).get(0).equals("Seat")){
+        while (wordsInLines.get(curLine).get(0).equals("Seat")) {
+            seatNumbers.add(Integer.parseInt(wordsInLines.get(curLine).get(1).split(":")[0]));
             hashes.add(wordsInLines.get(curLine).get(2));
             String balanceStr = wordsInLines.get(curLine).get(3);
             balances.add(parseDouble(balanceStr.substring(2)));
+
 
             if (Integer.parseInt(wordsInLines.get(curLine).get(1).substring(0, 1)) == btnSeatNumber) {
                 // The first player seat is located on 3rd line of the text.
@@ -104,7 +107,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
 
         ArrayList<PositionType> allPositions = new ArrayList<>(List.of(
                 BTN, SB, BB,
-                UTG, UTG_1,UTG_2,
+                UTG, UTG_1, UTG_2,
                 LJ, HJ, CO));
 
         ArrayList<PlayerInGame> players = new ArrayList<>();
@@ -114,6 +117,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         for (int i = 0; i < size; ++i) {
             curPositionsUsed.add(allPositions.get(i));
         }
+
         // Decided to make an exception (since in heads up variation (when only 2 players are present)
         // the small blind is posted by the player on the BTN position and the other player posts big blind.
         // So, I decided to change the positions names.
@@ -122,7 +126,9 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
             curPositionsUsed.set(1, BB);
         }
         for (int i = 0; i < hashes.size(); ++i) {
-            players.add(new PlayerInGame(hashes.get((btnIndex + i) % size), curPositionsUsed.get(i), balances.get((btnIndex + i) % size)));
+            PlayerInGame p = new PlayerInGame(hashes.get((btnIndex + i) % size), curPositionsUsed.get(i), balances.get((btnIndex + i) % size));
+            p.setSeatNumber(seatNumbers.get((btnIndex + i) % size));
+            players.add(p);
         }
 
         return players;
@@ -213,7 +219,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         // Big Blind
         hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
         amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
-        st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND,hash, amount, curPot), amount);
+        st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, hash, amount, curPot), amount);
         curPot += amount;
         game.decrementPlayersBalance(hash, amount);
         ++curLine;
@@ -506,8 +512,10 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
                 st.setPotAfterBetting(st.getPotAfterBetting() + amount);
                 game.decrementPlayersBalance(curPlayer.getId(), amount);
             }
-            case "checks" -> action = new Action(Action.ActionType.CHECK, curPlayer.getId(), 0, st.getPotAfterBetting());
-            default -> throw new RuntimeException("unexpected line in parsed file (was expected line with action, but got): " + line);
+            case "checks" ->
+                    action = new Action(Action.ActionType.CHECK, curPlayer.getId(), 0, st.getPotAfterBetting());
+            default ->
+                    throw new RuntimeException("unexpected line in parsed file (was expected line with action, but got): " + line);
         }
 
 
@@ -566,3 +574,4 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         game.setRake(amount);
     }
 }
+

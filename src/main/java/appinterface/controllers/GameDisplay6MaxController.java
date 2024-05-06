@@ -28,7 +28,8 @@ public class GameDisplay6MaxController {
     private static final HashMap<Action.ActionType, String> actionStringMap = new HashMap<>();
     private static final HashMap<String, Integer> hashPlayerIndexMap = new HashMap<>();
 
-    @FXML Label dateLabel;
+    @FXML
+    private Label dateLabel;
 
     @FXML
     private Label flopCard1Label;
@@ -270,6 +271,7 @@ public class GameDisplay6MaxController {
     @FXML
     private ImageView restartImageView;
 
+    // Currently disabled and not seen now
     @FXML
     private ImageView helpImageView;
 
@@ -518,9 +520,6 @@ public class GameDisplay6MaxController {
     private String formateDate(Date date) {
         String[] s = date.toString().split(" ");
         return s[1] + " " + s[2] + " " + s[5];
-//        return "" + date.getDate() + "." + date.getMonth() + "." + date.getYear() +
-//                " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
     }
 
     private void initializeLabels() {

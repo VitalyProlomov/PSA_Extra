@@ -21,10 +21,6 @@ public class Game {
      */
     private String table;
 
-    /**
-     *
-     */
-
 
     public enum GameType {
         HOLDEM_9MAX,
@@ -72,6 +68,7 @@ public class Game {
      * Contains all the single shown cards assigned to the players that showed them.
      */
     private final HashMap<String, Card> shownOneCards = new HashMap<>();
+
 
     /**
      * Constructs a new game with given ID and BB (given in dollars) and players.
@@ -140,7 +137,6 @@ public class Game {
     public HashMap<String, Card> getShownOneCards() {
         return new HashMap<>(shownOneCards);
     }
-
 
     @JsonIgnore
     public double getHeroWinloss() {

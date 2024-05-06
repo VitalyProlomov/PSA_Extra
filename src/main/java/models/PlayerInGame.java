@@ -19,6 +19,7 @@ public class PlayerInGame {
     private UserProfile ref;
     private double balance$;
     private Hand hand;
+    private Integer seatNumber;
 
     /**
      * Constructs new PlayerInGame with given hash
@@ -61,6 +62,7 @@ public class PlayerInGame {
         if (copyPlayer.hand != null) {
             this.hand = new Hand(copyPlayer.hand);
         }
+        this.seatNumber = copyPlayer.seatNumber;
 
 //        this.vpip = copyPlayer.vpip;
 //        this.threeBetPercentage = copyPlayer.threeBetPercentage;
@@ -192,5 +194,13 @@ public class PlayerInGame {
         balanceStr = balanceStr.replace(',', '.');
         rep += ", Id: " + id + ", Pos: " + positionType + ", Balance: " + balanceStr + ")";
         return rep;
+    }
+
+    public Integer getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(Integer seatNumber) {
+        this.seatNumber = seatNumber;
     }
 }
