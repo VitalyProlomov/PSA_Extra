@@ -1,0 +1,61 @@
+Poker Hand #HD1758892442: Hold'em No Limit ($0.1/$0.25) - 2024/05/04 23:48:08
+Table 'NLHAPurple10' 9-max Seat #4 is the button
+Seat 1: eede1d10 ($50 in chips)
+Seat 2: 31c72e6b ($180.02 in chips)
+Seat 4: e70c3dfe ($96.23 in chips)
+Seat 5: ca4d9866 ($23.37 in chips)
+Seat 6: d23cee42 ($50 in chips)
+Seat 7: 2427958f ($50 in chips)
+Seat 8: fb198975 ($117.23 in chips)
+Seat 9: Hero ($41.27 in chips)
+eede1d10: posts the ante $0.1
+e70c3dfe: posts the ante $0.1
+31c72e6b: posts the ante $0.1
+fb198975: posts the ante $0.1
+Hero: posts the ante $0.1
+d23cee42: posts the ante $0.1
+ca4d9866: posts the ante $0.1
+2427958f: posts the ante $0.1
+ca4d9866: posts small blind $0.1
+d23cee42: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to eede1d10
+Dealt to 31c72e6b
+Dealt to e70c3dfe
+Dealt to ca4d9866
+Dealt to d23cee42
+Dealt to 2427958f
+Dealt to fb198975
+Dealt to Hero [9d Jd]
+2427958f: folds
+fb198975: folds
+Hero: raises $0.75 to $1
+eede1d10: folds
+31c72e6b: folds
+e70c3dfe: folds
+ca4d9866: calls $0.9
+d23cee42: calls $0.75
+*** FLOP *** [Qd 9c 6d]
+ca4d9866: bets $22.27 and is all-in
+d23cee42: calls $22.27
+Hero: raises $17.9 to $40.17 and is all-in
+d23cee42: calls $17.9
+Hero: shows [9d Jd] (Pair of Nines)
+ca4d9866: shows [2c Qc] (Pair of Queens)
+d23cee42: shows [9h Th] (Pair of Nines)
+*** TURN *** [Qd 9c 6d] [4d]
+*** RIVER *** [Qd 9c 6d 4d] [2h]
+*** SHOWDOWN ***
+Hero collected $68.82 from pot
+Hero collected $34.9 from pot
+*** SUMMARY ***
+Total pot $106.41 | Rake $2.49 | Jackpot $0.2 | Bingo $0 | Fortune $0 | Tax $0
+Board [Qd 9c 6d 4d 2h]
+Seat 1: eede1d10 folded before Flop
+Seat 2: 31c72e6b folded before Flop
+Seat 4: e70c3dfe (button) folded before Flop
+Seat 5: ca4d9866 (small blind) showed [2c Qc] and lost with Pair of Queens and Pair of Twos
+Seat 6: d23cee42 (big blind) showed [9h Th] and lost with Pair of Nines
+Seat 7: 2427958f folded before Flop
+Seat 8: fb198975 folded before Flop
+Seat 9: Hero showed [9d Jd] and won ($103.72) with Queen High Flush

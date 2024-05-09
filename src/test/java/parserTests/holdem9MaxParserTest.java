@@ -197,6 +197,23 @@ public class holdem9MaxParserTest {
         assertTrue(Math.abs(game.getHeroWinloss() - (-0.72)) < 0.0005);
         assertTrue(Math.abs(game.getWinners().get("7c304922") - 1.75) < 0.0005);
         assertEquals(1, game.getWinners().size());
+
+    }
+
+    @Test
+    public void testParsingShownHandsPreflopAllIn() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/showdownGame.txt");
+
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
+
+        Game game = g.get(0);
+        assertEquals(new Hand("Kd", "7s"), game.getPlayer("Hero").getHand());
+        assertEquals(new Hand("Kc", "Js"), game.getPlayer("4d491e8a").getHand());
+        assertEquals(new Hand("7d", "6d"), game.getPlayer("baa8df63").getHand());
+
+        assertEquals(1, game.getWinners().size());
+        assertTrue(Math.abs(102.52  - game.getWinners().get("4d491e8a")) < 0.0001);
     }
 
     @Test

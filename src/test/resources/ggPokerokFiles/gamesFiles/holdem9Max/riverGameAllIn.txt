@@ -1,0 +1,78 @@
+
+Poker Hand #HD1758801694: Hold'em No Limit ($0.1/$0.25) - 2024/05/04 22:20:06
+Table 'NLHAPurple10' 9-max Seat #9 is the button
+Seat 1: beea9cc6 ($22.19 in chips)
+Seat 2: 483da69c ($58.36 in chips)
+Seat 3: e8727ce7 ($37.05 in chips)
+Seat 4: e70c3dfe ($37.5 in chips)
+Seat 5: 1f9781d ($25 in chips)
+Seat 6: ccc6d610 ($40.76 in chips)
+Seat 7: 79a92023 ($37.69 in chips)
+Seat 8: fb198975 ($80.66 in chips)
+Seat 9: Hero ($51.33 in chips)
+e70c3dfe: posts the ante $0.1
+fb198975: posts the ante $0.1
+e8727ce7: posts the ante $0.1
+Hero: posts the ante $0.1
+ccc6d610: posts the ante $0.1
+79a92023: posts the ante $0.1
+483da69c: posts the ante $0.1
+1f9781d: posts the ante $0.1
+beea9cc6: posts the ante $0.1
+beea9cc6: posts small blind $0.1
+483da69c: posts big blind $0.25
+79a92023: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to beea9cc6
+Dealt to 483da69c
+Dealt to e8727ce7
+Dealt to e70c3dfe
+Dealt to 1f9781d
+Dealt to ccc6d610
+Dealt to 79a92023
+Dealt to fb198975
+Dealt to Hero [Qh Kd]
+e8727ce7: raises $0.65 to $0.9
+e70c3dfe: folds
+1f9781d: folds
+ccc6d610: calls $0.9
+79a92023: calls $0.65
+fb198975: calls $0.9
+Hero: raises $4.32 to $5.22
+beea9cc6: folds
+483da69c: folds
+e8727ce7: calls $4.32
+ccc6d610: calls $4.32
+79a92023: calls $4.32
+fb198975: folds
+*** FLOP *** [5c Qc 4h]
+e8727ce7: checks
+ccc6d610: checks
+79a92023: bets $3.25
+Hero: raises $5.8 to $9.05
+e8727ce7: folds
+ccc6d610: folds
+79a92023: calls $5.8
+*** TURN *** [5c Qc 4h] [4s]
+79a92023: checks
+Hero: bets $14.57
+79a92023: calls $14.57
+*** RIVER *** [5c Qc 4h 4s] [9s]
+79a92023: bets $8.75 and is all-in
+Hero: calls $8.75
+79a92023: shows [7c 6s] (Pair of Fours)
+Hero: shows [Qh Kd] (Pair of Queens and Pair of Fours)
+*** SHOWDOWN ***
+Hero collected $85.07 from pot
+*** SUMMARY ***
+Total pot $87.77 | Rake $2.5 | Jackpot $0.2 | Bingo $0 | Fortune $0 | Tax $0
+Board [5c Qc 4h 4s 9s]
+Seat 1: beea9cc6 (small blind) folded before Flop
+Seat 2: 483da69c (big blind) folded before Flop
+Seat 3: e8727ce7 folded on the Flop
+Seat 4: e70c3dfe folded before Flop
+Seat 5: 1f9781d folded before Flop
+Seat 6: ccc6d610 folded on the Flop
+Seat 7: 79a92023 showed [7c 6s] and lost with Pair of Fours
+Seat 8: fb198975 folded before Flop
+Seat 9: Hero (button) showed [Qh Kd] and won ($85.07) with Pair of Queens and Pair of Fours

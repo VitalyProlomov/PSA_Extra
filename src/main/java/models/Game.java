@@ -518,7 +518,7 @@ public class Game {
             return false;
         }
         players.get(winnerId).setBalance(players.get(winnerId).getBalance() + amount);
-        allWinners.put(winnerId, amount);
+        allWinners.merge(winnerId, amount, Double::sum);
 
         return true;
     }

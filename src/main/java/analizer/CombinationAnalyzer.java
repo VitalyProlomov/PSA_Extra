@@ -1,10 +1,7 @@
 package analizer;
 
 import exceptions.IncorrectBoardException;
-import models.Board;
-import models.Card;
-import models.ComboCardsPair;
-import models.Hand;
+import models.*;
 
 import java.util.*;
 
@@ -629,7 +626,7 @@ public class CombinationAnalyzer {
             ArrayList<Card> combinationCards = new ArrayList<>(ccp.getCards());
             sortBoard(combinationCards);
             winnerHands.add(bestHands.get(curComboInd));
-            for (int i = 0; i < 5; ++i) {
+            for (int i = 4; i >= 0; --i) {
                 if (combinationCards.get(i).getRank().value > bestCombo.get(i).getRank().value) {
                     bestCombo = combinationCards;
                     winnerHands.clear();
@@ -637,6 +634,7 @@ public class CombinationAnalyzer {
                     break;
                 } else if (combinationCards.get(i).getRank().value < bestCombo.get(i).getRank().value) {
                     winnerHands.remove(bestHands.get(curComboInd));
+                    break;
                 }
             }
         }
@@ -697,7 +695,8 @@ public class CombinationAnalyzer {
         return evMap;
     }
 
-    public static HashMap<Hand, Double> countEVPreFlopMonteCarlo(ArrayList<Hand> playersHands) throws IncorrectBoardException {
+    public static HashMap<Hand, Double> countEVPreFlopMonteCarlo(ArrayList<Hand> playersHands) {
+        Random r = new Random();
         ArrayList<Card> cards = new ArrayList<>();
         for (Hand h : playersHands) {
             cards.add(h.getCard1());
@@ -709,7 +708,7 @@ public class CombinationAnalyzer {
         }
 
         long gamesGenerated = (long) Math.pow(10L, 5);
-        Random r = new Random();
+
         Board b;
         cards = new ArrayList<>();
 
@@ -734,8 +733,9 @@ public class CombinationAnalyzer {
             while (curBoardCards.size() < 5) {
                 curBoardCards.add(cards.get(Math.abs(r.nextInt()) % cards.size()));
             }
-            b = new Board(new ArrayList<>(curBoardCards));
+
             try {
+                b = new Board(new ArrayList<>(curBoardCards));
                 ArrayList<Hand> handsWon = determineWinningHand(b, playersHands);
                 for (Hand h : handsWon) {
                     boardsWon.put(h, boardsWon.get(h) + 1.0 / (double) handsWon.size());
@@ -755,6 +755,7 @@ public class CombinationAnalyzer {
         for (Hand h : boardsWon.keySet()) {
             evArray.put(h, boardsWon.get(h) * 1.0 / gamesPLayed);
         }
+
         return evArray;
     }
 
@@ -783,18 +784,18 @@ public class CombinationAnalyzer {
         }
 
         ArrayList<Card> leftCards = new ArrayList<>();
-        for (int i = 0; i < 51; ++i) {
+        for (int i = 0; i < 52; ++i) {
             leftCards.add(new Card(i));
         }
         for (int i = 0; i < usedCards.size(); ++i) {
             leftCards.remove(usedCards.get(i));
         }
 
-        HashMap<Hand, Double> evMap=  new HashMap<>();
+        HashMap<Hand, Double> evMap = new HashMap<>();
         for (Hand h : playersHands) {
             evMap.put(h, 0.0);
         }
-        Board finalBoard = null;
+        Board finalBoard;
         ArrayList<Card> cards = new ArrayList<>();
         if (board.size() == 3) {
             for (int index1 = 0; index1 < leftCards.size(); ++index1) {
@@ -808,9 +809,9 @@ public class CombinationAnalyzer {
 
                     finalBoard = new Board(cards);
 
-                    ArrayList<Hand> wonHands = determineWinningHandChecked(finalBoard, playersHands);
 
-                    for (Hand h : wonHands) {
+                    ArrayList<Hand> wonHands = determineWinningHandChecked(finalBoard, playersHands);
+                   for (Hand h : wonHands) {
                         evMap.put(h, evMap.get(h) + 1.0 / wonHands.size());
                     }
                 }
@@ -840,4 +841,166 @@ public class CombinationAnalyzer {
 
         return evMap;
     }
+
+    public static HashMap<String, Double> countMoneyEv(Game g) throws IncorrectBoardException {
+        HashMap<String, Double> preflopBetMoney = new HashMap<>();
+        HashMap<String, Double> flopBetMoney = new HashMap<>();
+        HashMap<String, Double> turnBetMoney = new HashMap<>();
+
+        HashMap<String, Double> finalLimitPot = new HashMap<>();
+
+        HashMap<String, Double> moneyEVMap = new HashMap<>();
+
+        Random r = new Random();
+
+        // That means that river was played => the winnings are determined without EV.
+        if (g.getTurn() != null && !g.getTurn().isAllIn()) {
+            return g.getWinners();
+        }
+        for (PlayerInGame p : g.getPlayers().values()) {
+            preflopBetMoney.put(p.getId(), 0.0);
+        }
+        for (Action a : g.getPreFlop().getAllActions()) {
+            preflopBetMoney.put(a.getPlayerId(), preflopBetMoney.get(a.getPlayerId()) + a.getAmount());
+        }
+        double sum;
+        for (PlayerInGame p : g.getPreFlop().getPlayersAfterBetting()) {
+            sum = 0.0;
+            for (String s : preflopBetMoney.keySet()) {
+                sum += Math.min(g.getInitialBalances().get(p.getId()), preflopBetMoney.get(s));
+            }
+            finalLimitPot.put(p.getId(), sum);
+        }
+        if (g.getPreFlop().isAllIn()) {
+            ArrayList<PlayerInGame> playersAllIn = g.getPreFlop().getPlayersAfterBetting();
+            for (int ind = 0; ind < playersAllIn.size(); ++ind) {
+                String minStackPlayerId = null;
+                ArrayList<Hand> hands = new ArrayList<>();
+
+                double minValue = Double.MAX_VALUE;
+                for (PlayerInGame p : playersAllIn) {
+                    if (finalLimitPot.get(p.getId()) < minValue) {
+                        minValue = finalLimitPot.get(p.getId());
+                        minStackPlayerId = p.getId();
+                    }
+                    hands.add(g.getPlayer(p.getId()).getHand());
+                }
+                HashMap<Hand, Double> handsEV = countEVPreFlopMonteCarlo(hands);
+
+                for (PlayerInGame p : playersAllIn) {
+                    if (moneyEVMap.get(p.getId()) == null) {
+                        moneyEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    } else {
+                        moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
+                                handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    }
+                }
+
+                for (String s : finalLimitPot.keySet()) {
+                    finalLimitPot.put(s, finalLimitPot.get(s) - minValue);
+                }
+                finalLimitPot.remove(minStackPlayerId);
+                playersAllIn.remove(new PlayerInGame(minStackPlayerId));
+            }
+            return moneyEVMap;
+        }
+
+        for (PlayerInGame p : g.getPlayers().values()) {
+            flopBetMoney.put(p.getId(), 0.0);
+        }
+        for (Action a : g.getFlop().getAllActions()) {
+            flopBetMoney.put(a.getPlayerId(), flopBetMoney.get(a.getPlayerId()) + a.getAmount());
+        }
+        for (PlayerInGame p : g.getFlop().getPlayersAfterBetting()) {
+            sum = 0.0;
+            for (String s : flopBetMoney.keySet()) {
+                sum += Math.min(g.getInitialBalances().get(p.getId()), flopBetMoney.get(s));
+            }
+            finalLimitPot.put(p.getId(), finalLimitPot.get(p.getId()) + sum);
+        }
+        if (g.getFlop().isAllIn()) {
+            ArrayList<PlayerInGame> playersAllIn = g.getFlop().getPlayersAfterBetting();
+            for (int ind = 0; ind < playersAllIn.size(); ++ind) {
+                String minStackPlayerId = null;
+                ArrayList<Hand> hands = new ArrayList<>();
+
+                double minValue = Double.MAX_VALUE;
+                for (PlayerInGame p : playersAllIn) {
+                    if (finalLimitPot.get(p.getId()) < minValue) {
+                        minValue = finalLimitPot.get(p.getId());
+                        minStackPlayerId = p.getId();
+                    }
+                    hands.add(g.getPlayer(p.getId()).getHand());
+                }
+                HashMap<Hand, Double> handsEV = countEVPostFlop(g.getFlop().getBoard(), hands);
+
+                for (PlayerInGame p : playersAllIn) {
+                    if (moneyEVMap.get(p.getId()) == null) {
+                        moneyEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    } else {
+                        moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
+                                handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    }
+            }
+
+                for (String s : finalLimitPot.keySet()) {
+                    finalLimitPot.put(s, finalLimitPot.get(s) - minValue);
+                }
+                finalLimitPot.remove(minStackPlayerId);
+                playersAllIn.remove(new PlayerInGame(minStackPlayerId));
+            }
+            return moneyEVMap;
+        }
+
+        for (PlayerInGame p : g.getPlayers().values()) {
+            turnBetMoney.put(p.getId(), 0.0);
+        }
+        for (Action a : g.getTurn().getAllActions()) {
+            turnBetMoney.put(a.getPlayerId(), turnBetMoney.get(a.getPlayerId()) + a.getAmount());
+        }
+        for (PlayerInGame p : g.getTurn().getPlayersAfterBetting()) {
+            sum = 0.0;
+            for (String s : turnBetMoney.keySet()) {
+                sum += Math.min(g.getInitialBalances().get(p.getId()), turnBetMoney.get(s));
+            }
+            finalLimitPot.put(p.getId(), finalLimitPot.get(p.getId()) + sum);
+        }
+
+        if (g.getTurn().isAllIn()) {
+            ArrayList<PlayerInGame> playersAllIn = g.getTurn().getPlayersAfterBetting();
+            for (int ind = 0; ind < playersAllIn.size(); ++ind) {
+                String minStackPlayerId = null;
+                ArrayList<Hand> hands = new ArrayList<>();
+
+                double minValue = Double.MAX_VALUE;
+                for (PlayerInGame p : playersAllIn) {
+                    if (finalLimitPot.get(p.getId()) < minValue) {
+                        minValue = finalLimitPot.get(p.getId());
+                        minStackPlayerId = p.getId();
+                    }
+                    hands.add(g.getPlayer(p.getId()).getHand());
+                }
+                HashMap<Hand, Double> handsEV = countEVPostFlop(g.getTurn().getBoard(), hands);
+
+                for (PlayerInGame p : playersAllIn) {
+                    if (moneyEVMap.get(p.getId()) == null) {
+                        moneyEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    } else {
+                        moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
+                                handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    }
+                }
+
+                for (String s : finalLimitPot.keySet()) {
+                    finalLimitPot.put(s, finalLimitPot.get(s) - minValue);
+                }
+                finalLimitPot.remove(minStackPlayerId);
+                playersAllIn.remove(new PlayerInGame(minStackPlayerId));
+            }
+            return moneyEVMap;
+        }
+
+        return null;
+    }
+
 }

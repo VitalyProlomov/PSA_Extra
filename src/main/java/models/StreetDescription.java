@@ -71,32 +71,6 @@ public class StreetDescription {
 
     }
 
-//    /**
-//     * Sets balance of the given player
-//     * @param playerId id of the player
-//     * @param amount amount to set
-//     */
-//    public void setPlayerBalance(String playerId, double amount) {
-//        for (PositionType pos : playersAfterBetting.keySet()) {
-//            if (playersAfterBetting.get(pos).getId().equals(playerId)) {
-//                playersAfterBetting.get(pos).setBalance(amount);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Reduces balance of the player with given id
-//     * @param playerId
-//     * @param decrAmount
-//     */
-//    public void decrementPlayerBalance(String playerId, double decrAmount) {
-//        for (PositionType pos : playersAfterBetting.keySet()) {
-//            if (playersAfterBetting.get(pos).getId().equals(playerId)) {
-//                playersAfterBetting.get(pos).setBalance(playersAfterBetting.get(pos).getBalance() - decrAmount);
-//            }
-//        }
-//    }
-
     /**
      * @return list of all actions
      */
@@ -152,7 +126,7 @@ public class StreetDescription {
     }
 
     /**
-     * @return an ArrayList of all the players that didnt fold after all the actions
+     * @return an ArrayList of all the players that didn't fold after all the actions
      */
     public ArrayList<PlayerInGame> getPlayersAfterBetting() {
         return new ArrayList<>(playersAfterBetting.values());
@@ -253,8 +227,9 @@ public class StreetDescription {
 
     /**
      * isAllIn is ture if all players went all-in on this Street
-     * (if just one player still has chips and didnt fold,
+     * (if just one player still has chips and didn't fold,
      * the condition is also met).
+     * River might not work though (unnecessary).
      * @return value of isAllIn field
      */
     public boolean isAllIn() {

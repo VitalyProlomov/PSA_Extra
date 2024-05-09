@@ -5,12 +5,12 @@ import analizer.CombinationAnalyzer;
 import exceptions.IncorrectBoardException;
 import exceptions.IncorrectCardException;
 import exceptions.IncorrectHandException;
-import models.Board;
-import models.Card;
-import models.ComboCardsPair;
-import models.Hand;
+import models.*;
 import org.junit.jupiter.api.Test;
+import parsers.Parser;
+import parsers.gg.GGPokerokHoldem9MaxParser;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -688,9 +688,111 @@ public class CombinationAnalyzerTest {
         evMap = CombinationAnalyzer.countEVPostFlop(b, hands);
         assertTrue(Math.abs(evMap.get(h1) - 0.786) < 0.001);
         assertTrue(Math.abs(evMap.get(h2) - 0.167) < 0.001);
-
-
     }
 
+    @Test
+    public void testEV() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
+        Hand h1 = new Hand("Kc", "Js");
+        Hand h2 = new Hand("Kd", "7s");
+        Hand h3 = new Hand("7d", "6d");
+        ArrayList<Hand> hands = new ArrayList<>();
+        hands.add(h1);
+        hands.add(h2);
+        hands.add(h3);
+        HashMap<Hand, Double> evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
+//        System.out.println(evMap);
+
+        evMap = CombinationAnalyzer.countEVPreFlopPrecise(hands);
+//        System.out.println(evMap);
+
+        hands.clear();
+        h1 = new Hand("Jd", "9d");
+        h2 = new Hand("Qc", "2c");
+        h3 = new Hand("Th", "9h");
+        hands.add(h1);
+        hands.add(h2);
+        hands.add(h3);
+        evMap = CombinationAnalyzer.countEVPostFlop(new Board("Qd", "9c", "6d"), hands);
+        System.out.println(evMap);
+    }
+
+    @Test
+    public void testdetermineWinnerInProblem3Way() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException, IOException {
+        Hand h1 = new Hand("Jd", "9d");
+        Hand h2 = new Hand("Qc", "2c");
+        Hand h3 = new Hand("Th", "9h");
+        ArrayList<Hand> hands = new ArrayList<>();
+        hands.add(h1);
+        hands.add(h2);
+        hands.add(h3);
+
+        Board b = new Board("Qd", "9c", "6d", "9s", "2d");
+        ArrayList<Hand> winnerHands = CombinationAnalyzer.determineWinningHand(b, hands);
+        assertEquals(1, winnerHands.size());
+        assertEquals(h1, winnerHands.get(0));
+
+        b = new Board("Qd", "9c", "6d", "Ad", "Ts");
+        winnerHands = CombinationAnalyzer.determineWinningHand(b, hands);
+        assertEquals(1, winnerHands.size());
+        assertEquals(h1, winnerHands.get(0));
+
+
+        b = new Board("Q♦", "9♣", "6♦", "6♠", "2♥");
+        winnerHands = CombinationAnalyzer.determineWinningHand(b, hands);
+        assertEquals(1, winnerHands.size());
+        assertEquals(h2, winnerHands.get(0));
+
+//        Parser parser = new GGPokerokHoldem9MaxParser();
+//        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
+//        g  = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/flopAllInDrawGame.txt");
+//        Game game = g.get(0);
+//        CombinationAnalyzer.determineWinningHand()
+
+//        HashMap<String, Double> evMap = CombinationAnalyzer.countMoneyEv(game);
+//
+    }
+
+    @Test
+    public void testCountMoneyEV() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
+        Game game = g.get(0);
+
+        HashMap<String, Double> evMap = CombinationAnalyzer.countMoneyEv(game);
+//        for (String s : evMap.keySet()) {
+//            System.out.println(s + ": " + evMap.get(s));
+//        }
+
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/acesAllInFlopGame.txt");
+        game = g.get(0);
+
+//        for (String s : evMap.keySet()) {
+//            System.out.println(s + ": " + evMap.get(s));
+//        }
+
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/flopAllInDrawGame.txt");
+        game = g.get(0);
+
+        evMap = CombinationAnalyzer.countMoneyEv(game);
+//        System.out.println();
+//        for (String s : evMap.keySet()) {
+//            System.out.println(s + ": " + evMap.get(s));
+//        }
+
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/turnAcesAllInGame.txt");
+        game = g.get(0);
+        evMap = CombinationAnalyzer.countMoneyEv(game);
+//        for (String s : evMap.keySet()) {
+//            System.out.println(s + ": " + evMap.get(s));
+//        }
+
+
+        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/riverGameAllIn.txt");
+        game = g.get(0);
+        evMap = CombinationAnalyzer.countMoneyEv(game);
+        for (String s : evMap.keySet()) {
+            System.out.println(s + ": " + evMap.get(s));
+        }
+    }
 
 }

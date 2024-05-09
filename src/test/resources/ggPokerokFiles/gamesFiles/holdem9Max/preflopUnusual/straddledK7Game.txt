@@ -1,0 +1,74 @@
+Poker Hand #HD1712365234: Hold'em No Limit ($0.05/$0.1) - 2024/04/02 16:45:50
+Table 'NLHARed38' 9-max Seat #7 is the button
+Seat 1: Hero ($41.87 in chips)
+Seat 2: 4d491e8a ($61.89 in chips)
+Seat 3: 9c120976 ($47.72 in chips)
+Seat 4: 7aba149c ($195.67 in chips)
+Seat 5: 58e07807 ($63.99 in chips)
+Seat 6: 53d74a1d ($57.95 in chips)
+Seat 7: a0492ed4 ($15.59 in chips)
+Seat 8: b23f69ca ($25.82 in chips)
+Seat 9: baa8df63 ($20 in chips)
+9c120976: posts the ante $0.05
+baa8df63: posts the ante $0.05
+7aba149c: posts the ante $0.05
+b23f69ca: posts the ante $0.05
+a0492ed4: posts the ante $0.05
+Hero: posts the ante $0.05
+53d74a1d: posts the ante $0.05
+4d491e8a: posts the ante $0.05
+58e07807: posts the ante $0.05
+b23f69ca: posts small blind $0.05
+baa8df63: posts big blind $0.1
+4d491e8a: straddle $0.2
+4d491e8a: straddle $0.4
+4d491e8a: straddle $0.8
+4d491e8a: straddle $1.6
+4d491e8a: straddle $3.2
+4d491e8a: straddle $6.4
+4d491e8a: straddle $12.8
+4d491e8a: straddle $25.6
+4d491e8a: straddle $51.2
+4d491e8a: straddle $61.84 and is all-in
+*** HOLE CARDS ***
+Dealt to Hero [7s Kd]
+Dealt to 4d491e8a
+Dealt to 9c120976
+Dealt to 7aba149c
+Dealt to 58e07807
+Dealt to 53d74a1d
+Dealt to a0492ed4
+Dealt to b23f69ca
+Dealt to baa8df63
+9c120976: folds
+7aba149c: folds
+58e07807: folds
+53d74a1d: folds
+a0492ed4: folds
+b23f69ca: folds
+baa8df63: calls $19.85 and is all-in
+Hero: calls $41.82 and is all-in
+Uncalled bet ($20.02) returned to 4d491e8a
+4d491e8a: shows [Kc Js]
+baa8df63: shows [6d 7d]
+Hero: shows [7s Kd]
+*** FLOP *** [2h Ad Tc]
+4d491e8a: Chooses to EV Cashout
+*** TURN *** [2h Ad Tc] [7c]
+*** RIVER *** [2h Ad Tc 7c] [Qh]
+4d491e8a: Pays Cashout Risk ($21.2)
+*** SHOWDOWN ***
+4d491e8a collected $59.43 from pot
+4d491e8a collected $43.09 from pot
+*** SUMMARY ***
+Total pot $104.09 | Rake $1.49 | Jackpot $0.08 | Bingo $0 | Fortune $0 | Tax $0
+Board [2h Ad Tc 7c Qh]
+Seat 1: Hero showed [7s Kd] and lost with Pair of Sevens
+Seat 2: 4d491e8a showed [Kc Js] and won ($102.52) with Aces-High Straight, Cashout Risk ($21.2)
+Seat 3: 9c120976 folded before Flop
+Seat 4: 7aba149c folded before Flop
+Seat 5: 58e07807 folded before Flop
+Seat 6: 53d74a1d folded before Flop
+Seat 7: a0492ed4 (button) folded before Flop
+Seat 8: b23f69ca (small blind) folded before Flop
+Seat 9: baa8df63 (big blind) showed [6d 7d] and lost with Pair of Sevens

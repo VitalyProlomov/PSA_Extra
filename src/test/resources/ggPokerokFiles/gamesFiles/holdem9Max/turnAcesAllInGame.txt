@@ -1,0 +1,66 @@
+Poker Hand #HD1760152869: Hold'em No Limit ($0.1/$0.25) - 2024/05/05 22:21:18
+Table 'NLHAPurple8' 9-max Seat #7 is the button
+Seat 1: 5fa7d1a4 ($19.44 in chips)
+Seat 2: 21d4eabe ($28.78 in chips)
+Seat 3: 3012cf63 ($50 in chips)
+Seat 4: Hero ($94.91 in chips)
+Seat 5: 43988347 ($17.87 in chips)
+Seat 7: 176322b5 ($63.57 in chips)
+Seat 8: 100ee6ac ($49.55 in chips)
+Seat 9: 53dd5fe2 ($50 in chips)
+53dd5fe2: posts the ante $0.1
+43988347: posts the ante $0.1
+3012cf63: posts the ante $0.1
+Hero: posts the ante $0.1
+5fa7d1a4: posts the ante $0.1
+100ee6ac: posts the ante $0.1
+21d4eabe: posts the ante $0.1
+176322b5: posts the ante $0.1
+100ee6ac: posts small blind $0.1
+53dd5fe2: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to 5fa7d1a4
+Dealt to 21d4eabe
+Dealt to 3012cf63
+Dealt to Hero [As Ah]
+Dealt to 43988347
+Dealt to 176322b5
+Dealt to 100ee6ac
+Dealt to 53dd5fe2
+5fa7d1a4: calls $0.25
+21d4eabe: calls $0.25
+3012cf63: folds
+Hero: raises $0.95 to $1.2
+43988347: folds
+176322b5: folds
+100ee6ac: calls $1.1
+53dd5fe2: folds
+5fa7d1a4: calls $0.95
+21d4eabe: calls $0.95
+*** FLOP *** [5d 2s Js]
+100ee6ac: bets $3.51
+5fa7d1a4: folds
+21d4eabe: folds
+Hero: raises $6.44 to $9.95
+100ee6ac: calls $6.44
+*** TURN *** [5d 2s Js] [9h]
+100ee6ac: checks
+Hero: bets $12.88
+100ee6ac: raises $25.42 to $38.3 and is all-in
+Hero: calls $25.42
+100ee6ac: shows [Jd 9d] (Pair of Jacks and Pair of Nines)
+Hero: shows [As Ah] (Pair of Aces)
+*** RIVER *** [5d 2s Js 9h] [2h]
+*** SHOWDOWN ***
+Hero collected $99.65 from pot
+*** SUMMARY ***
+Total pot $102.35 | Rake $2.5 | Jackpot $0.2 | Bingo $0 | Fortune $0 | Tax $0
+Board [5d 2s Js 9h 2h]
+Seat 1: 5fa7d1a4 folded on the Flop
+Seat 2: 21d4eabe folded on the Flop
+Seat 3: 3012cf63 folded before Flop
+Seat 4: Hero showed [As Ah] and won ($99.65) with Pair of Aces and Pair of Twos
+Seat 5: 43988347 folded before Flop
+Seat 7: 176322b5 (button) folded before Flop
+Seat 8: 100ee6ac (small blind) showed [Jd 9d] and lost with Pair of Jacks and Pair of Nines
+Seat 9: 53dd5fe2 (big blind) folded before Flop

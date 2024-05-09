@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="anchorPane" prefHeight="660.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.HandsEVController">
+   <children>
+      <Line endX="228.8212890625" endY="538.8070068359375" layoutX="358.0" layoutY="47.0" startX="226.20001220703125" startY="-45.999996185302734" />
+      <Line endX="498.11419677734375" endY="354.51409912109375" layoutX="88.0" layoutY="232.0" startX="-86.99999237060547" startY="353.1000061035156" />
+      <Rectangle fx:id="shownHandRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" layoutX="14.0" layoutY="597.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+      <Label fx:id="shownHandCardsLabel" alignment="CENTER" layoutX="14.0" layoutY="607.0" prefHeight="18.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="shownHandTotalHandsLabel" layoutX="69.0" layoutY="602.0" prefHeight="18.0" prefWidth="103.0" text="Total Hands: " />
+      <Label fx:id="shownHandWinlossLabel" layoutX="69.0" layoutY="620.0" prefHeight="18.0" prefWidth="103.0" text="Winloss: " />
+      <Label fx:id="totalHandsLabel" layoutX="644.0" layoutY="25.0" prefHeight="18.0" prefWidth="117.0" text="Total Hands: " />
+      <Label fx:id="totalWinlossLabel" layoutX="644.0" layoutY="50.0" prefHeight="18.0" prefWidth="117.0" text="Total Winloss:" />
+      <Button fx:id="setHandsButton" layoutX="396.0" layoutY="597.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="191.0" text="Set Hands" />
+   </children>
+</AnchorPane>

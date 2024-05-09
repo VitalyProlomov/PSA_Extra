@@ -1,0 +1,57 @@
+Poker Hand #HD1754668952: Hold'em No Limit ($0.1/$0.25) - 2024/05/01 21:37:44
+Table 'NLHAPurple33' 9-max Seat #2 is the button
+Seat 1: 828a8672 ($46.46 in chips)
+Seat 2: feb3d50a ($40.39 in chips)
+Seat 4: 1a0c45d ($50 in chips)
+Seat 5: Hero ($51.05 in chips)
+Seat 7: 43538d43 ($66.65 in chips)
+Seat 8: 7d1b81a ($6.51 in chips)
+Seat 9: b42b459a ($72.75 in chips)
+feb3d50a: posts the ante $0.1
+1a0c45d: posts the ante $0.1
+b42b459a: posts the ante $0.1
+Hero: posts the ante $0.1
+828a8672: posts the ante $0.1
+43538d43: posts the ante $0.1
+7d1b81a: posts the ante $0.1
+1a0c45d: posts small blind $0.1
+Hero: posts big blind $0.25
+828a8672: posts big blind $0.25
+*** HOLE CARDS ***
+Dealt to 828a8672
+Dealt to feb3d50a
+Dealt to 1a0c45d
+Dealt to Hero [As Ac]
+Dealt to 43538d43
+Dealt to 7d1b81a
+Dealt to b42b459a
+43538d43: folds
+7d1b81a: folds
+b42b459a: raises $1.11 to $1.36
+828a8672: calls $1.11
+feb3d50a: calls $1.36
+1a0c45d: folds
+Hero: raises $5.54 to $6.9
+b42b459a: folds
+828a8672: folds
+feb3d50a: calls $5.54
+*** FLOP *** [5d 4d 6s]
+Hero: bets $5.72
+feb3d50a: raises $27.67 to $33.39 and is all-in
+Hero: calls $27.67
+feb3d50a: shows [7c 7s] (Pair of Sevens)
+Hero: shows [As Ac] (Pair of Aces)
+*** TURN *** [5d 4d 6s] [2h]
+*** RIVER *** [5d 4d 6s 2h] [8d]
+*** SHOWDOWN ***
+feb3d50a collected $81.4 from pot
+*** SUMMARY ***
+Total pot $84.1 | Rake $2.5 | Jackpot $0.2 | Bingo $0 | Fortune $0 | Tax $0
+Board [5d 4d 6s 2h 8d]
+Seat 1: 828a8672 folded before Flop
+Seat 2: feb3d50a (button) showed [7c 7s] and won ($81.4) with Eights-High Straight
+Seat 4: 1a0c45d (small blind) folded before Flop
+Seat 5: Hero (big blind) showed [As Ac] and lost with Pair of Aces
+Seat 7: 43538d43 folded before Flop
+Seat 8: 7d1b81a folded before Flop
+Seat 9: b42b459a folded before Flop

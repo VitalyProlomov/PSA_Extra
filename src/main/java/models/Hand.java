@@ -24,8 +24,13 @@ public class Hand {
         if (c1.equals(c2)) {
             throw new IncorrectHandException("Cards must be unique, but was: " + c1 + ", " + c1);
         }
-        this.card1 = c1;
-        this.card2 = c2;
+        if (c1.getRank().value >= c2.getRank().value) {
+            this.card1 = c1;
+            this.card2 = c2;
+        } else {
+            this.card1 = c2;
+            this.card2 = c1;
+        }
     }
 
     /**
@@ -39,8 +44,13 @@ public class Hand {
         if (c1.equals(c2)) {
             throw new IncorrectHandException();
         }
-        this.card1 = c1;
-        this.card2 = c2;
+        if (c1.getRank().value >= c2.getRank().value) {
+            this.card1 = c1;
+            this.card2 = c2;
+        } else {
+            this.card1 = c2;
+            this.card2 = c1;
+        }
     }
 
     /**
@@ -105,6 +115,11 @@ public class Hand {
      */
     @Override
     public String toString() {
-        return "[" + this.card1 + " " + this.card2 + "]";
+        if (card1.getRank().value > card2.getRank().value) {
+            return "[" + this.card1 + " " + this.card2 + "]";
+        } else {
+            return "[" + this.card2 + " " + this.card1 + "]";
+        }
+
     }
 }
