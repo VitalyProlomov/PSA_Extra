@@ -25,30 +25,30 @@ public class GameAnalyzerTest {
         // Hero has folded
         String path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/fullGame.txt";
         Game game = parser.parseFile(path).get(0);
-        assertFalse(GameAnalyzer.isPlayerSRPCaller(game, "Hero"));
+        assertFalse(GameAnalyzer.isPlayerSRPC(game, "Hero"));
 
         // Hero is 3bC
         path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/handShownGame.txt";
         game = parser.parseFile(path).get(0);
-        assertFalse(GameAnalyzer.isPlayerSRPCaller(game, "Hero"));
+        assertFalse(GameAnalyzer.isPlayerSRPC(game, "Hero"));
 
         // Hero is srpR
         path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/gamesForAnalyzer/heroSRPR.txt";
         game = parser.parseFile(path).get(0);
-        assertFalse(GameAnalyzer.isPlayerSRPCaller(game, "Hero"));
+        assertFalse(GameAnalyzer.isPlayerSRPC(game, "Hero"));
 
         // Hero is limper
         path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/gamesForAnalyzer/heroLimper.txt";
         game = parser.parseFile(path).get(0);
-        assertFalse(GameAnalyzer.isPlayerSRPCaller(game, "Hero"));
+        assertFalse(GameAnalyzer.isPlayerSRPC(game, "Hero"));
 
         path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/gamesForAnalyzer/heroSRPC.txt";
         game = parser.parseFile(path).get(0);
-        assertTrue(GameAnalyzer.isPlayerSRPCaller(game, "Hero"));
+        assertTrue(GameAnalyzer.isPlayerSRPC(game, "Hero"));
 
         path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/gameExample.txt";
         game = parser.parseFile(path).get(0);
-        assertTrue(GameAnalyzer.isPlayerSRPCaller(game, "Hero"));
+        assertTrue(GameAnalyzer.isPlayerSRPC(game, "Hero"));
     }
 
 

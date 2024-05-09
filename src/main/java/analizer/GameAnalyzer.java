@@ -25,6 +25,7 @@ public class GameAnalyzer {
     /**
      * Checks, if preflop caller has check-raised a bet on the flop.
      * It might be a lead from another caller or a c-bet by raiser.
+     *
      * @param game observed game
      * @return true, if such check-raised has occurred; false, otherwise
      */
@@ -76,7 +77,7 @@ public class GameAnalyzer {
     }
 
     @JsonIgnore
-    public static boolean isUnRaised(Game game) {
+    public static boolean isPotUnRaised(Game game) {
         return countPreFlopRaises(game) == 0;
     }
 
@@ -170,6 +171,33 @@ public class GameAnalyzer {
     }
 
     /**
+     * Checks if player with given hash is a limper lin given (observed) game.
+     * The player must be post flop with his role for the role to be final and
+     * for the method to return true.
+     * If player has checked in unraised pot (on BB or with a missed blind), method
+     * will return TRUE.
+     * @param game observed (analyzed) game
+     * @param hash players HASH CODE (not nickname)
+     * @return true if player with given hash is limper as their final role in the given game
+     * or has checked (not raised).
+     */
+    @JsonIgnore
+    public static boolean isPlayerLimper(Game game, String hash) {
+        if (game.getPlayer(hash) == null) {
+            return false;
+        }
+        if (!isPotUnRaised(game)) {
+            return false;
+        }
+        for (PlayerInGame p : game.getPreFlop().getPlayersAfterBetting()) {
+            if (p.getId().equals(hash)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * In this method and all methods that are named isPlayer[ROLE]() we assume this role to
      * be final. So, if player called single raise, but then someone 3bet and player has
      * folded (or called), then he IS NOT a single raise pot caller (SRPC).
@@ -177,10 +205,11 @@ public class GameAnalyzer {
      * for the method to return true.
      *
      * @param game observed (analyzed) game
+     * @param hash players HASH CODE (not nickname)
      * @return true if player with given hash has a single-raise-pot caller final role in the given game.
      */
     @JsonIgnore
-    public static boolean isPlayerSRPCaller(Game game, String hash) {
+    public static boolean isPlayerSRPC(Game game, String hash) {
         if (!isPotSingleRaised(game)) {
             return false;
         }
@@ -203,6 +232,7 @@ public class GameAnalyzer {
     /**
      * Checks if the player (by the given HASH - in game identification) is the preflop raiser
      * in the give game (pot is not necessarily single raised).
+     *
      * @param game observed game
      * @param hash players HASH CODE (not nickname)
      * @return true if given player in observed game is the preflop raiser
@@ -220,6 +250,28 @@ public class GameAnalyzer {
         return false;
     }
 
+    /**
+     * Checks if the player (by the given HASH - in game identification) is the
+     * preflop singled raised pot raiser in the given game.
+     *
+     * @param game observed game
+     * @param hash players HASH CODE (not nickname)
+     * @return true if given player in observed game is the preflop single raised pot raiser
+     */
+    @JsonIgnore
+    public static boolean isPlayerSRPR(Game game, String hash) {
+        if (game.getPlayer(hash) == null || !isPotSingleRaised(game)) {
+            return false;
+        }
+        ArrayList<Action> allActions = game.getPreFlop().getAllActions();
+        for (int i = allActions.size() - 1; i >= 0; --i) {
+            if (allActions.get(i).getActionType() == RAISE) {
+                return allActions.get(i).getPlayerId().equals(hash);
+            }
+        }
+        return false;
+    }
+
 
     /**
      * In this method and all methods that are named isPlayer[ROLE]() we assume this role to
@@ -227,30 +279,31 @@ public class GameAnalyzer {
      * folded (or called), then he IS NOT a 3-bet pot raiser (3bR).
      * The player must be post flop with his role for the role to be final and
      * for the method to return true.
+     *
      * @param game observed (analyzed) game
      * @return true if player with given hash has a 3-bet raiser final role in the given game.
      */
     @JsonIgnore
     public static boolean isPlayer3BetRaiser(Game game, String hash) {
-       if (!isPot3Bet(game)) {
-           return false;
-       }
+        if (!isPot3Bet(game)) {
+            return false;
+        }
 
         if (game.getPlayers().get(hash) == null) {
             return false;
         }
 
-       boolean was1stRaiseFound = false;
-       ArrayList<Action> actions = game.getPreFlop().getAllActions();
+        boolean was1stRaiseFound = false;
+        ArrayList<Action> actions = game.getPreFlop().getAllActions();
 
-       for (int i = 0; i < actions.size(); ++i) {
-           if (actions.get(i).getActionType() == RAISE) {
-               if (was1stRaiseFound) {
-                   return actions.get(i).getPlayerId().equals(hash);
-               }
-               was1stRaiseFound = true;
-           }
-       }
+        for (int i = 0; i < actions.size(); ++i) {
+            if (actions.get(i).getActionType() == RAISE) {
+                if (was1stRaiseFound) {
+                    return actions.get(i).getPlayerId().equals(hash);
+                }
+                was1stRaiseFound = true;
+            }
+        }
         return false;
     }
 
@@ -260,6 +313,7 @@ public class GameAnalyzer {
      * folded (or called), then he IS NOT a 3-bet caller (3bC).
      * The player must be post flop with his role for the role to be final and
      * for the method to return true.
+     *
      * @param game observed (analyzed) game
      * @return true if player with given hash has a 3-bet caller final role in the given game.
      */
@@ -272,23 +326,23 @@ public class GameAnalyzer {
             return false;
         }
 
-         ArrayList<Action> actions = game.getPreFlop().getAllActions();
-         int index = 0;
-         int raiseCounter = 0;
-         while (raiseCounter < 2) {
-             if (actions.get(index).getActionType() == RAISE) {
-                 ++raiseCounter;
-             }
-             ++index;
-         }
+        ArrayList<Action> actions = game.getPreFlop().getAllActions();
+        int index = 0;
+        int raiseCounter = 0;
+        while (raiseCounter < 2) {
+            if (actions.get(index).getActionType() == RAISE) {
+                ++raiseCounter;
+            }
+            ++index;
+        }
 
-         while (index < actions.size()) {
-             if (actions.get(index).getPlayerId().equals(hash)) {
-                 return actions.get(index).getActionType() == CALL;
-             }
-             ++index;
-         }
-         return false;
+        while (index < actions.size()) {
+            if (actions.get(index).getPlayerId().equals(hash)) {
+                return actions.get(index).getActionType() == CALL;
+            }
+            ++index;
+        }
+        return false;
     }
 
 
@@ -332,8 +386,11 @@ public class GameAnalyzer {
 //     * @return true, if player has 3-bet in observed game; false, otherwise.
 //     */
     @JsonIgnore
-    public static boolean is4BetRaiser(Game game, String hash) {
+    public static boolean isPlayer4BetRaiser(Game game, String hash) {
         if (game.getPlayers().get(hash) == null) {
+            return false;
+        }
+        if (!isPot4Bet(game)) {
             return false;
         }
         int raisesAmount = 0;
@@ -348,8 +405,25 @@ public class GameAnalyzer {
         return false;
     }
 
+    public static boolean isPlayer4BetCaller(Game game, String hash) {
+        if (game.getPlayers().get(hash) == null) {
+            return false;
+        }
+        if (!isPot4Bet(game)) {
+            return false;
+        }
+        ArrayList<Action> allActions = game.getPreFlop().getAllActions();
+        for (int i = allActions.size() - 1; i >= 0; --i) {
+            if (allActions.get(i).getPlayerId().equals(hash)) {
+                return allActions.get(i).getActionType() == CALL;
+            }
+        }
+        return false;
+    }
+
+
     @JsonIgnore
-    public static boolean is5BetRaiser(Game game, String hash) {
+    public static boolean isPlayer5BetRaiser(Game game, String hash) {
         if (game.getPlayers().get(hash) == null) {
             return false;
         }
@@ -365,9 +439,11 @@ public class GameAnalyzer {
         return false;
     }
 
+    // TODO 5bC
+
     @JsonIgnore
     public static String getPFRHash(Game game) {
-        if (isUnRaised(game)) {
+        if (isPotUnRaised(game)) {
             return null;
         }
 
@@ -447,7 +523,7 @@ public class GameAnalyzer {
             return false;
         }
         // ???? Need to see definition of turn c-bet.
-        if (!didCBetFLop(game,hash)) {
+        if (!didCBetFLop(game, hash)) {
             return false;
         }
         for (int i = 0; i < game.getTurn().getAllActions().size(); ++i) {

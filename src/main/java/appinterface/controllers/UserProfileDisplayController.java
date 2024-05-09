@@ -125,10 +125,10 @@ public class UserProfileDisplayController {
                 if (GameAnalyzer.isPlayer3BetRaiser(g, hash)) {
                     ++preflop3BetGames;
                 }
-                if (GameAnalyzer.is4BetRaiser(g, hash)) {
+                if (GameAnalyzer.isPlayer4BetRaiser(g, hash)) {
                     ++preflop4BetGames;
                 }
-                if (GameAnalyzer.is5BetRaiser(g, hash)) {
+                if (GameAnalyzer.isPlayer5BetRaiser(g, hash)) {
                     ++preflop5BetGames;
                 }
 

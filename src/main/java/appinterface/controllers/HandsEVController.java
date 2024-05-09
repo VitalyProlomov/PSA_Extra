@@ -15,10 +15,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import models.Card;
-import models.Game;
-import models.Hand;
-import models.PlayerInGame;
+import models.*;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -55,10 +52,12 @@ public class HandsEVController {
     private static int RANKS_AMOUNT = 13;
 
     private static Paint negativePaint = Color.rgb(180, 70, 70);
-    ;
+
     private static Paint positivePaint = Color.rgb(66, 231, 88);
 
     private static Paint neutralPaint = Color.rgb(121, 125, 129);
+
+    private GamesSet gamesSet;
 
     @FXML
     void initialize() throws IOException {
@@ -122,6 +121,8 @@ public class HandsEVController {
                     shownHandCardsLabel.setText(handLabel.getText());
                 });
 
+                initializeSetGamesButton();
+
 
                 anchorPane.getChildren().add(r);
                 anchorPane.getChildren().add(handLabel);
@@ -132,7 +133,11 @@ public class HandsEVController {
         }
     }
 
-    private void initializeButton() {
+    public void setGamesSet(GamesSet gamesSet) {
+        this.gamesSet = new GamesSet(gamesSet.getGames());
+    }
+
+    private void initializeSetGamesButton() {
         setHandsButton.setOnMouseClicked(actionEvent -> onSearchFiltersButtonClick());
     }
 
@@ -151,8 +156,14 @@ public class HandsEVController {
                     setGamesAndUpdateTable(new ArrayList<>(controller.getGamesAfterFilter()));
                 }
             });
-//            controller.setUnfilteredGames(new HashSet<>(gamesSet.getGames().values()));
-            stage.show();
+            if (gamesSet != null) {
+                controller.setUnfilteredGames(new HashSet<>(gamesSet.getGames().values()));
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("There are no games downloaded, ");
+                alert.show();
+            }
 //        filterSearchController.searchFilteredGames()
         } catch (IOException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -173,6 +184,9 @@ public class HandsEVController {
             for (int j = 0; j < RANKS_AMOUNT; ++j) {
                 evChart.get(i).add(0.0);
                 handsPlayedAmount.get(i).add(0);
+                Rectangle r = (Rectangle) this.anchorPane.getScene().lookup(
+                        "#rectangle" + i + "_" + j);
+                r.getProperties().put("handsPlayed", 0);
             }
         }
 

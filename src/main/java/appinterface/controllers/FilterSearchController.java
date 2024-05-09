@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import models.Card;
 import models.Game;
 import org.controlsfx.control.CheckComboBox;
 
@@ -89,8 +90,8 @@ public class FilterSearchController {
         bbSizeCheckComboBox.getItems().addAll(FXCollections.observableArrayList(0.02, 0.05, 0.10, 0.25));
         playersPostFlopCheckComboBox.getItems().addAll(FXCollections.observableArrayList("Heads-up", "Multi-way", "Folded"));
         roomCheckComboBox.getItems().addAll(FXCollections.observableArrayList("GGPokerok"));
-        gameTypeCheckComboBox.getItems().addAll(FXCollections.observableArrayList("Rush`n`Cash", "8 max 3 Blinds Holdem"));
-        heroRoleComboBox.getItems().addAll(FXCollections.observableArrayList("limper", "srpC", "srpR", "3bC", "3bR", "4bC", "4bR", "5bC", "5bR"));
+        gameTypeCheckComboBox.getItems().addAll(FXCollections.observableArrayList("Rush`n`Cash", "9 Max Holdem"));
+        heroRoleComboBox.getItems().addAll(FXCollections.observableArrayList("limper", "srpC", "srpR", "3bC", "3bR", "4bC", "4bR", "5bC", "5bR", "folded preflop"));
 
         searchButton.setOnMouseClicked(action -> {
             gamesAfterFilter = searchFilteredGames(unfilteredGames);
@@ -150,14 +151,30 @@ public class FilterSearchController {
         boolean isHero4betRaiserChosen = heroRoleComboBox.getCheckModel().isChecked(6);
         boolean isHero5betCallerChosen = heroRoleComboBox.getCheckModel().isChecked(7);
         boolean isHero5betRaiserChosen = heroRoleComboBox.getCheckModel().isChecked(8);
+        boolean isHeroFoldedPreFlopChosen = heroRoleComboBox.getCheckModel().isChecked(9);
+        if (!isHeroLimperChosen && !isHeroSRPCallerChosen && !isHeroSRPRaiserChosen &&
+                !isHero3betCallerChosen && !isHero3betRaiserChosen && !isHero4betCallerChosen &&
+                !isHero4betRaiserChosen && !isHero5betCallerChosen && !isHero5betRaiserChosen &&
+                !isHeroFoldedPreFlopChosen) {
+            isHeroLimperChosen = true;
+            isHeroSRPCallerChosen = true;
+            isHeroSRPRaiserChosen = true;
+            isHero3betCallerChosen = true;
+            isHero3betRaiserChosen = true;
+            isHero4betCallerChosen = true;
+            isHero4betRaiserChosen = true;
+            isHero5betCallerChosen = true;
+            isHero5betRaiserChosen = true;
+            isHeroFoldedPreFlopChosen = true;
+        }
 
         HashSet<String> chosenGamesTypes =
                 new HashSet<>(gameTypeCheckComboBox.getCheckModel().getCheckedItems().stream().toList());
         boolean rncChosen = chosenGamesTypes.contains("Rush`n`Cash");
-        boolean nl8MaxChosen3Blinds = chosenGamesTypes.contains("8 max 3 Blinds Holdem");
-        if (!rncChosen && !nl8MaxChosen3Blinds) {
+        boolean nl9MaxChosen = chosenGamesTypes.contains("9 Max Holdem");
+        if (!rncChosen && !nl9MaxChosen) {
             rncChosen = true;
-            nl8MaxChosen3Blinds = true;
+            nl9MaxChosen = true;
         }
 
         boolean isUnraisedChosen = unraisedCheckBox.isSelected();
@@ -168,7 +185,7 @@ public class FilterSearchController {
 
 
         for (Game g : unfilteredGames) {
-            if (chosenBBSizes.size() != 0 && !chosenBBSizes.contains(g.getBigBlindSize$())) {
+            if (!chosenBBSizes.isEmpty() && !chosenBBSizes.contains(g.getBigBlindSize$())) {
                 filteredGames.remove(g);
                 continue;
             }
@@ -194,13 +211,14 @@ public class FilterSearchController {
                 filteredGames.remove(g);
                 continue;
             }
-            if (!nl8MaxChosen3Blinds &&
+
+            if (!nl9MaxChosen &&
                     g.getGameId().startsWith("HD")) {
                 filteredGames.remove(g);
                 continue;
             }
 
-            if (GameAnalyzer.isUnRaised(g) && !isUnraisedChosen ||
+            if (GameAnalyzer.isPotUnRaised(g) && !isUnraisedChosen ||
                     GameAnalyzer.isPotSingleRaised(g) && !isSPRChosen ||
                     GameAnalyzer.isPot3Bet(g) && !is3BetChosen ||
                     GameAnalyzer.isPot4Bet(g) && !is4BetChosen ||
@@ -208,11 +226,23 @@ public class FilterSearchController {
                 filteredGames.remove(g);
             }
 
-//            if (TODO(g) && !filter ||
-//                    GameAnalyzer.isHeroSRPCaller(g) && !isHeroSRPCallerChosen
-//            TODO(g) && !filter) {
-//                filteredGames.remove(g);
-//            }
+            if (g.getPlayer("Hero").getHand().getCard1().getRank() == Card.Rank.ACE &&
+                    g.getPlayer("Hero").getHand().getCard2().getRank() == Card.Rank.EIGHT) {
+                System.out.println("A");
+            }
+            // TODO 5bC, 4bC
+//            if (GameAnalyzer.isPlayerPFR(g, "Hero") && !isHeroSRPRaiserChosen)
+            if (GameAnalyzer.isPlayerLimper(g, "Hero") && !isHeroLimperChosen ||
+                    GameAnalyzer.isPlayerSRPC(g, "Hero") && !isHeroSRPCallerChosen ||
+                    GameAnalyzer.isPlayerSRPR(g, "Hero") && !isHeroSRPRaiserChosen ||
+                    GameAnalyzer.isPlayer3BetCaller(g, "Hero") && !isHero3betCallerChosen ||
+                    GameAnalyzer.isPlayer3BetRaiser(g, "Hero") && !isHero3betRaiserChosen ||
+                    GameAnalyzer.isPlayer4BetRaiser(g, "Hero") && !isHero4betRaiserChosen ||
+                    GameAnalyzer.isPlayer5BetRaiser(g, "Hero") && !isHero5betRaiserChosen ||
+                    !g.getPreFlop().getPlayersAfterBetting().contains(g.getPlayer("Hero")) && !isHeroFoldedPreFlopChosen) {
+                filteredGames.remove(g);
+            }
+
         }
         return filteredGames;
     }

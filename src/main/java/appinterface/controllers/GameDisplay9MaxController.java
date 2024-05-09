@@ -693,7 +693,7 @@ public class GameDisplay9MaxController {
 
 
         String type = "undefined...";
-        if (GameAnalyzer.isUnRaised(displayedGame)) {
+        if (GameAnalyzer.isPotUnRaised(displayedGame)) {
             type = "unraised";
         } else if (GameAnalyzer.isPotSingleRaised(displayedGame)) {
             type = "single raised";
