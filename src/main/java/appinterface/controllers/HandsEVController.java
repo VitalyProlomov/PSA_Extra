@@ -135,6 +135,7 @@ public class HandsEVController {
 
     public void setGamesSet(GamesSet gamesSet) {
         this.gamesSet = new GamesSet(gamesSet.getGames());
+        setGamesAndUpdateTable(new ArrayList<>(gamesSet.getGames().values()));
     }
 
     private void initializeSetGamesButton() {
