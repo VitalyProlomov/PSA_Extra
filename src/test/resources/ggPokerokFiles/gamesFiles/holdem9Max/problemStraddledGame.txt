@@ -1,0 +1,68 @@
+Poker Hand #HD1760136647: Hold'em No Limit ($0.1/$0.25) - 2024/05/05 21:27:18
+Table 'NLHAPurple19' 9-max Seat #2 is the button
+Seat 1: 7d5a6b85 ($73.44 in chips)
+Seat 2: Hero ($49.35 in chips)
+Seat 3: 6c51101d ($81.63 in chips)
+Seat 4: 146b9253 ($50 in chips)
+Seat 5: 275c7216 ($18.79 in chips)
+Seat 6: b0a1ca39 ($209.57 in chips)
+Seat 7: 8e48c246 ($67.28 in chips)
+Seat 8: 88e76c68 ($44.99 in chips)
+Seat 9: 6c2435ff ($121.22 in chips)
+6c2435ff: posts the ante $0.1
+6c51101d: posts the ante $0.1
+Hero: posts the ante $0.1
+146b9253: posts the ante $0.1
+b0a1ca39: posts the ante $0.1
+7d5a6b85: posts the ante $0.1
+8e48c246: posts the ante $0.1
+88e76c68: posts the ante $0.1
+275c7216: posts the ante $0.1
+6c51101d: posts small blind $0.1
+146b9253: posts big blind $0.25
+b0a1ca39: straddle $0.5
+b0a1ca39: straddle $1
+*** HOLE CARDS ***
+Dealt to 7d5a6b85
+Dealt to Hero [8c Qs]
+Dealt to 6c51101d
+Dealt to 146b9253
+Dealt to 275c7216
+Dealt to b0a1ca39
+Dealt to 8e48c246
+Dealt to 88e76c68
+Dealt to 6c2435ff
+8e48c246: folds
+88e76c68: folds
+6c2435ff: folds
+7d5a6b85: folds
+Hero: folds
+6c51101d: calls $0.9
+146b9253: calls $0.75
+275c7216: calls $1
+b0a1ca39: raises $4.9 to $5.9
+6c51101d: calls $4.9
+146b9253: raises $44 to $49.9 and is all-in
+275c7216: calls $17.69 and is all-in
+b0a1ca39: folds
+6c51101d: folds
+Uncalled bet ($31.21) returned to 146b9253
+146b9253: shows [Jd Jc]
+275c7216: shows [Qh As]
+*** FLOP *** [7h 5h 6h]
+*** TURN *** [7h 5h 6h] [5s]
+*** RIVER *** [7h 5h 6h 5s] [2s]
+*** SHOWDOWN ***
+146b9253 collected $47.39 from pot
+*** SUMMARY ***
+Total pot $50.08 | Rake $2.49 | Jackpot $0.2 | Bingo $0 | Fortune $0 | Tax $0
+Board [7h 5h 6h 5s 2s]
+Seat 1: 7d5a6b85 folded before Flop
+Seat 2: Hero (button) folded before Flop
+Seat 3: 6c51101d (small blind) folded before Flop
+Seat 4: 146b9253 (big blind) showed [Jd Jc] and won ($47.39) with Pair of Jacks and Pair of Fives
+Seat 5: 275c7216 showed [Qh As] and lost with Pair of Fives
+Seat 6: b0a1ca39 folded before Flop
+Seat 7: 8e48c246 folded before Flop
+Seat 8: 88e76c68 folded before Flop
+Seat 9: 6c2435ff folded before Flop

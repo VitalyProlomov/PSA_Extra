@@ -2,6 +2,7 @@ package appinterface.controllers;
 
 import analizer.CombinationAnalyzer;
 import appinterface.PSAApplication;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -17,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import models.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class HandsEVController {
 
     @FXML
     void initialize() throws IOException {
+
         int curX = 0;
         int curY = 0;
         for (int i = 0; i < RANKS_AMOUNT; ++i) {
@@ -131,6 +134,9 @@ public class HandsEVController {
             }
             curX += 45;
         }
+
+//        initializeSerializedSavedGames();
+//        updateTable();
     }
 
     public void setGamesSet(GamesSet gamesSet) {
@@ -172,6 +178,10 @@ public class HandsEVController {
             alert.show();
         }
 
+    }
+
+    private void updateTable() {
+        setGamesAndUpdateTable(new ArrayList<>(this.gamesSet.getGames().values()));
     }
 
 

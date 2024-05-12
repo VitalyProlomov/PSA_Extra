@@ -696,24 +696,35 @@ public class CombinationAnalyzerTest {
         Hand h2 = new Hand("Kd", "7s");
         Hand h3 = new Hand("7d", "6d");
         ArrayList<Hand> hands = new ArrayList<>();
-        hands.add(h1);
-        hands.add(h2);
-        hands.add(h3);
-        HashMap<Hand, Double> evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
+//        hands.add(h1);
+//        hands.add(h2);
+//        hands.add(h3);
+//        HashMap<Hand, Double> evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
+////        System.out.println(evMap);
+//
+//        evMap = CombinationAnalyzer.countEVPreFlopPrecise(hands);
+////        System.out.println(evMap);
+//
+//        hands.clear();
+//        h1 = new Hand("Jd", "9d");
+//        h2 = new Hand("Qc", "2c");
+//        h3 = new Hand("Th", "9h");
+//        hands.add(h1);
+//        hands.add(h2);
+//        hands.add(h3);
+//        evMap = CombinationAnalyzer.countEVPostFlop(new Board("Qd", "9c", "6d"), hands);
 //        System.out.println(evMap);
+//
+//        hands.clear();
 
-        evMap = CombinationAnalyzer.countEVPreFlopPrecise(hands);
+        h1 = new Hand("Ad", "8d");
+        h2 = new Hand("6s", "6c");
+        h3 = new Hand("As", "Kh");
+        Hand h4 = new Hand("5c", "4c");
+        hands.addAll(List.of(h1,h2,h3,h4));
+//        evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
 //        System.out.println(evMap);
-
-        hands.clear();
-        h1 = new Hand("Jd", "9d");
-        h2 = new Hand("Qc", "2c");
-        h3 = new Hand("Th", "9h");
-        hands.add(h1);
-        hands.add(h2);
-        hands.add(h3);
-        evMap = CombinationAnalyzer.countEVPostFlop(new Board("Qd", "9c", "6d"), hands);
-        System.out.println(evMap);
+        System.out.println(CombinationAnalyzer.countEVPreFlopPrecise(hands));
     }
 
     @Test

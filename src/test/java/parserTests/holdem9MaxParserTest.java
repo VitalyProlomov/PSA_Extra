@@ -371,5 +371,18 @@ public class holdem9MaxParserTest {
     }
     // endregion
 
+    @Test
+    public void testProblemStraddledGame() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/problemStraddledGame.txt");
+        Game game = g.get(0);
+    }
+
+    @Test
+    public void testProblemAllInGame() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
+        Parser parser = new GGPokerokHoldem9MaxParser();
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/problemAllInGame.txt");
+        Game game = g.get(0);
+    }
 
 }

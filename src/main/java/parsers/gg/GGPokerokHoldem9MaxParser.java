@@ -30,31 +30,38 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
     public Game parseGame(String gameText)
             throws IncorrectCardException, IncorrectHandException, IncorrectBoardException {
         curLine = 0;
-        String[] lines = gameText.split("\n");
+        Game game = null;
+        try {
+            String[] lines = gameText.split("\n");
 
-        ArrayList<ArrayList<String>> wordsInLines = new ArrayList<>();
-        for (String line : lines) {
-            wordsInLines.add(new ArrayList<>(List.of(line.split(" "))));
+
+            ArrayList<ArrayList<String>> wordsInLines = new ArrayList<>();
+            for (String line : lines) {
+                wordsInLines.add(new ArrayList<>(List.of(line.split(" "))));
+            }
+
+            String handId = parseHandId(wordsInLines);
+            double bbSize = parseBBSize(wordsInLines);
+
+            Date date = parseDate(wordsInLines);
+            String table = parseTable(wordsInLines);
+            ArrayList<PlayerInGame> players = parsePlayers(wordsInLines);
+
+            game = initiateGame(handId, bbSize, players, date, table);
+
+            // Extra cash is not in the pot in 9Max, so I do not count it,
+            // since the goal of the app is to analyze the play, not the rake/winloss affection
+            // parseExtraCash(game, wordsInLines);
+
+            parseHeroHand(game, wordsInLines);
+            parseStreetDescriptions(game, wordsInLines, game.getExtraCashAmount());
+
+            parseWinnings(game, wordsInLines);
+            return game;
+        } catch (Exception ex) {
+            System.out.println(game.getGameId());
         }
-
-        String handId = parseHandId(wordsInLines);
-        double bbSize = parseBBSize(wordsInLines);
-
-        Date date = parseDate(wordsInLines);
-        String table = parseTable(wordsInLines);
-        ArrayList<PlayerInGame> players = parsePlayers(wordsInLines);
-
-        Game game = initiateGame(handId, bbSize, players, date, table);
-
-        // Extra cash is not in the pot in 9Max, so I do not count it,
-        // since the goal of the app is to analyze the play, not the rake/winloss affection
-        // parseExtraCash(game, wordsInLines);
-
-        parseHeroHand(game, wordsInLines);
-        parseStreetDescriptions(game, wordsInLines, game.getExtraCashAmount());
-
-        parseWinnings(game, wordsInLines);
-        return game;
+        return null;
     }
 
     private double parseBBSize(ArrayList<ArrayList<String>> wordsInLines) {
@@ -198,7 +205,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         while (wordsInLines.get(curLine).size() == 5 && wordsInLines.get(curLine).get(3).equals("ante")) {
             // cutting ':' at the end.
             String hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
-            double anteAmount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+            double anteAmount = parseDouble(wordsInLines.get(curLine).get(4).substring(1));
             Action action = new Action(ANTE, hash, anteAmount, curPot);
 
             st.addActionAndUpdateBalances(action, anteAmount);
@@ -210,16 +217,16 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
 
         // Small Blind
         String hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
-        double amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
-        st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, hash, amount, curPot), amount);
+        double amount = parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+        st.addActionAndUpdateBalances(new Action(BLIND, hash, amount, curPot), amount);
         curPot += amount;
         game.decrementPlayersBalance(hash, amount);
         ++curLine;
 
         // Big Blind
         hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
-        amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
-        st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, hash, amount, curPot), amount);
+        amount = parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+        st.addActionAndUpdateBalances(new Action(BLIND, hash, amount, curPot), amount);
         curPot += amount;
         game.decrementPlayersBalance(hash, amount);
         ++curLine;
@@ -229,7 +236,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
             amount = 0;
             if (wordsInLines.get(curLine).get(1).equals("straddle")) {
                 hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
-                amount = Double.parseDouble(wordsInLines.get(curLine).get(2).substring(1));
+                amount = parseDouble(wordsInLines.get(curLine).get(2).substring(1));
                 action = new Action(STRADDLE, hash, amount, curPot);
 
                 // Uses the fact that antes are placed before straddle
@@ -237,7 +244,8 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
                 while (!st.getAllActions().get(ind).getPlayerId().equals(hash) && ind >= 0) {
                     --ind;
                 }
-                if (!st.getAllActions().get(ind).getActionType().equals(ANTE)) {
+                if (st.getAllActions().get(ind).getPlayerId().equals(hash) &&
+                        !st.getAllActions().get(ind).getActionType().equals(ANTE)) {
                     amount -= st.getAllActions().get(ind).getAmount();
                 }
 
@@ -245,11 +253,11 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
                 // as ActionType, but if chips are going into players bet, then BLIND type is assigned.
             } else if (wordsInLines.get(curLine).get(2).equals("missed")) {
                 hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
-                amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+                amount = parseDouble(wordsInLines.get(curLine).get(4).substring(1));
                 action = new Action(MISSED_BLIND, hash, amount, curPot);
             } else if (wordsInLines.get(curLine).get(2).equals("big")) {
                 hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
-                amount = Double.parseDouble(wordsInLines.get(curLine).get(4).substring(1));
+                amount = parseDouble(wordsInLines.get(curLine).get(4).substring(1));
                 action = new Action(BLIND, hash, amount, curPot);
             } else {
                 throw new RuntimeException("Unexpected preflop action, make sure file is not corrupted.");
@@ -432,7 +440,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
             String id = wordsInLines.get(curLine).get(5);
             String amountStr = wordsInLines.get(curLine).get(2).substring(2);
             amountStr = amountStr.substring(0, amountStr.length() - 1);
-            double returnedAmount = Double.parseDouble(amountStr);
+            double returnedAmount = parseDouble(amountStr);
             game.returnUncalledChips(id, returnedAmount);
             st.returnUncalledChips(id, returnedAmount);
             ++curLine;
@@ -476,7 +484,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         st.addPlayerAfterBetting(curPlayer);
         switch (line.get(1)) {
             case "folds" -> {
-                action = new Action(Action.ActionType.FOLD, curPlayer.getId(), 0, st.getPotAfterBetting());
+                action = new Action(FOLD, curPlayer.getId(), 0, st.getPotAfterBetting());
                 st.removePlayerAfterBetting(curPlayer);
             }
             case "raises" -> {
@@ -485,15 +493,14 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
                     if (st.getAllActions().get(i).getPlayerId().equals(curPlayer.getId())) {
                         // If he folded, he wouldnt be raising now, so old case is impossible.
                         // If he checked, it meant no one bet before him (or it is BB on pre-flop)
-                        if (!st.getAllActions().get(i).getActionType().equals(ANTE) &&
-                                !st.getAllActions().get(i).getActionType().equals(MISSED_BLIND)) {
-                            lastAmount = st.getAllActions().get(i).getAmount();
+                        lastAmount += st.getAllActions().get(i).getAmount();
+                        if (!st.getAllActions().get(i).getActionType().equals(CALL)) {
+                            break;
                         }
-                        break;
                     }
                 }
                 amount = parseDouble(line.get(4).substring(1));
-                action = new Action(Action.ActionType.RAISE, curPlayer.getId(), amount, st.getPotAfterBetting());
+                action = new Action(RAISE, curPlayer.getId(), amount, st.getPotAfterBetting());
 
                 amount = amount - lastAmount;
                 st.setPotAfterBetting(st.getPotAfterBetting() + amount);
@@ -502,18 +509,17 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
             }
             case "calls" -> {
                 amount = parseDouble(line.get(2).substring(1));
-                action = new Action(Action.ActionType.CALL, curPlayer.getId(), amount, st.getPotAfterBetting());
+                action = new Action(CALL, curPlayer.getId(), amount, st.getPotAfterBetting());
                 st.setPotAfterBetting(st.getPotAfterBetting() + amount);
                 game.decrementPlayersBalance(curPlayer.getId(), amount);
             }
             case "bets" -> {
                 amount = parseDouble(line.get(2).substring(1));
-                action = new Action(Action.ActionType.BET, curPlayer.getId(), amount, st.getPotAfterBetting());
+                action = new Action(BET, curPlayer.getId(), amount, st.getPotAfterBetting());
                 st.setPotAfterBetting(st.getPotAfterBetting() + amount);
                 game.decrementPlayersBalance(curPlayer.getId(), amount);
             }
-            case "checks" ->
-                    action = new Action(Action.ActionType.CHECK, curPlayer.getId(), 0, st.getPotAfterBetting());
+            case "checks" -> action = new Action(CHECK, curPlayer.getId(), 0, st.getPotAfterBetting());
             default ->
                     throw new RuntimeException("unexpected line in parsed file (was expected line with action, but got): " + line);
         }
@@ -559,7 +565,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         while (!wordsInLines.get(curLine).get(1).equals("SUMMARY")) {
             if (wordsInLines.get(curLine).get(1).equals("collected")) {
                 String id = wordsInLines.get(curLine).get(0);
-                double amount = Double.parseDouble(wordsInLines.get(curLine).get(2).substring(1));
+                double amount = parseDouble(wordsInLines.get(curLine).get(2).substring(1));
                 game.addWinner(id, amount);
             }
             ++curLine;
@@ -569,7 +575,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         String rakeStr = wordsInLines.get(curLine).get(5).substring(1);
         String jackpotRake = wordsInLines.get(curLine).get(8).substring(1);
 
-        double amount = Double.parseDouble(rakeStr) + Double.parseDouble(jackpotRake);
+        double amount = parseDouble(rakeStr) + parseDouble(jackpotRake);
 
         game.setRake(amount);
     }

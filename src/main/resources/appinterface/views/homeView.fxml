@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="406.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.HomeController">
+<AnchorPane fx:id="anchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="406.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appinterface.controllers.HomeController">
     <children>
         <Accordion layoutX="89.0" layoutY="79.0" />
         <Button fx:id="downloadedGamesButton" layoutX="123.0" layoutY="118.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Downloaded Games" textFill="WHITE" />

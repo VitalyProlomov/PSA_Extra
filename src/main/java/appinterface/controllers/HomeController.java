@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Game;
@@ -14,10 +15,12 @@ import models.GamesSet;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class HomeController {
+    @FXML
+    private AnchorPane anchorPane;
+
     @FXML
     private Button downloadedGamesButton;
 
@@ -46,7 +49,7 @@ public class HomeController {
         initializeSerializedSavedGames();
         downloadedGamesButton.setOnMouseClicked(actionEvent -> onDownloadedGamesButtonClicked());
 //        enhancedButtons;
-//        evCalculatorButton;
+        evCalculatorButton.setOnMouseClicked(actionEvent -> onEVCalculatorButtonClicked());
         examinePlayersButton.setOnMouseClicked(action -> onExaminePlayersButtonClicked());
         handsEVButton.setOnMouseClicked(action -> onHandsEVButtonClicked());;
         profileButton.setOnMouseClicked(action -> onProfileButtonClicked());
@@ -121,6 +124,13 @@ public class HomeController {
             HandsEVController controller = loader.getController();
 
             controller.setGamesSet(gamesSet);
+
+//            FXMLLoader fxmlLoader = new FXMLLoader(PSAApplication.class.getResource("views/handsEVView.fxml"));
+//            stage.setScene(new Scene(fxmlLoader.load()));
+//            HandsEVController controller = fxmlLoader.getController();
+//            GamesSet testGameSet = new GamesSet();
+//            testGameSet.addGames(gamesSet.getGames().values());
+//            controller.setGamesSet(testGameSet);
             stage.show();
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -152,6 +162,22 @@ public class HomeController {
                 // System.out.println(Arrays.toString(ex.getCause().getStackTrace()));
                 alert.show();
             }
+        }
+    }
+
+    public void onEVCalculatorButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/evCalculatorView.fxml"));
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.setResizable(false);
+
+            stage.show();
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Could not open EV Calculator. Try reopening the app.");
+            alert.show();
         }
     }
 
