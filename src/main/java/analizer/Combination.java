@@ -16,7 +16,17 @@ package analizer;
 
         public final int value;
 
+        public double specifiedValue;
+
         Combination(int value) {
             this.value = value;
+        }
+
+        public double getSpecifiedValue() {
+            return specifiedValue;
+        }
+
+        public void setSpecifiedValue(double specifiedValue) {
+            this.specifiedValue = specifiedValue;
         }
     }

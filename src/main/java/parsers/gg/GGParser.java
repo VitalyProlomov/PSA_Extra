@@ -71,7 +71,6 @@ public interface GGParser extends Parser {
         File file = new File(path);
         FileReader fr = new FileReader(file);
         BufferedReader bfr = new BufferedReader(fr);
-
         String line = bfr.readLine();
         while (line != null) {
             StringBuilder gameText = new StringBuilder();

@@ -581,6 +581,15 @@ public class CombinationAnalyzerTest {
     }
 
     @Test
+    public void testDetermineWinningHand() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
+        Board board = new Board("Qc", "Kc", "Js", "Qs", "As");
+        ArrayList<Hand> hands = prepareArrayWithHands(new Hand("Kd", "Jd"), new Hand("Ad", "3h"));
+        ArrayList<Hand> winnerArray = CombinationAnalyzer.determineWinningHand(board, hands);
+        assertEquals(1, winnerArray.size());
+        assertEquals(new Hand("Ad", "3h"), winnerArray.get(0));
+    }
+
+    @Test
     public void testEvPreflopMonteCarloCalculation() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
         ArrayList<Hand> hands = new ArrayList<>();
 
@@ -604,25 +613,84 @@ public class CombinationAnalyzerTest {
     @Test
     public void testEvPreflopPreciseCalculation() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
         ArrayList<Hand> hands = new ArrayList<>();
-        hands.add(new Hand("As", "Ks"));
-        hands.add(new Hand("Ah", "Kh"));
-        hands.add(new Hand("8s", "8c"));
+        Hand h1 = new Hand("As", "Ks");
+        Hand h2 = new Hand("Ah", "Kh");
+        Hand h3 = new Hand("8s", "8c");
+
+        hands.add(h1);
+        hands.add(h2);
+        hands.add(h3);
         HashMap<Hand, Double> ev = CombinationAnalyzer.countEVPreFlopPrecise(hands);
 
-        for (Hand h : ev.keySet()) {
-            System.out.println(h + ": " + ev.get(h));
-        }
+        assertTrue(Math.abs(ev.get(h1) - 0.2138) < 0.005);
+        assertTrue(Math.abs(ev.get(h3) - 0.5607) < 0.005);
+
 
         hands.clear();
-        hands.add(new Hand("Ah", "As"));
-        hands.add(new Hand("Ad", "Ks"));
+        h1 = new Hand("Ah", "As");
+        h2 = new Hand("Ad", "Ks");
+        hands.add(h1);
+        hands.add(h2);
         ev = CombinationAnalyzer.countEVPreFlopPrecise(hands);
+        System.out.println(ev);
+        assertTrue(Math.abs(ev.get(h1) - 0.9347) < 0.0005);
+    }
+
+    @Test
+    public void testPreciseEvPreFlopCount() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
+        ArrayList<Hand> hands = new ArrayList<>();
+        hands.clear();
+        hands.add(new Hand("Kd", "Jd"));
+        hands.add(new Hand("Ad", "3h"));
+        HashMap<Hand, Double> ev = CombinationAnalyzer.countEVPreFlopPrecise(hands);
         for (Hand h : ev.keySet()) {
             System.out.println(h + ": " + ev.get(h));
         }
     }
 
-    //
+    @Test
+    public void testSpecificNoChanceCase() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
+        ArrayList<Hand> hands = new ArrayList<>();
+        Hand h1 = new Hand("As", "Ks");
+        Hand h2 = new Hand("Td", "Tc");
+        Board b = new Board("Qs", "Js", "Ts");
+        hands.add(h1);
+        hands.add(h2);
+        HashMap<Hand, Double> evMap = CombinationAnalyzer.countEVPostFlop(b, hands);
+        assertTrue(Math.abs(evMap.get(h1) - 1) < 0.0000005);
+    }
+
+    @Test
+    public void testPostFlopEVCalculation() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
+        Board b = new Board("5s", "6s", "Jd");
+        Hand h1 = new Hand("8s", "7c");
+        Hand h2 = new Hand("4h", "4c");
+        ArrayList<Hand> hands = new ArrayList<>();
+        hands.add(h1);
+        hands.add(h2);
+        HashMap<Hand, Double> evMap = CombinationAnalyzer.countEVPostFlop(b, hands);
+        assertTrue(Math.abs(evMap.get(h1) - 0.4712) < 0.0001);
+
+        b = new Board("3s", "3d", "Ac");
+        h1 = new Hand("Ah", "Kh");
+        h2 = new Hand("3h", "3c");
+        hands.clear();
+        hands.add(h1);
+        hands.add(h2);
+        evMap = CombinationAnalyzer.countEVPostFlop(b, hands);
+        assertTrue(Math.abs(evMap.get(h1) - 0.001) < 0.0001);
+
+        b = new Board("Jh", "Th", "8s");
+        h1=  new Hand("As", "Js");
+        h2 = new Hand("Jd", "Kh");
+        hands.clear();
+        hands.add(h1);
+        hands.add(h2);
+        evMap = CombinationAnalyzer.countEVPostFlop(b, hands);
+        assertTrue(Math.abs(evMap.get(h1) - 0.8152) < 0.0001);
+
+    }
+
     @Test
     public void testPostFlopEvCalculation() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
         // The expected percentages were taken from program EquiLab.
@@ -681,6 +749,7 @@ public class CombinationAnalyzerTest {
         hands.add(h3);
         evMap = CombinationAnalyzer.countEVPostFlop(b, hands);
 
+        System.out.println(evMap);
         assertTrue(Math.abs(evMap.get(h1) - 0.011) < 0.001);
         assertTrue(Math.abs(evMap.get(h2) - 0.045) < 0.001);
 
@@ -721,7 +790,7 @@ public class CombinationAnalyzerTest {
         h2 = new Hand("6s", "6c");
         h3 = new Hand("As", "Kh");
         Hand h4 = new Hand("5c", "4c");
-        hands.addAll(List.of(h1,h2,h3,h4));
+        hands.addAll(List.of(h1, h2, h3, h4));
 //        evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
 //        System.out.println(evMap);
         System.out.println(CombinationAnalyzer.countEVPreFlopPrecise(hands));

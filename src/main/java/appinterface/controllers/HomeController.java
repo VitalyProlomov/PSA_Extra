@@ -64,7 +64,6 @@ public class HomeController {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
-            stage.setResizable(false);
 
             GamesListController controller = loader.getController();
             controller.setGamesSet(gamesSet);

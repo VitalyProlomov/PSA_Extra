@@ -30,38 +30,34 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
     public Game parseGame(String gameText)
             throws IncorrectCardException, IncorrectHandException, IncorrectBoardException {
         curLine = 0;
-        Game game = null;
-        try {
-            String[] lines = gameText.split("\n");
+
+        String[] lines = gameText.split("\n");
 
 
-            ArrayList<ArrayList<String>> wordsInLines = new ArrayList<>();
-            for (String line : lines) {
-                wordsInLines.add(new ArrayList<>(List.of(line.split(" "))));
-            }
-
-            String handId = parseHandId(wordsInLines);
-            double bbSize = parseBBSize(wordsInLines);
-
-            Date date = parseDate(wordsInLines);
-            String table = parseTable(wordsInLines);
-            ArrayList<PlayerInGame> players = parsePlayers(wordsInLines);
-
-            game = initiateGame(handId, bbSize, players, date, table);
-
-            // Extra cash is not in the pot in 9Max, so I do not count it,
-            // since the goal of the app is to analyze the play, not the rake/winloss affection
-            // parseExtraCash(game, wordsInLines);
-
-            parseHeroHand(game, wordsInLines);
-            parseStreetDescriptions(game, wordsInLines, game.getExtraCashAmount());
-
-            parseWinnings(game, wordsInLines);
-            return game;
-        } catch (Exception ex) {
-            System.out.println(game.getGameId());
+        ArrayList<ArrayList<String>> wordsInLines = new ArrayList<>();
+        for (String line : lines) {
+            wordsInLines.add(new ArrayList<>(List.of(line.split(" "))));
         }
-        return null;
+
+        String handId = parseHandId(wordsInLines);
+        double bbSize = parseBBSize(wordsInLines);
+
+        Date date = parseDate(wordsInLines);
+        String table = parseTable(wordsInLines);
+        ArrayList<PlayerInGame> players = parsePlayers(wordsInLines);
+
+        Game game = initiateGame(handId, bbSize, players, date, table);
+
+        // Extra cash is not in the pot in 9Max, so I do not count it,
+        // since the goal of the app is to analyze the play, not the rake/winloss affection
+        // parseExtraCash(game, wordsInLines);
+
+        parseHeroHand(game, wordsInLines);
+        parseStreetDescriptions(game, wordsInLines, game.getExtraCashAmount());
+
+        parseWinnings(game, wordsInLines);
+        return game;
+
     }
 
     private double parseBBSize(ArrayList<ArrayList<String>> wordsInLines) {
@@ -194,8 +190,6 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
         parseFlop(game, wordsInLines);
         parseTurn(game, wordsInLines);
         parseRiver(game, wordsInLines);
-//        double pot = game.
-//        parseFlop(game, wordsInLines, pot);
     }
 
     private void parseMissedBlindsAndAntes(ArrayList<ArrayList<String>> wordsInLines, Game game, StreetDescription st) {
@@ -493,7 +487,12 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
                     if (st.getAllActions().get(i).getPlayerId().equals(curPlayer.getId())) {
                         // If he folded, he wouldnt be raising now, so old case is impossible.
                         // If he checked, it meant no one bet before him (or it is BB on pre-flop)
-                        lastAmount += st.getAllActions().get(i).getAmount();
+
+                        if (!st.getAllActions().get(i).getActionType().equals(ANTE) &&
+                                !st.getAllActions().get(i).getActionType().equals(MISSED_BLIND)) {
+                            lastAmount += st.getAllActions().get(i).getAmount();
+                        }
+
                         if (!st.getAllActions().get(i).getActionType().equals(CALL)) {
                             break;
                         }

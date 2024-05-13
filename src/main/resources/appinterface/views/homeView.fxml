@@ -24,6 +24,6 @@
       <Button fx:id="evCalculatorButton" layoutX="411.0" layoutY="118.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="EV Caclulator" textFill="WHITE" />
       <Button fx:id="handsEVButton" layoutX="412.0" layoutY="173.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Hands EV" textFill="WHITE" />
       <Button fx:id="enhancedButtons" layoutX="412.0" layoutY="227.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Enhanced Stats" textFill="WHITE" />
-      <Button layoutX="412.0" layoutY="280.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="?" textFill="WHITE" />
+      <Button layoutX="412.0" layoutY="280.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Delete Games" textFill="WHITE" />
     </children>
 </AnchorPane>

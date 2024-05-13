@@ -5,8 +5,7 @@ import models.*;
 
 import java.util.*;
 
-import static analizer.Combination.FLUSH;
-import static analizer.Combination.FLUSH_ROYAL;
+import static analizer.Combination.*;
 
 /**
  * Class that contains methods for analyzing the board and identifying the
@@ -131,53 +130,53 @@ public class CombinationAnalyzer {
         // Sorts the board by increasing the card rank.
         sortBoard(extendedCards);
 
-        ArrayList<Card> combCards = findBestRoyalFlush(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(FLUSH_ROYAL, combCards);
+        ComboCardsPair ccp = findBestRoyalFlush(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestStraightFlush(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.STRAIGHT_FLUSH, combCards);
+        ccp = findBestStraightFlush(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestQuads(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.QUADS, combCards);
+        ccp = findBestQuads(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestFullHouse(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.FULL_HOUSE, combCards);
+        ccp = findBestFullHouse(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestFlush(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(FLUSH, combCards);
+        ccp = findBestFlush(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestStraight(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.STRAIGHT, combCards);
+        ccp = findBestStraight(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestSet(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.SET, combCards);
+        ccp = findBestSet(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestTwoPairs(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.TWO_PAIRS, combCards);
+        ccp = findBestTwoPairs(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestPair(extendedCards);
-        if (combCards != null) {
-            return new ComboCardsPair(Combination.PAIR, combCards);
+        ccp = findBestPair(extendedCards);
+        if (ccp != null) {
+            return ccp;
         }
 
-        combCards = findBestHighCard(extendedCards);
-        return new ComboCardsPair(Combination.HIGH_CARD, combCards);
+        ccp = findBestHighCard(extendedCards);
+        return ccp;
     }
 
     /**
@@ -185,7 +184,7 @@ public class CombinationAnalyzer {
      * @return Board containing the cards of the combination or {@code}null if the combination was not found
      * @throws IncorrectBoardException in case the cards do not form a valid board
      */
-    private static ArrayList<Card> findBestRoyalFlush(ArrayList<Card> extendedCards)
+    private static ComboCardsPair findBestRoyalFlush(ArrayList<Card> extendedCards)
             throws IncorrectBoardException {
         Card.Suit majorSuit = countFlushSuit(extendedCards);
         if (majorSuit == null) {
@@ -200,12 +199,22 @@ public class CombinationAnalyzer {
         }
 
         int sum = 0;
-        for (Card card : suitedCards) {
-            sum += card.getRank().value;
+        int i = suitedCards.size() - 1;
+        int counter = 0;
+        while (i >= 0 && counter < 5) {
+            sum += suitedCards.get(i).getRank().value;
+            ++counter;
+            --i;
+        }
+        while (i >= 0) {
+            suitedCards.remove(i);
+            --i;
         }
         // A + K + Q + J + T = 14 + 13 + 12 + 11 + 10 = 60
         if (sum == 60) {
-            return suitedCards;
+            Combination c = FLUSH_ROYAL;
+            c.setSpecifiedValue(Double.MAX_VALUE);
+            return new ComboCardsPair(c, suitedCards);
         }
         return null;
     }
@@ -218,7 +227,7 @@ public class CombinationAnalyzer {
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      * @throws IncorrectBoardException in case the cards do not form a valid board
      */
-    private static ArrayList<Card> findBestStraightFlush(ArrayList<Card> extendedCards) throws IncorrectBoardException {
+    private static ComboCardsPair findBestStraightFlush(ArrayList<Card> extendedCards) throws IncorrectBoardException {
         Card.Suit majorSuit = countFlushSuit(extendedCards);
         if (majorSuit == null) {
             return null;
@@ -231,7 +240,13 @@ public class CombinationAnalyzer {
             }
         }
 
-        return findBestStraight(suitedCards);
+        ComboCardsPair comboCardsPair = findBestStraight(suitedCards);
+        if (comboCardsPair != null) {
+            Combination c = STRAIGHT_FLUSH;
+            c.setSpecifiedValue(80000 + suitedCards.get(4).getRank().value * 100);
+            return new ComboCardsPair(c, comboCardsPair.getCards());
+        }
+        return null;
     }
 
     /**
@@ -241,8 +256,9 @@ public class CombinationAnalyzer {
      *                            for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
-    private static ArrayList<Card> findBestQuads(ArrayList<Card> sortedExtendedCards) {
+    private static ComboCardsPair findBestQuads(ArrayList<Card> sortedExtendedCards) {
         int counter = 1;
+        int specifiedValue = 70000;
         for (int i = sortedExtendedCards.size() - 2; i >= 0; --i) {
             if (sortedExtendedCards.get(i).getRank() == sortedExtendedCards.get(i + 1).getRank()) {
                 ++counter;
@@ -251,14 +267,19 @@ public class CombinationAnalyzer {
                     for (int qi = i; qi < i + 4; ++qi) {
                         quadsBoard.add(sortedExtendedCards.get(qi));
                     }
+                    specifiedValue += quadsBoard.get(0).getRank().value * 100;
                     int lastCardInd = sortedExtendedCards.size() - 1;
+
 
                     // Adding kicker to the quads.
                     while (quadsBoard.contains(sortedExtendedCards.get(lastCardInd))) {
                         --lastCardInd;
                     }
                     quadsBoard.add(sortedExtendedCards.get(lastCardInd));
-                    return quadsBoard;
+                    specifiedValue += quadsBoard.get(4).getRank().value;
+                    Combination c = QUADS;
+                    c.setSpecifiedValue(specifiedValue);
+                    return new ComboCardsPair(c, quadsBoard);
                 }
             } else {
                 counter = 1;
@@ -274,7 +295,9 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      */
-    private static ArrayList<Card> findBestFullHouse(ArrayList<Card> extendedCards) {
+    private static ComboCardsPair findBestFullHouse(ArrayList<Card> extendedCards) {
+        int specifiedValue = 60000;
+
         boolean isThreeSame = false;
         boolean isTwoSame = false;
         ArrayList<Card> fullHouse = new ArrayList<>();
@@ -324,8 +347,21 @@ public class CombinationAnalyzer {
             isTwoSame = true;
         }
 
+        sortBoard(fullHouse);
+        // mid card is always in a trips
+        if (fullHouse.size() >= 3) {
+            specifiedValue += fullHouse.get(2).getRank().value * 100;
+            if (fullHouse.get(0).getRank() != fullHouse.get(2).getRank()) {
+                specifiedValue += fullHouse.get(0).getRank().value;
+            } else {
+                specifiedValue += fullHouse.get(fullHouse.size() - 1).getRank().value;
+            }
+        }
+
+        Combination c = FULL_HOUSE;
+        c.setSpecifiedValue(specifiedValue);
         if (isThreeSame && isTwoSame) {
-            return fullHouse;
+            return new ComboCardsPair(c, fullHouse);
         }
         return null;
     }
@@ -337,20 +373,26 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
-    private static ArrayList<Card> findBestFlush(ArrayList<Card> extendedCards) throws IncorrectBoardException {
+    private static ComboCardsPair findBestFlush(ArrayList<Card> extendedCards) throws IncorrectBoardException {
+        double specifiedValue = 50000;
         Card.Suit suit = countFlushSuit(extendedCards);
         if (suit == null) {
             return null;
         }
         int i = extendedCards.size() - 1;
         ArrayList<Card> flushBoard = new ArrayList<>();
+        int specInd = 2;
         while (flushBoard.size() < 5) {
             if (extendedCards.get(i).getSuit() == suit) {
                 flushBoard.add(extendedCards.get(i));
+                specifiedValue += Math.pow(10, specInd) * extendedCards.get(i).getRank().value;
             }
             --i;
+            specInd -= 2;
         }
-        return flushBoard;
+        Combination c = FLUSH;
+        c.setSpecifiedValue(specifiedValue);
+        return new ComboCardsPair(c, flushBoard);
     }
 
     /**
@@ -360,12 +402,14 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
-    private static ArrayList<Card> findBestStraight(ArrayList<Card> extendedCards) {
+    private static ComboCardsPair findBestStraight(ArrayList<Card> extendedCards) {
+        double specifiedValue = 40000;
+
         ArrayList<Card> straightBoard = new ArrayList<>();
         int cons = 1;
         // We can check a sequence of cards to be ordered by ascending and have a diff of 1
         // (finding the highest straight) by simply finding the largest 5 cards going
-        // right after each other. And since the initial array os already ascending ordered,
+        // right after each other. And since the initial array is already ascending ordered,
         // we can just skip reset the amount counted if one of the cards is not 1 value less than
         // the previous card.
         int i = extendedCards.size() - 2;
@@ -386,12 +430,19 @@ public class CombinationAnalyzer {
         if (cons == 4 && extendedCards.get(0).getRank().value == 2) {
             if (extendedCards.get(extendedCards.size() - 1).getRank().value == Card.Rank.ACE.value) {
                 straightBoard.add(extendedCards.get(extendedCards.size() - 1));
-                return straightBoard;
+
+                specifiedValue += Card.Rank.ACE.value * 100 + Card.Rank.FIVE.value;
+                Combination c = STRAIGHT;
+                c.setSpecifiedValue(specifiedValue);
+                return new ComboCardsPair(c, straightBoard);
             }
         }
 
         if (cons == 5) {
-            return straightBoard;
+            Combination c = STRAIGHT;
+            specifiedValue += straightBoard.get(0).getRank().value * 100 + straightBoard.get(1).getRank().value;
+            c.setSpecifiedValue(specifiedValue);
+            return new ComboCardsPair(c, straightBoard);
         }
 
         return null;
@@ -404,7 +455,9 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      */
-    private static ArrayList<Card> findBestSet(ArrayList<Card> extendedCards) {
+    private static ComboCardsPair findBestSet(ArrayList<Card> extendedCards) {
+        double specifiedValue = 30000;
+
         int same = 1;
         int i = extendedCards.size() - 2;
         while (same < 3 && i >= 0) {
@@ -422,15 +475,25 @@ public class CombinationAnalyzer {
             bestSetBoard.add(extendedCards.get(i));
             bestSetBoard.add(extendedCards.get(i + 1));
             bestSetBoard.add(extendedCards.get(i + 2));
+            specifiedValue += bestSetBoard.get(0).getRank().value * 100;
 
             i = extendedCards.size() - 1;
+            boolean isFirst = true;
             while (bestSetBoard.size() < 5) {
                 if (!bestSetBoard.contains(extendedCards.get(i))) {
                     bestSetBoard.add(extendedCards.get(i));
+                    if (isFirst) {
+                        specifiedValue += extendedCards.get(i).getRank().value;
+                        isFirst = false;
+                    } else {
+                        specifiedValue += extendedCards.get(i).getRank().value * 0.01;
+                    }
                 }
                 --i;
             }
-            return bestSetBoard;
+            Combination c = SET;
+            c.setSpecifiedValue(specifiedValue);
+            return new ComboCardsPair(c, bestSetBoard);
         }
 
         return null;
@@ -443,7 +506,10 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
-    private static ArrayList<Card> findBestTwoPairs(ArrayList<Card> extendedCards) {
+    private static ComboCardsPair findBestTwoPairs(ArrayList<Card> extendedCards) {
+        double specifiedValue = 20000;
+        boolean ifFirst = true;
+
         ArrayList<Card> bestTwoPairs = new ArrayList<>();
 
         int i = extendedCards.size() - 2;
@@ -451,9 +517,16 @@ public class CombinationAnalyzer {
             if (extendedCards.get(i).getRank() == extendedCards.get(i + 1).getRank()) {
                 bestTwoPairs.add(extendedCards.get(i));
                 bestTwoPairs.add(extendedCards.get(i + 1));
+                if (ifFirst) {
+                    specifiedValue += extendedCards.get(i).getRank().value * 100;
+                    ifFirst = false;
+                } else {
+                    specifiedValue += extendedCards.get(i).getRank().value;
+                }
             }
             --i;
         }
+
 
         i = extendedCards.size() - 1;
         if (bestTwoPairs.size() == 4) {
@@ -461,7 +534,11 @@ public class CombinationAnalyzer {
                 --i;
             }
             bestTwoPairs.add(extendedCards.get(i));
-            return bestTwoPairs;
+            specifiedValue += extendedCards.get(i).getRank().value * 0.01;
+
+            Combination c = TWO_PAIRS;
+            c.setSpecifiedValue(specifiedValue);
+            return new ComboCardsPair(c, bestTwoPairs);
         }
         return null;
     }
@@ -473,26 +550,34 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null}if the combination was not found
      */
-    private static ArrayList<Card> findBestPair(ArrayList<Card> extendedCards) {
+    private static ComboCardsPair findBestPair(ArrayList<Card> extendedCards) {
+        double specifiedValue = 10000;
         int i = extendedCards.size() - 2;
         ArrayList<Card> bestPair = new ArrayList<>();
         while (i >= 0) {
             if (extendedCards.get(i).getRank() == extendedCards.get(i + 1).getRank()) {
                 bestPair.add(extendedCards.get(i));
                 bestPair.add(extendedCards.get(i + 1));
+                specifiedValue += extendedCards.get(i).getRank().value * 100;
                 break;
             }
             --i;
         }
+
+        double multiplier = 1;
         if (bestPair.size() == 2) {
             i = extendedCards.size() - 1;
             while (bestPair.size() < 5) {
                 if (!bestPair.contains(extendedCards.get(i))) {
                     bestPair.add(extendedCards.get(i));
+                    specifiedValue += extendedCards.get(i).getRank().value * multiplier;
+                    multiplier /= 100;
                 }
                 --i;
             }
-            return bestPair;
+            Combination c = PAIR;
+            c.setSpecifiedValue(specifiedValue);
+            return new ComboCardsPair(c, bestPair);
         }
 
         return null;
@@ -505,12 +590,19 @@ public class CombinationAnalyzer {
      *                      for method to work correctly
      * @return Board containing the cards of the combination.
      */
-    private static ArrayList<Card> findBestHighCard(ArrayList<Card> extendedCards) {
+    private static ComboCardsPair findBestHighCard(ArrayList<Card> extendedCards) {
+        double specifiedValue = 0;
+        double multiplier = 100;
         ArrayList<Card> highCardBoard = new ArrayList<>();
         for (int i = 0; i < 5; ++i) {
             highCardBoard.add(extendedCards.get(extendedCards.size() - i - 1));
+            specifiedValue +=
+                    extendedCards.get(extendedCards.size() - i - 1).getRank().value * multiplier;
+            multiplier /= 100;
         }
-        return highCardBoard;
+        Combination c = HIGH_CARD;
+        c.setSpecifiedValue(specifiedValue);
+        return new ComboCardsPair(c, highCardBoard);
     }
 
     /**
@@ -598,15 +690,15 @@ public class CombinationAnalyzer {
     private static ArrayList<Hand> determineWinningHandChecked(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
         ArrayList<ComboCardsPair> bestHandsCombos = new ArrayList<>();
         ArrayList<Hand> bestHands = new ArrayList<>();
-        int maxCombo = 0;
+        double maxCombo = 0;
         for (Hand h : hands) {
             ComboCardsPair c = recognizeCombinationOnBoard(board, h);
-            if (maxCombo == c.getCombination().value) {
+            if (maxCombo == c.getCombination().getSpecifiedValue()) {
                 bestHandsCombos.add(c);
                 bestHands.add(h);
             }
-            if (maxCombo < c.getCombination().value) {
-                maxCombo = c.getCombination().value;
+            if (maxCombo < c.getCombination().getSpecifiedValue()) {
+                maxCombo = c.getCombination().getSpecifiedValue();
                 bestHandsCombos.clear();
                 bestHandsCombos.add(c);
 
@@ -614,31 +706,109 @@ public class CombinationAnalyzer {
                 bestHands.add(h);
             }
         }
-        if (bestHands.size() == 1) {
-            return bestHands;
-        }
-        ArrayList<Card> bestCombo = new ArrayList<>(bestHandsCombos.get(0).getCards());
-        sortBoard(bestCombo);
+//        if (bestHands.size() == 1) {
+        return bestHands;
+//        }
+//        ArrayList<Card> bestCombo = new ArrayList<>(bestHandsCombos.get(0).getCards());
+//        sortBoard(bestCombo);
+//
+//        double maxSpecifiedValue = 0;
+//
+//        ArrayList<Hand> winnerHands = new ArrayList<>();
+//        for (int curComboInd = 0; curComboInd < bestHandsCombos.size(); ++curComboInd) {
+//            ComboCardsPair ccp = bestHandsCombos.get(curComboInd);
+//
+//            if (ccp.getCombination().getSpecifiedValue() - maxSpecifiedValue > 0.0000001) {
+//                maxSpecifiedValue = ccp.getCombination().getSpecifiedValue();
+//                winnerHands.clear();
+//                winnerHands.add(bestHands.get(curComboInd));
+//            } else if (Math.abs(ccp.getCombination().getSpecifiedValue() - maxSpecifiedValue) < 0.00000000001) {
+//                winnerHands.add(bestHands.get(curComboInd));
+//            }
 
-        ArrayList<Hand> winnerHands = new ArrayList<>();
-        for (int curComboInd = 0; curComboInd < bestHandsCombos.size(); ++curComboInd) {
-            ComboCardsPair ccp = bestHandsCombos.get(curComboInd);
-            ArrayList<Card> combinationCards = new ArrayList<>(ccp.getCards());
-            sortBoard(combinationCards);
-            winnerHands.add(bestHands.get(curComboInd));
-            for (int i = 4; i >= 0; --i) {
-                if (combinationCards.get(i).getRank().value > bestCombo.get(i).getRank().value) {
-                    bestCombo = combinationCards;
-                    winnerHands.clear();
-                    winnerHands.add(bestHands.get(curComboInd));
-                    break;
-                } else if (combinationCards.get(i).getRank().value < bestCombo.get(i).getRank().value) {
-                    winnerHands.remove(bestHands.get(curComboInd));
-                    break;
-                }
+//            ComboCardsPair ccp = bestHandsCombos.get(curComboInd);
+//            ArrayList<Card> combinationCards = new ArrayList<>(ccp.getCards());
+//            sortBoard(combinationCards);
+//            winnerHands.add(bestHands.get(curComboInd));
+//
+
+//            for (int i = 4; i >= 0; --i) {
+//                if (combinationCards.get(i).getRank().value > bestCombo.get(i).getRank().value) {
+//                    bestCombo = combinationCards;
+//                    winnerHands.clear();
+//                    winnerHands.add(bestHands.get(curComboInd));
+//                    break;
+//                } else if (combinationCards.get(i).getRank().value < bestCombo.get(i).getRank().value) {
+//                    winnerHands.remove(bestHands.get(curComboInd));
+//                    break;
+//                }
+//            }
+//        }
+//        return winnerHands;
+    }
+
+    /**
+     * @param ccp1
+     * @param ccp2
+     * @return ArrayList of ComboCardsCombination, that contians best combinations
+     */
+    private ArrayList<ComboCardsPair> compareSameCombinations(ComboCardsPair ccp1, ComboCardsPair ccp2) {
+        ArrayList<ComboCardsPair> bestCcp = new ArrayList<>();
+        if (ccp1.getCombination().value > ccp2.getCombination().value) {
+            bestCcp.add(ccp1);
+            return bestCcp;
+        }
+        if (ccp2.getCombination().value > ccp1.getCombination().value) {
+            bestCcp.add(ccp2);
+            return bestCcp;
+        }
+
+        Combination combo = ccp1.getCombination();
+
+        ArrayList<Card> cards1 = new ArrayList<>(ccp1.getCards());
+        ArrayList<Card> cards2 = new ArrayList<>(ccp2.getCards());
+        sortBoard(cards1);
+        sortBoard(cards2);
+        if (combo == STRAIGHT_FLUSH) {
+            if (cards1.get(4).getRank().value >= cards2.get(4).getRank().value) {
+                bestCcp.add(ccp1);
+            }
+            if (cards1.get(4).getRank().value <= cards2.get(4).getRank().value) {
+                bestCcp.add(ccp2);
+            }
+            return bestCcp;
+        }
+        if (combo == QUADS) {
+            if (cards1.get(2).getRank().value > cards2.get(2).getRank().value) {
+                bestCcp.add(ccp1);
+                return bestCcp;
+            }
+            if (cards1.get(2).getRank().value < cards2.get(2).getRank().value) {
+                bestCcp.add(ccp2);
+                return bestCcp;
+            }
+            Card.Rank kicker1;
+            Card.Rank kicker2;
+            // The card with index 2 must be the one in quads => kicker is either 0th or last card
+            if (cards1.get(0) != cards1.get(2)) {
+                kicker1 = cards1.get(0).getRank();
+            } else {
+                kicker1 = cards1.get(4).getRank();
+            }
+            if (cards2.get(0) != cards2.get(2)) {
+                kicker2 = cards2.get(0).getRank();
+            } else {
+                kicker2 = cards2.get(4).getRank();
+            }
+            if (kicker1.value >= kicker2.value) {
+                bestCcp.add(ccp1);
+            }
+            if (kicker1.value <= kicker2.value) {
+                bestCcp.add(ccp2);
             }
         }
-        return winnerHands;
+//         if (combo == FULL_HOUSE)
+        return null;
     }
 
 
@@ -771,6 +941,7 @@ public class CombinationAnalyzer {
         }
         if (board.size() == 5) {
             ArrayList<Hand> wonHands = determineWinningHandChecked(board, playersHands);
+
             HashMap<Hand, Double> r = new HashMap<>();
             for (Hand h : playersHands) {
                 if (wonHands.contains(h)) {
@@ -778,6 +949,7 @@ public class CombinationAnalyzer {
                 } else {
                     r.put(h, 0.0);
                 }
+
             }
 
             return r;
@@ -808,11 +980,11 @@ public class CombinationAnalyzer {
                     cards.add(riverCard);
 
                     finalBoard = new Board(cards);
-
-
                     ArrayList<Hand> wonHands = determineWinningHandChecked(finalBoard, playersHands);
-                   for (Hand h : wonHands) {
+
+                    for (Hand h : wonHands) {
                         evMap.put(h, evMap.get(h) + 1.0 / wonHands.size());
+
                     }
                 }
             }
@@ -941,7 +1113,7 @@ public class CombinationAnalyzer {
                         moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
                                 handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     }
-            }
+                }
 
                 for (String s : finalLimitPot.keySet()) {
                     finalLimitPot.put(s, finalLimitPot.get(s) - minValue);

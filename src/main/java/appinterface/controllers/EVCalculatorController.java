@@ -570,7 +570,7 @@ public class EVCalculatorController {
         }
         if (allHands.size() >= 2) {
             HashMap<Hand, Double> evMap = null;
-            if (flopCards == null) {
+            if (flopCards == null || flopCards.isEmpty()) {
                 evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(new ArrayList<>(allHands.values()));
             } else {
                 ArrayList<Card> cards = new ArrayList<>(flopCards);
