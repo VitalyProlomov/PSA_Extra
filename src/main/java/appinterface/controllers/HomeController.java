@@ -25,7 +25,7 @@ public class HomeController {
     private Button downloadedGamesButton;
 
     @FXML
-    private Button enhancedButtons;
+    private Button enhancedButton;
 
     @FXML
     private Button evCalculatorButton;
@@ -48,7 +48,7 @@ public class HomeController {
     public void initialize() {
         initializeSerializedSavedGames();
         downloadedGamesButton.setOnMouseClicked(actionEvent -> onDownloadedGamesButtonClicked());
-//        enhancedButtons;
+        enhancedButton.setOnMouseClicked(action -> onEnhancedStatsButtonClicked());
         evCalculatorButton.setOnMouseClicked(actionEvent -> onEVCalculatorButtonClicked());
         examinePlayersButton.setOnMouseClicked(action -> onExaminePlayersButtonClicked());
         handsEVButton.setOnMouseClicked(action -> onHandsEVButtonClicked());;
@@ -124,12 +124,6 @@ public class HomeController {
 
             controller.setGamesSet(gamesSet);
 
-//            FXMLLoader fxmlLoader = new FXMLLoader(PSAApplication.class.getResource("views/handsEVView.fxml"));
-//            stage.setScene(new Scene(fxmlLoader.load()));
-//            HandsEVController controller = fxmlLoader.getController();
-//            GamesSet testGameSet = new GamesSet();
-//            testGameSet.addGames(gamesSet.getGames().values());
-//            controller.setGamesSet(testGameSet);
             stage.show();
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -172,10 +166,29 @@ public class HomeController {
             stage.setScene(new Scene(loader.load()));
             stage.setResizable(false);
 
+            EnhancedStatsController controller = loader.getController();
+            controller.setGamesSet(gamesSet);
+
             stage.show();
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Could not open EV Calculator. Try reopening the app.");
+            alert.show();
+        }
+    }
+
+    private void onEnhancedStatsButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/enhancedStatsView.fxml"));
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.setResizable(false);
+
+            stage.show();
+        } catch (Exception exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Could not open Enhanced Stats. Try reopening the app.");
             alert.show();
         }
     }

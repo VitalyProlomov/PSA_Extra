@@ -23,7 +23,7 @@
         <Polygon fill="#401fff" layoutX="623.0" layoutY="76.0" points="51.39996337890625, 17.600006103515625, 51.39996337890625, -76.0, -41.4000244140625, -76.0" stroke="BLUE" strokeType="INSIDE" strokeWidth="0.0" />
       <Button fx:id="evCalculatorButton" layoutX="411.0" layoutY="118.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="EV Caclulator" textFill="WHITE" />
       <Button fx:id="handsEVButton" layoutX="412.0" layoutY="173.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Hands EV" textFill="WHITE" />
-      <Button fx:id="enhancedButtons" layoutX="412.0" layoutY="227.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Enhanced Stats" textFill="WHITE" />
-      <Button layoutX="412.0" layoutY="280.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Delete Games" textFill="WHITE" />
+      <Button fx:id="enhancedButton" layoutX="412.0" layoutY="227.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Enhanced Stats" textFill="WHITE" />
+      <Button fx:id="deleteGamesButton" layoutX="412.0" layoutY="280.0" minWidth="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: blue;" text="Delete Games" textFill="WHITE" />
     </children>
 </AnchorPane>
