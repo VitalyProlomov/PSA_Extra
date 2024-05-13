@@ -166,9 +166,6 @@ public class HomeController {
             stage.setScene(new Scene(loader.load()));
             stage.setResizable(false);
 
-            EnhancedStatsController controller = loader.getController();
-            controller.setGamesSet(gamesSet);
-
             stage.show();
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -184,6 +181,9 @@ public class HomeController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.setResizable(false);
+
+            EnhancedStatsController controller = loader.getController();
+            controller.setGamesSet(gamesSet);
 
             stage.show();
         } catch (Exception exception) {
