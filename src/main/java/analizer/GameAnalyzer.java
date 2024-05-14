@@ -143,6 +143,26 @@ public class GameAnalyzer {
         return game.getPlayer("Hero") != null;
     }
 
+
+    @JsonIgnore
+    public static boolean didPlayerLimp(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        for (Action a : game.getPreFlop().getAllActions()) {
+            if (a.getActionType().equals(RAISE) || a.getActionType().equals(BET)) {
+                return false;
+            }
+            if (a.getPlayerId().equals("hash")) {
+                if (!a.getActionType().equals(ANTE) && !a.getActionType().equals(BLIND) &&
+                        !a.getActionType().equals(MISSED_BLIND)) {
+                    return a.getActionType().equals(CALL) || a.getActionType().equals(CHECK);
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Checks if player with given hash has called a single raise in given (observed) game.
      * Player doesn't have to be post flop after this.
@@ -153,7 +173,10 @@ public class GameAnalyzer {
      * @return true, if player has called single raise; false, otherwise.
      */
     @JsonIgnore
-    public static boolean didPlayerCallSingleRaise(Game game, String hash) {
+    public static boolean didPlayerCallRFI(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
         ArrayList<Action> actions = game.getPreFlop().getAllActions();
         int raisesCount = 0;
         for (Action act : actions) {
@@ -170,12 +193,101 @@ public class GameAnalyzer {
         return false;
     }
 
+    public static boolean didPlayerRFI(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        ArrayList<Action> actions = game.getPreFlop().getAllActions();
+        for (Action a : actions) {
+            // Looking for 1st raise
+            if (a.getActionType().equals(RAISE)) {
+                return a.getPlayerId().equals(hash);
+            }
+        }
+        return false;
+    }
+
+    public static boolean didPlayerCall3Bet(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        ArrayList<Action> actions = game.getPreFlop().getAllActions();
+        int raiseCounter = 0;
+        for (Action a : actions) {
+            if (a.getActionType().equals(RAISE)) {
+                ++raiseCounter;
+            }
+            if (a.getActionType().equals(CALL) && a.getPlayerId().equals(hash) && raiseCounter == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if player with given hash has 3-bet in given (observed) game.
+     * Player doesn't have to be post flop after this.
+     * 3bR doesn't necessarily have to be his final role either.
+     * *Straddle doesn`t count as a raise.
+     *
+     * @param game observed game
+     * @param hash hash of the given player
+     * @return true, if player has 3-bet in observed game; false, otherwise.
+     */
+    @JsonIgnore
+    public static boolean didPlayer3Bet(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        boolean was1RaiseFound = false;
+        for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
+            if (game.getPreFlop().getAllActions().get(i).getActionType().equals(RAISE)) {
+                if (was1RaiseFound) {
+                    return game.getPreFlop().getAllActions().get(i).getPlayerId().equals(hash);
+                }
+                was1RaiseFound = true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean didPlayer4Bet(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        int raisesAmount = 0;
+        for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
+            if (game.getPreFlop().getAllActions().get(i).getActionType().equals(RAISE)) {
+                if (raisesAmount == 2) {
+                    return game.getPreFlop().getAllActions().get(i).getPlayerId().equals(hash);
+                }
+                ++raisesAmount;
+            }
+        }
+        return false;
+    }
+
+    public static boolean HasPlayerInitiallyFolded(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        for (Action a : game.getPreFlop().getAllActions()) {
+            if (a.getPlayerId().equals(hash) && a.getActionType() != ANTE &&
+                    a.getActionType() != MISSED_BLIND && a.getActionType() != BLIND) {
+                return a.getActionType() == FOLD;
+            }
+        }
+        return false;
+    }
+
+
     /**
      * Checks if player with given hash is a limper lin given (observed) game.
-     * The player must be post flop with his role for the role to be final and
+     * The player must be post flop with his role for the role to be FINAL and
      * for the method to return true.
      * If player has checked in unraised pot (on BB or with a missed blind), method
      * will return TRUE.
+     *
      * @param game observed (analyzed) game
      * @param hash players HASH CODE (not nickname)
      * @return true if player with given hash is limper as their final role in the given game
@@ -183,8 +295,11 @@ public class GameAnalyzer {
      */
     @JsonIgnore
     public static boolean isPlayerLimper(Game game, String hash) {
-        if (game.getPlayer(hash) == null) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
             return false;
+        }
+        if (game.getGameId().equals("HD1567698525")) {
+            System.out.println("A");
         }
         if (!isPotUnRaised(game)) {
             return false;
@@ -210,6 +325,9 @@ public class GameAnalyzer {
      */
     @JsonIgnore
     public static boolean isPlayerSRPC(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
         if (!isPotSingleRaised(game)) {
             return false;
         }
@@ -239,9 +357,10 @@ public class GameAnalyzer {
      */
     @JsonIgnore
     public static boolean isPlayerPFR(Game game, String hash) {
-        if (game.getPlayers().get(hash) == null) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
             return false;
         }
+
         for (int i = game.getPreFlop().getAllActions().size() - 1; i >= 0; --i) {
             if (game.getPreFlop().getAllActions().get(i).getActionType().equals(RAISE)) {
                 return game.getPreFlop().getAllActions().get(i).getPlayerId().equals(hash);
@@ -260,7 +379,10 @@ public class GameAnalyzer {
      */
     @JsonIgnore
     public static boolean isPlayerSRPR(Game game, String hash) {
-        if (game.getPlayer(hash) == null || !isPotSingleRaised(game)) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
+        if (!isPotSingleRaised(game)) {
             return false;
         }
         ArrayList<Action> allActions = game.getPreFlop().getAllActions();
@@ -285,13 +407,13 @@ public class GameAnalyzer {
      */
     @JsonIgnore
     public static boolean isPlayer3BetRaiser(Game game, String hash) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
+            return false;
+        }
         if (!isPot3Bet(game)) {
             return false;
         }
 
-        if (game.getPlayers().get(hash) == null) {
-            return false;
-        }
 
         boolean was1stRaiseFound = false;
         ArrayList<Action> actions = game.getPreFlop().getAllActions();
@@ -318,11 +440,10 @@ public class GameAnalyzer {
      * @return true if player with given hash has a 3-bet caller final role in the given game.
      */
     public static boolean isPlayer3BetCaller(Game game, String hash) {
-        if (!isPot3Bet(game)) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
             return false;
         }
-
-        if (game.getPlayers().get(hash) == null) {
+        if (!isPot3Bet(game)) {
             return false;
         }
 
@@ -346,34 +467,6 @@ public class GameAnalyzer {
     }
 
 
-    /**
-     * Checks if player with given hash has 3-bet in given (observed) game.
-     * Player doesn't have to be post flop after this.
-     * 3bR doesn't necessarily have to be his final role either.
-     * *Straddle doesn`t count as a raise.
-     *
-     * @param game observed game
-     * @param hash hash of the given player
-     * @return true, if player has 3-bet in observed game; false, otherwise.
-     */
-    @JsonIgnore
-    public static boolean didPlayer3Bet(Game game, String hash) {
-        if (game.getPlayers().get(hash) == null) {
-            return false;
-        }
-        boolean was1RaiseFound = false;
-        for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
-            if (game.getPreFlop().getAllActions().get(i).getActionType().equals(RAISE)) {
-                if (was1RaiseFound) {
-                    return game.getPreFlop().getAllActions().get(i).getPlayerId().equals(hash);
-                }
-                was1RaiseFound = true;
-            }
-        }
-        return false;
-    }
-
-
     // CHECK IF VALID OR NOT
 //    /**
 //     * Checks if player with given hash has 4-bet in given (observed) game.
@@ -387,13 +480,23 @@ public class GameAnalyzer {
 //     */
     @JsonIgnore
     public static boolean isPlayer4BetRaiser(Game game, String hash) {
-        if (game.getPlayers().get(hash) == null) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
             return false;
         }
         if (!isPot4Bet(game)) {
             return false;
         }
+        if (!isPlayerPFR(game, hash)) {
+            return false;
+        }
         int raisesAmount = 0;
+        for (int i = game.getPreFlop().getAllActions().size() - 1; i >= 0; --i) {
+            if (game.getPreFlop().getAllActions().get(i).getActionType() == RAISE) {
+                if (!game.getPreFlop().getAllActions().get(i).getPlayerId().equals(hash)) {
+                    return false;
+                }
+            }
+        }
         for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
             if (game.getPreFlop().getAllActions().get(i).getActionType().equals(RAISE)) {
                 if (raisesAmount == 2) {
@@ -406,7 +509,7 @@ public class GameAnalyzer {
     }
 
     public static boolean isPlayer4BetCaller(Game game, String hash) {
-        if (game.getPlayers().get(hash) == null) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
             return false;
         }
         if (!isPot4Bet(game)) {
@@ -424,7 +527,7 @@ public class GameAnalyzer {
 
     @JsonIgnore
     public static boolean isPlayer5BetRaiser(Game game, String hash) {
-        if (game.getPlayers().get(hash) == null) {
+        if (game == null || game.getPreFlop() == null || game.getPlayer(hash) == null) {
             return false;
         }
         int raisesAmount = 0;
@@ -451,7 +554,7 @@ public class GameAnalyzer {
     }
 
     @JsonIgnore
-    public static boolean didCBetFLop(Game game, String hash) {
+    public static boolean didCBetFlop(Game game, String hash) {
         if (game.getFlop() == null) {
             return false;
         }
@@ -466,6 +569,21 @@ public class GameAnalyzer {
             return false;
         }
         return game.getFlop().getAllActions().get(i).getPlayerId().equals(hash);
+    }
+
+    @JsonIgnore
+    public static boolean didPFRCheckFlop(Game game, String hash) {
+        if (game.getFlop() == null) {
+            return false;
+        }
+        if (!isPlayerPFR(game, hash)) {
+            return false;
+        }
+        int i = 0;
+        while (i < game.getFlop().getAllActions().size() && !game.getFlop().getAllActions().get(i).getPlayerId().equals(hash)) {
+            ++i;
+        }
+        return game.getFlop().getAllActions().get(i).getActionType().equals(CHECK);
     }
 
 
@@ -504,6 +622,33 @@ public class GameAnalyzer {
     }
 
     @JsonIgnore
+    public static boolean didCallerFoldFlop(Game game, String hash) {
+        if (game.getFlop() == null) {
+            return false;
+        }
+        if (isPlayerPFR(game, hash)) {
+            return false;
+        }
+        for (int i = 0; i < game.getFlop().getAllActions().size(); ++i) {
+            if (game.getFlop().getAllActions().get(i).getPlayerId().equals(hash) &&
+                    game.getFlop().getAllActions().get(i).getActionType().equals(FOLD)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @JsonIgnore
+    public static boolean wasFlopChecked(Game game) {
+        for (Action a : game.getFlop().getAllActions()) {
+            if (a.getActionType() != CHECK) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @JsonIgnore
     public static boolean didRaiseFlop(Game game, String hash) {
         if (game.getFlop() == null) {
             return false;
@@ -519,13 +664,13 @@ public class GameAnalyzer {
 
     @JsonIgnore
     public static boolean didCBetTurn(Game game, String hash) {
-        if (game.getTurn() == null) {
+        if (game.getTurn() == null || game.getTurn().getAllActions().isEmpty()) {
             return false;
         }
-        // ???? Need to see definition of turn c-bet.
-        if (!didCBetFLop(game, hash)) {
-            return false;
-        }
+        // turn c-bet occur without flop c-bet
+//        if (!didCBetFlop(game, hash)) {
+//            return false;
+//        }
         for (int i = 0; i < game.getTurn().getAllActions().size(); ++i) {
             if (game.getTurn().getAllActions().get(i).getActionType().equals(BET) &&
                     game.getTurn().getAllActions().get(i).getPlayerId().equals(hash)) {
@@ -536,8 +681,27 @@ public class GameAnalyzer {
     }
 
     @JsonIgnore
+    public static boolean didPFRCheckTurn(Game game, String hash) {
+        if (game.getTurn() == null || game.getTurn().getAllActions().isEmpty()) {
+            return false;
+        }
+        if (!isPlayerPFR(game, hash)) {
+            return false;
+        }
+        int i = 0;
+        while (i < game.getTurn().getAllActions().size() && !game.getTurn().getAllActions().get(i).getPlayerId().equals(hash)) {
+            ++i;
+        }
+        try {
+            return game.getTurn().getAllActions().get(i).getActionType().equals(CHECK);
+        } catch (IndexOutOfBoundsException ex) {
+            return false;
+        }
+    }
+
+    @JsonIgnore
     public static boolean didCheckRaiseTurn(Game game, String hash) {
-        if (game.getTurn() == null) {
+        if (game.getTurn() == null || game.getTurn().getAllActions().isEmpty()) {
             return false;
         }
 
@@ -555,7 +719,7 @@ public class GameAnalyzer {
 
     @JsonIgnore
     public static boolean didCallCBetTurn(Game game, String hash) {
-        if (game.getTurn() == null) {
+        if (game.getTurn() == null || game.getTurn().getAllActions().isEmpty()) {
             return false;
         }
         if (isPlayerPFR(game, hash)) {
@@ -572,12 +736,29 @@ public class GameAnalyzer {
 
     @JsonIgnore
     public static boolean didRaiseTurn(Game game, String hash) {
-        if (game.getTurn() == null) {
+        if (game.getTurn() == null || game.getTurn().getAllActions().isEmpty()) {
             return false;
         }
         for (int i = 0; i < game.getTurn().getAllActions().size(); ++i) {
             if (game.getTurn().getAllActions().get(i).getPlayerId().equals(hash) &&
                     game.getTurn().getAllActions().get(i).getActionType().equals(RAISE)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @JsonIgnore
+    public static boolean didCallerFoldTurn(Game game, String hash) {
+        if (game.getTurn() == null || game.getTurn().getAllActions().isEmpty()) {
+            return false;
+        }
+        if (isPlayerPFR(game, hash)) {
+            return false;
+        }
+        for (int i = 0; i < game.getTurn().getAllActions().size(); ++i) {
+            if (game.getTurn().getAllActions().get(i).getPlayerId().equals(hash) &&
+                    game.getTurn().getAllActions().get(i).getActionType().equals(FOLD)) {
                 return true;
             }
         }

@@ -138,7 +138,7 @@ public class UserProfileDisplayController {
                 if (g.getPreFlop().getPlayersAfterBetting().contains(new PlayerInGame(hash))) {
                     ++flopGames;
                 }
-                if (GameAnalyzer.didCBetFLop(g, hash)) {
+                if (GameAnalyzer.didCBetFlop(g, hash)) {
                     ++flopCBetGames;
                 }
                 if (GameAnalyzer.didCheckRaiseFlop(g, hash)) {

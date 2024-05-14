@@ -17,29 +17,9 @@ public class PSAApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PSAApplication.class.getResource("views/homeView.fxml"));
 
-//        GGPokerokHoldem9MaxParser parser = new GGPokerokHoldem9MaxParser();
-//        ArrayList<Game> parsedGames = null;
-//        try {
-//            parsedGames = parser.parseFile("D:\\Poker\\1000 games.txt");
-////            parsedGames = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/gameSessionGames.txt");
-//        } catch (Exception ignored) {
-//            System.out.println("AA");
-//        }
-//
-//        FXMLLoader fxmlLoader = new FXMLLoader(PSAApplication.class.getResource("views/handsEVView.fxml"));
-//        stage.setScene(new Scene(fxmlLoader.load()));
-//        HandsEVController controller = fxmlLoader.getController();
-//        controller.setGamesAndUpdateTable(parsedGames);
-//
-//        GamesSet testGameSet = new GamesSet();
-//        testGameSet.addGames(parsedGames);
-//
-//        controller.setGamesSet(testGameSet);
-//
-//        stage.show();
-
         Scene scene = new Scene(fxmlLoader.load(), 660, 440);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

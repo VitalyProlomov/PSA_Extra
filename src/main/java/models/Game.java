@@ -222,7 +222,11 @@ public class Game {
      * @return player in game with same hash. Or null if no such player is found
      */
     public PlayerInGame getPlayer(String id) {
-        return new PlayerInGame(players.get(id));
+        try {
+            return new PlayerInGame(players.get(id));
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     /**

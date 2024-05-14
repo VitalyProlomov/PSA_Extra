@@ -47,55 +47,61 @@ public class AssignNewPlayerController {
         PositionType position = positionChoiceBox.getValue();
         String hash = hashTextField.getText();
 
-        if (userName.isEmpty() || gameId.isEmpty() || position == null || hash.isEmpty()) {
-            warningLabel.setVisible(true);
-        } else {
-            FilterSearchController filter = new FilterSearchController();
-
-            String table = "";
-            if (gamesSet.getGames().get(gameId) == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.setContentText("Game with such Game Id was not found");
-                alert.show();
+        try {
+            if (userName.isEmpty() || gameId.isEmpty() || position == null || hash.isEmpty()) {
+                warningLabel.setVisible(true);
             } else {
-                Game g = gamesSet.getGames().get(gameId);
-                PlayerInGame curPlayer = g.getPlayer(hash);
-                if (curPlayer == null) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.setContentText("There is no player with such hashcode in given Game");
-                    alert.show();
-                    return;
-                }
-                if (!curPlayer.getPosition().equals(position)) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.setContentText("Position of chosen player is incorrect, double check please.");
-                    alert.show();
+                FilterSearchController filter = new FilterSearchController();
 
-                    return;
+                String table = "";
+                if (gamesSet.getGames().get(gameId) == null) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.setContentText("Game with such Game Id was not found");
+                    alert.show();
                 } else {
-                    // Check for existing of UserName first
-                    UserProfile userProfile = new UserProfile(userName);
-                    curPlayer.setRef(userProfile);
-                    userProfile.findGames(curPlayer, g, new HashSet<>(gamesSet.getGames().values()));
-                    newlyAssignedUsers.add(userProfile);
+                    Game g = gamesSet.getGames().get(gameId);
+                    PlayerInGame curPlayer = g.getPlayer(hash);
+                    if (curPlayer == null) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                        alert.setContentText("There is no player with such hashcode in given Game");
+                        alert.show();
+                        return;
+                    }
+                    if (!curPlayer.getPosition().equals(position)) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                        alert.setContentText("Position of chosen player is incorrect, double check please.");
+                        alert.show();
 
-                    warningLabel.setVisible(false);
-                    warningLabel.getScene().getWindow().hide();
-                    return;
+                        return;
+                    } else {
+                        // Check for existing of UserName first
+                        UserProfile userProfile = new UserProfile(userName);
+                        curPlayer.setRef(userProfile);
+                        userProfile.findGames(curPlayer, g, new HashSet<>(gamesSet.getGames().values()));
+                        newlyAssignedUsers.add(userProfile);
+
+                        warningLabel.setVisible(false);
+                        warningLabel.getScene().getWindow().hide();
+                        return;
+                    }
+
                 }
 
+                warningLabel.setVisible(false);
             }
-
-            warningLabel.setVisible(false);
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Search gone wrong, make sure position, hash is right.");
+            alert.show();
         }
     }
 
     @FXML
     void initialize() {
-        positionChoiceBox.getItems().addAll(SB, BB, LJ, HJ, CO, BTN);
+        positionChoiceBox.getItems().addAll(SB, BB, UTG, UTG_1, UTG_2, LJ, HJ, CO, BTN);
         assignButton.setOnMouseClicked(action -> onAssignButtonClicked());
     }
 

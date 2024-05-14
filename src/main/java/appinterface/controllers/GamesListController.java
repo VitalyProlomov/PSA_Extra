@@ -13,11 +13,13 @@ import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import models.Game;
 import models.GamesSet;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class GamesListController {
@@ -175,10 +177,59 @@ public class GamesListController {
 
     @FXML
     private void initializeTable() {
-        gamesTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("date"));
-        gamesTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("gameId"));
-        gamesTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("BigBlindSize$"));
-        gamesTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("finalPot"));
+        TableColumn<Game, String> idColumn = new TableColumn<>();
+        TableColumn<Game, Double> potColumn = new TableColumn<>();
+        TableColumn<Game, Date> dateColumn = new TableColumn<>();
+        TableColumn<Game, Double> bbSizeColumn = new TableColumn<>();
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("gameId"));
+        potColumn.setCellValueFactory(new PropertyValueFactory<Game, Double>("finalPot"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        bbSizeColumn.setCellValueFactory(new PropertyValueFactory<>("BigBlindSize$"));
+
+
+        dateColumn.setText("Date");
+        idColumn.setText("ID");
+        bbSizeColumn.setText("Blinds");
+        potColumn.setText("Pot");
+
+
+        potColumn.setCellFactory(new Callback<>() {
+            public TableCell call(TableColumn p) {
+                TableCell cell = new TableCell<Game, Double>() {
+                    @Override
+                    public void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? null : getString());
+                        setGraphic(null);
+                    }
+
+                    private String getString() {
+                        String ret = "";
+                        if (getItem() != null) {
+                            ret = new DecimalFormat("#0.00").format(getItem());
+                        } else {
+                            ret = "0.00";
+                        }
+                        return ret;
+                    }
+                };
+
+                return cell;
+            }
+        });
+
+        dateColumn.setMinWidth(10);
+        idColumn.setMinWidth(10);
+        bbSizeColumn.setMinWidth(10);
+        potColumn.setMinWidth(10);
+
+        dateColumn.setPrefWidth(125);
+        idColumn.setPrefWidth(75);
+        bbSizeColumn.setPrefWidth(75);
+        potColumn.setPrefWidth(25);
+
+        gamesTableView.getColumns().addAll(dateColumn, idColumn, bbSizeColumn, potColumn);
 
         // Setting clinking the row to open gameDisplayView.
         gamesTableView.setRowFactory(tv -> {
