@@ -37,13 +37,17 @@ public class HomeController {
     private Button handsEVButton;
 
     @FXML
-    private Button profileButton;
+    private Button helpButton;
 
     @FXML
     private Button uploadButton;
 
+    @FXML
+    private Button deleteGamesButton;
+
     private final static String SERIALIZED_GAMES_PATH = "src/main/resources/serializedFiles/serializedGames.txt";
     private GamesSet gamesSet;
+
 
     public void initialize() {
         initializeSerializedSavedGames();
@@ -52,8 +56,9 @@ public class HomeController {
         evCalculatorButton.setOnMouseClicked(actionEvent -> onEVCalculatorButtonClicked());
         examinePlayersButton.setOnMouseClicked(action -> onExaminePlayersButtonClicked());
         handsEVButton.setOnMouseClicked(action -> onHandsEVButtonClicked());;
-        profileButton.setOnMouseClicked(action -> onProfileButtonClicked());
+        helpButton.setOnMouseClicked(action -> onHelpButtonClicked());
         uploadButton.setOnAction(actionEvent -> onUploadButtonClick());
+        deleteGamesButton.setOnMouseClicked(action -> onDeleteGamesButtonClicked());
 
     }
 
@@ -191,6 +196,40 @@ public class HomeController {
             alert.setContentText("Could not open Enhanced Stats. Try reopening the app.");
             alert.show();
         }
+    }
+
+    private void onDeleteGamesButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/deleteGamesView.fxml"));
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.setResizable(false);
+
+            DeleteGamesController controller = loader.getController();
+            try {
+                controller.setGamesSet(gamesSet);
+            } catch (Exception ex) {
+                controller.setGamesSet(null);
+            }
+            stage.show();
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Could not open Remove games window. Try reopening the app.");
+            alert.show();
+        }
+    }
+
+    private void onHelpButtonClicked() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("""
+                Hello, user. Poker Statistics Analyzer is an app 
+                that will help you improve your strategy by
+                analyzing your games.
+                There are following functions here: 
+                1) Downloaded games - here yu can see all
+                of the games you uploaded
+                """);
     }
 
     private void initializeSerializedSavedGames() {

@@ -35,12 +35,6 @@ public class GamesListController {
     private Button searchFiltersButton;
 
     @FXML
-    private Button profileButton;
-
-    @FXML
-    private Button examinePlayersButton;
-
-    @FXML
     private ImageView helpImageView;
 
     private GamesSet gamesSet;
@@ -55,9 +49,6 @@ public class GamesListController {
         updateTable(new HashSet<>(gamesSet.getGames().values()));
         searchFiltersButton.setOnMouseClicked(actionEvent -> onSearchFiltersButtonClick());
 
-        profileButton.setOnMouseClicked(action -> onProfileButtonClicked());
-
-        examinePlayersButton.setOnMouseClicked(action -> onExaminePlayersButtonClicked());
 
         helpImageView.setOnMouseClicked(action -> onHelpImageViewClicked());
     }

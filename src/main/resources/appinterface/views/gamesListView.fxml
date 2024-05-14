@@ -15,19 +15,15 @@
         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="639.0" BorderPane.alignment="CENTER">
             <columnConstraints>
             <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="34.00001411437988" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="150.79998588562012" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="140.0" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="140.59998779296876" />
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="129.40001220703118" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="273.2" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="291.6000000000001" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
             </rowConstraints>
             <children>
-                <Button fx:id="uploadButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" prefWidth="153.0" text="Upload Files" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                <Button fx:id="examinePlayersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="51.0" prefWidth="163.0" text="Examine Players" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
-                <Button fx:id="profileButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="48.0" prefWidth="179.0" text="Profile" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" />
-            <Button fx:id="searchFiltersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" prefWidth="134.0" text="Search Filters" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" />
+                <Button fx:id="uploadButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" prefWidth="269.0" text="Upload Files" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+            <Button fx:id="searchFiltersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" prefWidth="134.0" text="Search Filters" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
             <ImageView fx:id="helpImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                <image>
                   <Image url="@../assets/questionMark.png" />
