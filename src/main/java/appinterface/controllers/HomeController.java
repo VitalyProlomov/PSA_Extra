@@ -225,16 +225,16 @@ public class HomeController {
     private void onHelpButtonClicked() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("""
-                Hello, user. Poker Statistics Analyzer is an app
+                 Hello, user. Poker Statistics Analyzer is an app
                 that will help you improve your strategy by
                 analyzing your games.
                 There are following functions here:
-                1) Downloaded games - here yu can see all
+                1) Downloaded games - here you can see all
                 of the games you uploaded and replay them by
                 double clicking on row with chosen game.
                 2) Upload games - upload new games (format
                 must be from the files downloaded on website PokerCraft.com
-                Website can only be accessed through lin in poker room GGPoker.
+                Website can only be accessed through link in poker room GGPoker.
                 3) Examine Players - assign player nicknames to their
                 hashes. Players can then be seen assigned to the games.
                 4) EV Calculator - here you can calculate mathematical
@@ -242,9 +242,17 @@ public class HomeController {
                 5) Hands EV - here you can see all the expected value
                 with every possible hand.
                 6) Enhanced Stats - here you can analyze your actions
-                and some statistics in games that you can ilter by
+                and some statistics in games that you can filter by
                 different parameters
                 7) Delete games - delete unwanted games (can be searched by filter)
+                Some basic notations:
+                For cards A - is Ace, K - King, Q- Queen, J - Jack, T - ten,
+                all number cards are written as their rank.
+                As for the suits: s - spades, h - hearts, c - clubs, d - diamonds
+                So, to write a nine of clubs, write 9c
+                In app the suits of cards are represented with colors:
+                Hearts - red, Spades - black, Clubs - green, Diamonds - blue
+                to search for King Jack off suit - write KJo, suited - KJs
                 Have fun using the app!
                 """);
         alert.show();

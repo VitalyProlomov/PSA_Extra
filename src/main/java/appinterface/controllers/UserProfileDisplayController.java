@@ -194,26 +194,53 @@ public class UserProfileDisplayController {
 
         DecimalFormat dcf = new DecimalFormat("#0.00");
         // .format(String)           balanceStr = balanceStr.replace(',', '.');
+        if (totalGames != 0) {
+            preflopPFRLabel.setText(preflopPFRLabel.getText() + dcf.format((preflopPFRGames / totalGames * 100)) + "%");
+            preflop3BetLabel.setText(preflop3BetLabel.getText() + dcf.format((preflop3BetGames / totalGames) * 100) + "%");
+            preflop4BetLabel.setText(preflop4BetLabel.getText() + dcf.format((preflop4BetGames / totalGames) * 100) + "%");
+            preflop5BetLabel.setText(preflop5BetLabel.getText() + dcf.format((preflop5BetGames / totalGames) * 100) + "%");
+        } else {
+            preflopPFRLabel.setText("no games");
+            preflop3BetLabel.setText("no games");
+            preflop4BetLabel.setText("no games");
+            preflop5BetLabel.setText("no games");
+        }
 
-        preflopPFRLabel.setText(preflopPFRLabel.getText() + dcf.format((preflopPFRGames / totalGames * 100)) + "%");
-        preflop3BetLabel.setText(preflop3BetLabel.getText() + dcf.format((preflop3BetGames / totalGames) * 100) + "%");
-        preflop4BetLabel.setText(preflop4BetLabel.getText() + dcf.format((preflop4BetGames / totalGames) * 100) + "%");
-        preflop5BetLabel.setText(preflop5BetLabel.getText() + dcf.format((preflop5BetGames / totalGames) * 100) + "%");
+        if (flopGames != 0) {
+            flopCBetLabel.setText(flopCBetLabel.getText() + dcf.format(flopCBetGames / flopGames * 100) + "%");
+            flopCheckRaiseLabel.setText(flopCheckRaiseLabel.getText() + dcf.format(flopCheckRaiseGames / flopGames * 100) + "%");
+            flopCBetCallLabel.setText(flopCBetCallLabel.getText() + dcf.format(flopCBetCallGames / flopGames * 100) + "%");
+            flopRaiseLabel.setText(flopRaiseLabel.getText() + dcf.format(flopRaiseGames / flopGames * 100) + "%");
+        } else {
+            flopCBetLabel.setText("no games");
+            flopCheckRaiseLabel.setText("no games");
+            flopCBetCallLabel.setText("no games");
+            flopRaiseLabel.setText("no games");
+        }
 
-        flopCBetLabel.setText(flopCBetLabel.getText() + dcf.format(flopCBetGames / flopGames * 100) + "%");
-        flopCheckRaiseLabel.setText(flopCheckRaiseLabel.getText() + dcf.format(flopCheckRaiseGames / flopGames * 100) + "%");
-        flopCBetCallLabel.setText(flopCBetCallLabel.getText() + dcf.format(flopCBetCallGames / flopGames * 100) + "%");
-        flopRaiseLabel.setText(flopRaiseLabel.getText() + dcf.format(flopRaiseGames / flopGames * 100) + "%");
+        if (turnGames != 0) {
+            turnCBetLabel.setText(turnCBetLabel.getText() + dcf.format(turnCBetGames / turnGames * 100) + "%");
+            turnCheckRaiseLabel.setText(turnCheckRaiseLabel.getText() + dcf.format(turnCheckRaiseGames / turnGames * 100) + "%");
+            turnCBetCallLabel.setText(turnCBetCallLabel.getText() + dcf.format(turnCBetCallGames / turnGames * 100) + "%");
+            turnRaiseLabel.setText(turnRaiseLabel.getText() + dcf.format(turnRaiseGames / turnGames * 100) + "%");
+        } else {
+            turnCBetLabel.setText("no games");
+            turnCheckRaiseLabel.setText("no games");
+            turnCBetCallLabel.setText("no games");
+            turnRaiseLabel.setText("no games");
+        }
 
-        turnCBetLabel.setText(turnCBetLabel.getText() + dcf.format(turnCBetGames / turnGames * 100) + "%");
-        turnCheckRaiseLabel.setText(turnCheckRaiseLabel.getText() + dcf.format(turnCheckRaiseGames / turnGames * 100) + "%");
-        turnCBetCallLabel.setText(turnCBetCallLabel.getText() + dcf.format(turnCBetCallGames / turnGames * 100) + "%");
-        turnRaiseLabel.setText(turnRaiseLabel.getText() + dcf.format(turnRaiseGames / turnGames * 100) + "%");
-
-        riverCBetLabel.setText(riverCBetLabel.getText() + dcf.format(riverCBetGames / riverGames * 100) + "%");
-        riverCallLabel.setText(riverCallLabel.getText() + dcf.format(riverCallGames / riverGames * 100) + "%");
-        riverLeadLabel.setText(riverLeadLabel.getText() + dcf.format(riverLeadGames / riverGames * 100) + "%");
-        riverWShowdownLabel.setText(riverWShowdownLabel.getText() + dcf.format(riverWShowdownGames / riverGames * 100) + "%");
+        if (riverGames != 0) {
+            riverCBetLabel.setText(riverCBetLabel.getText() + dcf.format(riverCBetGames / riverGames * 100) + "%");
+            riverCallLabel.setText(riverCallLabel.getText() + dcf.format(riverCallGames / riverGames * 100) + "%");
+            riverLeadLabel.setText(riverLeadLabel.getText() + dcf.format(riverLeadGames / riverGames * 100) + "%");
+            riverWShowdownLabel.setText(riverWShowdownLabel.getText() + dcf.format(riverWShowdownGames / riverGames * 100) + "%");
+        } else {
+            riverCBetLabel.setText("no games");
+            riverCallLabel.setText("no games");
+            riverLeadLabel.setText("no games");
+            riverWShowdownLabel.setText("no games");
+        }
     }
 
 //    private void setPercentText(Label label) {
