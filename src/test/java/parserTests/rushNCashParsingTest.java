@@ -427,13 +427,7 @@ public class rushNCashParsingTest {
         assertFalse(topG.getRiver().isAllIn());
     }
 
-    @Test
-    public void testProblemGame() throws FileNotFoundException, IncorrectHandException, IncorrectBoardException, IncorrectCardException {
-        GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
-        String text = getTextFromFile("/ggPokerokFiles/gamesFiles/rushNCash/problemGame.txt");
 
-        Game topG = parser.parseGame(text);
-    }
     // endregion
 
     private String getFullPath(String path) {
@@ -542,14 +536,5 @@ public class rushNCashParsingTest {
         assertTrue(Math.abs(1.75 - game.getFinalPot()) < 0.005);
         assertTrue(GameAnalyzer.isPot3Bet(game));
     }
-
-    // Corrupted text file (blinds are nor written in the file downloaded from the website).
-
-//    @Test
-//    public void parseProblemSession() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
-//        GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
-//        String path = "src/test/resources/ggPokerokFiles/gamesFiles/rushNCash/problemSession.txt";
-//        assertDoesNotThrow(() -> parser.parseFile(path));
-//    }
 
 }

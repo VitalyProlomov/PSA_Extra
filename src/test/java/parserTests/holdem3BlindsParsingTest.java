@@ -29,26 +29,6 @@ public class holdem3BlindsParsingTest {
         }
         return gameText.toString();
     }
-//
-//    @Test
-//    public void test() throws FileNotFoundException, IncorrectHandException, IncorrectBoardException, IncorrectCardException {
-//        GGPokerokHoldem8Max3BlindsParser parser = new GGPokerokHoldem8Max3BlindsParser();
-//        String txt = getTextFromFile("/ggPokerokFiles/holdem3BlindsGamesFiles/flopAllInGame");
-//        Game topG = parser.parseGame(txt);
-//        assertEquals("HD1127456652", topG.getGameId());
-//        assertEquals(new Date("2023/02/19 18:02:19"), topG.getDate());
-//
-//        ArrayList<Pla yerInGame> players = new ArrayList<>(List.of(
-//                new PlayerInGame("Hero", SB,25.06),
-//                new PlayerInGame("5007fc29", BB,25.06),
-//                new PlayerInGame("46396763", TB,25.06),
-//                new PlayerInGame("ab86cbdb", UTG,25.06),
-//                new PlayerInGame("ea6b9042", LJ,25.06),
-//                new PlayerInGame("Hero", HJ,25.06),
-//                new PlayerInGame("Hero", CO,25.06),
-//                new PlayerInGame("Hero", BTN,25.06)
-//                ));
-//
-//    }
+
 
 }

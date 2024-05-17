@@ -103,47 +103,6 @@ public class DeleteGamesController {
             }
         });
 
-
-        // Setting clinking the row to open gameDisplayView.
-//        gamesTableView.setRowFactory(tv -> {
-//            TableRow<Game> row = new TableRow<>();
-//            row.setOnMouseClicked(event -> {
-//                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-//                    try {
-//                        Game rowData = row.getItem();
-//
-//                        FXMLLoader loader;
-//
-//                        Stage stage = new Stage();
-//
-//                        if (rowData.getGameType().equals(Game.GameType.HOLDEM_RNC_6MAX)) {
-//                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
-//                            stage.setScene(new Scene(loader.load()));
-//                            GameDisplay6MaxController controller = loader.getController();
-//                            controller.setGame(rowData);
-//                        } else if (rowData.getGameType().equals(Game.GameType.HOLDEM_9MAX)) {
-//                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
-//                            stage.setScene(new Scene(loader.load()));
-//                            GameDisplay9MaxController controller = loader.getController();
-//                            controller.setGame(rowData);
-//                        } else {
-//                            throw new Exception("Unknown game type, currently not supported");
-//                        }
-//
-//                        stage.setResizable(false);
-//                        stage.show();
-//                    } catch (Exception ex) {
-//                        Alert alert = new Alert(Alert.AlertType.ERROR);
-//                        alert.setContentText("Could not properly load game page.");
-//                        if (ex.getMessage().equals("Unknown game type, currently not supported")) {
-//                            alert.setContentText(ex.getMessage());
-//                        }
-//                        alert.show();
-//                    }
-//                }
-//            });
-//            return row;
-//        });
         gamesTableView.getColumns().addAll(dateColumn, idColumn, bbSizeColumn, potColumn);
     }
 
@@ -180,7 +139,7 @@ public class DeleteGamesController {
 
     @FXML
     private void onDeleteGamesButtonClicked() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are ypu sure you want to delete " +
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " +
                 selectedGames.size() + " games? ", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
 
