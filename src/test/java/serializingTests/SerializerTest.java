@@ -1,15 +1,15 @@
 package serializingTests;
 
-import analizer.Combination;
+import pokerlibrary.analizer.Combination;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.*;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
 import org.junit.jupiter.api.Test;
 import parserTests.rushNCashParsingTest;
-import parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.models.*;
+import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
 import java.io.File;
 import java.io.IOException;

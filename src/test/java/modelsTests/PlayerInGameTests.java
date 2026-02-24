@@ -1,10 +1,10 @@
 package modelsTests;
 
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.Card;
-import models.Hand;
-import models.PlayerInGame;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
+import pokerlibrary.models.Card;
+import pokerlibrary.models.Hand;
+import pokerlibrary.models.PlayerInGame;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

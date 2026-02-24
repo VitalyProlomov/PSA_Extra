@@ -1,15 +1,15 @@
-package analizer;
+package pokerlibrary.analizer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import models.Action;
-import models.Game;
-import models.PlayerInGame;
-import models.StreetDescription;
+import pokerlibrary.models.Action;
+import pokerlibrary.models.Game;
+import pokerlibrary.models.PlayerInGame;
+import pokerlibrary.models.StreetDescription;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static models.Action.ActionType.*;
+import static pokerlibrary.models.Action.ActionType.*;
 
 public class GameAnalyzer {
     /**

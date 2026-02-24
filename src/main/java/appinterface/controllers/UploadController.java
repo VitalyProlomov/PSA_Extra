@@ -1,20 +1,13 @@
 package appinterface.controllers;
 
-import appinterface.PSAApplication;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.Alert;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
-import models.Game;
-import models.GamesSet;
-import parsers.gg.GGPokerokHoldem9MaxParser;
-import parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.models.Game;
+import pokerlibrary.parsers.gg.GGPokerokHoldem9MaxParser;
+import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class UploadController {

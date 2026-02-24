@@ -1,20 +1,20 @@
 package parserTests;
 
-import analizer.GameAnalyzer;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.*;
+import pokerlibrary.analizer.GameAnalyzer;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
 import org.junit.jupiter.api.Test;
-import parsers.Parser;
-import parsers.gg.GGPokerokHoldem9MaxParser;
+import pokerlibrary.models.*;
+import pokerlibrary.parsers.Parser;
+import pokerlibrary.parsers.gg.GGPokerokHoldem9MaxParser;
+import static pokerlibrary.models.Action.ActionType.*;
+import static pokerlibrary.models.PositionType.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static models.Action.ActionType.*;
-import static models.PositionType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class holdem9MaxParserTest {
@@ -360,8 +360,6 @@ public class holdem9MaxParserTest {
         expectedActions.add(new Action(FOLD, "Hero", 0, 5.72));
         expectedActions.add(new Action(CALL, "fd181360", 2.42, 5.72));
 
-
-//        assertEquals(expectedActions.size(), game.getPreFlop().getAllActions().size());
         for (int i = 0; i < game.getPreFlop().getAllActions().size(); ++i) {
             assertEquals(game.getPreFlop().getAllActions().get(i), expectedActions.get(i));
         }

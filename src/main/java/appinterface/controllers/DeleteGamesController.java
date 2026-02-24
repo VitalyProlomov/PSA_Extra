@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import models.Game;
-import models.GamesSet;
+import pokerlibrary.models.Game;
+import pokerlibrary.models.GamesSet;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package exceptions;
+package pokerlibrary.exceptions;
 
 /**
  * Thrown to indicate that the baord is incorrect - either invalid, or does not have correct size

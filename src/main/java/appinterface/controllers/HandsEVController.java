@@ -1,8 +1,7 @@
 package appinterface.controllers;
 
-import analizer.CombinationAnalyzer;
+import pokerlibrary.analizer.CombinationAnalyzer;
 import appinterface.PSAApplication;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -16,9 +15,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import models.*;
+import pokerlibrary.models.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

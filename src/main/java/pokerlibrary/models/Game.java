@@ -1,4 +1,4 @@
-package models;
+package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 
-import static models.PositionType.*;
+import static pokerlibrary.models.PositionType.*;
 
 /**
  * Class defining the entity of a game (1 hand played among players).

@@ -1,10 +1,10 @@
-package parsers.gg;
+package pokerlibrary.parsers.gg;
 
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.Game;
-import parsers.Parser;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
+import pokerlibrary.models.Game;
+import pokerlibrary.parsers.Parser;
 
 import java.io.*;
 import java.util.ArrayList;

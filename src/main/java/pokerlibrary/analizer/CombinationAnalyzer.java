@@ -1,11 +1,12 @@
-package analizer;
+package pokerlibrary.analizer;
 
-import exceptions.IncorrectBoardException;
-import models.*;
+import pokerlibrary.exceptions.IncorrectBoardException;
+
+import pokerlibrary.models.*;
 
 import java.util.*;
 
-import static analizer.Combination.*;
+import static pokerlibrary.analizer.Combination.*;
 
 /**
  * Class that contains methods for analyzing the board and identifying the

@@ -1,12 +1,12 @@
 package appinterface.controllers;
 
-import analizer.GameAnalyzer;
+import pokerlibrary.analizer.GameAnalyzer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import models.Game;
-import models.PlayerInGame;
-import models.UserProfile;
+import pokerlibrary.models.Game;
+import pokerlibrary.models.PlayerInGame;
+import pokerlibrary.models.UserProfile;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -89,7 +89,6 @@ public class UserProfileDisplayController {
         double flopGames = 0;
         double turnGames = 0;
         double riverGames = 0;
-
 
         double preflopPFRGames = 0;
         double preflop3BetGames = 0;
@@ -242,10 +241,6 @@ public class UserProfileDisplayController {
             riverWShowdownLabel.setText("no games");
         }
     }
-
-//    private void setPercentText(Label label) {
-//        turnCBetLabel.setText(turnCBetLabel.getText() + dcf.format(turnCBetGames / turnGames * 100) + "%");
-//    }
 
 
     @FXML

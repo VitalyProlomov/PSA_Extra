@@ -1,12 +1,12 @@
 package modelsTests;
 
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.Game;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
+import pokerlibrary.models.Game;
 import org.junit.jupiter.api.Test;
-import parsers.Parser;
-import parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.parsers.Parser;
+import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
 import java.io.IOException;
 

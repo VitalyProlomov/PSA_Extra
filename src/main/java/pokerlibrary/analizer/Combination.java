@@ -1,4 +1,4 @@
-package analizer;
+package pokerlibrary.analizer;
     /**
      * All possible combinations in Texas Holdem
      */

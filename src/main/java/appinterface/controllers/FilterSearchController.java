@@ -1,13 +1,13 @@
 package appinterface.controllers;
 
-import analizer.GameAnalyzer;
+import pokerlibrary.analizer.GameAnalyzer;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
-import models.Card;
-import models.Game;
+import pokerlibrary.models.Card;
+import pokerlibrary.models.Game;
 import org.controlsfx.control.CheckComboBox;
 
 import java.time.Instant;

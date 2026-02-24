@@ -1,6 +1,6 @@
 package appinterface.controllers;
 
-import analizer.GameAnalyzer;
+import pokerlibrary.analizer.GameAnalyzer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -14,13 +14,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.StageStyle;
-import models.*;
+import pokerlibrary.models.*;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static models.Action.ActionType.*;
-import static models.PositionType.*;
+import static pokerlibrary.models.Action.ActionType.*;
+import static pokerlibrary.models.PositionType.*;
 
 public class GameDisplay6MaxController {
     private static final HashMap<Card.Suit, Color> suitColorMap = new HashMap<>();

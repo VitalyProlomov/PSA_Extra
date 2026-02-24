@@ -1,7 +1,7 @@
-package models;
+package pokerlibrary.models;
 
-import analizer.Combination;
-import analizer.CombinationAnalyzer;
+import pokerlibrary.analizer.Combination;
+import pokerlibrary.analizer.CombinationAnalyzer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

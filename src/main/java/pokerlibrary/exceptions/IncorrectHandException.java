@@ -1,4 +1,4 @@
-package exceptions;
+package pokerlibrary.exceptions;
 
 /**
  * Thrown to show that the hand is incorrect, invalid (mostly in hand constructor)

@@ -1,9 +1,9 @@
 package modelsTests;
 
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import models.Board;
-import models.Card;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.models.Board;
+import pokerlibrary.models.Card;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

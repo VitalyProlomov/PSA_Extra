@@ -15,9 +15,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import models.GamesSet;
-import models.UserProfile;
-import models.UserProfileSet;
+import pokerlibrary.models.GamesSet;
+import pokerlibrary.models.UserProfile;
+import pokerlibrary.models.UserProfileSet;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.io.File;

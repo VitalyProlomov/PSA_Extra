@@ -9,11 +9,11 @@ module psa.app.psawindowapp {
     requires org.kordamp.bootstrapfx.core;
 
     opens appinterface to javafx.fxml;
-    opens models to javafx.base, com.fasterxml.jackson.databind;
+    opens pokerlibrary.models to javafx.base, com.fasterxml.jackson.databind;
     exports appinterface;
     exports appinterface.controllers;
     opens appinterface.controllers to javafx.fxml;
 
-    exports models to com.fasterxml.jackson.databind;
-    exports analizer to com.fasterxml.jackson.databind;
+    exports pokerlibrary.models to com.fasterxml.jackson.databind;
+    exports pokerlibrary.analizer to com.fasterxml.jackson.databind;
 }

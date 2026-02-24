@@ -1,23 +1,22 @@
 package appinterface.controllers;
 
-import analizer.CombinationAnalyzer;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
+import pokerlibrary.analizer.CombinationAnalyzer;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import models.Board;
-import models.Card;
-import models.Hand;
+import pokerlibrary.models.Board;
+import pokerlibrary.models.Card;
+import pokerlibrary.models.Hand;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class EVCalculatorController {

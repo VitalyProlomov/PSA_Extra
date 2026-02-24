@@ -1,4 +1,4 @@
-package exceptions;
+package pokerlibrary.exceptions;
 
 /**
  * Thrown to show that the card is incorrect (Mostly in Card constructor)

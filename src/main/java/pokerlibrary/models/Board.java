@@ -1,9 +1,9 @@
-package models;
+package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
 
 import java.util.*;
 

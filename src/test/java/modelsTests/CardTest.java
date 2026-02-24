@@ -1,7 +1,7 @@
 package modelsTests;
 
-import exceptions.IncorrectCardException;
-import models.Card;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.models.Card;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

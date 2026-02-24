@@ -1,6 +1,6 @@
 package appinterface.controllers;
 
-import analizer.GameAnalyzer;
+import pokerlibrary.analizer.GameAnalyzer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -9,15 +9,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import models.*;
+import pokerlibrary.models.*;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static models.Action.ActionType.*;
-import static models.Action.ActionType.FOLD;
-import static models.PositionType.*;
-import static models.PositionType.BTN;
+import static pokerlibrary.models.Action.ActionType.*;
+import static pokerlibrary.models.PositionType.*;
 
 public class GameDisplay9MaxController {
     private static final int MAX_PLAYERS = 9;

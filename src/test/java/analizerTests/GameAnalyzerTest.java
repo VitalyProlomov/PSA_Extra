@@ -1,14 +1,14 @@
 package analizerTests;
 
-import analizer.GameAnalyzer;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.Game;
-import models.PlayerInGame;
+import pokerlibrary.analizer.GameAnalyzer;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
+import pokerlibrary.models.Game;
+import pokerlibrary.models.PlayerInGame;
 import org.junit.jupiter.api.Test;
-import parsers.Parser;
-import parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.parsers.Parser;
+import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
 import java.io.IOException;
 import java.util.ArrayList;

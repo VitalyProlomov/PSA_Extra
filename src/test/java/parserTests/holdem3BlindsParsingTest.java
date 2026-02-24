@@ -1,19 +1,10 @@
 package parserTests;
 
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.Game;
-import models.PlayerInGame;
-import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.*;
 
-import static models.PositionType.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class holdem3BlindsParsingTest {
     private String getTextFromFile(String path) throws FileNotFoundException {

@@ -3,11 +3,11 @@ package appinterface.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
-import models.*;
+import pokerlibrary.models.*;
+
+import static pokerlibrary.models.PositionType.*;
 
 import java.util.HashSet;
-
-import static models.PositionType.*;
 
 public class AssignNewPlayerController {
     @FXML
@@ -51,9 +51,6 @@ public class AssignNewPlayerController {
             if (userName.isEmpty() || gameId.isEmpty() || position == null || hash.isEmpty()) {
                 warningLabel.setVisible(true);
             } else {
-                FilterSearchController filter = new FilterSearchController();
-
-                String table = "";
                 if (gamesSet.getGames().get(gameId) == null) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

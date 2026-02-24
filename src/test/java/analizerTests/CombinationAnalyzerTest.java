@@ -1,14 +1,14 @@
 package analizerTests;
 
-import analizer.Combination;
-import analizer.CombinationAnalyzer;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.*;
+import pokerlibrary.analizer.Combination;
+import pokerlibrary.analizer.CombinationAnalyzer;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
 import org.junit.jupiter.api.Test;
-import parsers.Parser;
-import parsers.gg.GGPokerokHoldem9MaxParser;
+import pokerlibrary.models.*;
+import pokerlibrary.parsers.Parser;
+import pokerlibrary.parsers.gg.GGPokerokHoldem9MaxParser;
 
 import java.io.IOException;
 import java.util.*;

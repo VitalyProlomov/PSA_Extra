@@ -1,13 +1,12 @@
 package parserTests;
 
-import analizer.GameAnalyzer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.IncorrectBoardException;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
-import models.*;
+import pokerlibrary.analizer.GameAnalyzer;
+import pokerlibrary.exceptions.IncorrectBoardException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
 import org.junit.jupiter.api.Test;
-import parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.models.*;
+import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,8 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static models.Action.ActionType.*;
-import static models.PositionType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class rushNCashParsingTest {

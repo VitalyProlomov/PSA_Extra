@@ -1,9 +1,9 @@
 package appinterface.controllers;
 
-import analizer.GameAnalyzer;
+import pokerlibrary.analizer.GameAnalyzer;
 import appinterface.PSAApplication;
-import exceptions.IncorrectCardException;
-import exceptions.IncorrectHandException;
+import pokerlibrary.exceptions.IncorrectCardException;
+import pokerlibrary.exceptions.IncorrectHandException;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,15 +16,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import models.*;
 import org.controlsfx.control.CheckComboBox;
+import pokerlibrary.models.*;
+import static pokerlibrary.models.PositionType.*;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import static models.PositionType.*;
 
 public class EnhancedStatsController {
 

@@ -1,11 +1,11 @@
-package models;
+package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static models.PositionType.*;
+import static pokerlibrary.models.PositionType.*;
 
 /**
  * Class used for storing information about one street - all the action,

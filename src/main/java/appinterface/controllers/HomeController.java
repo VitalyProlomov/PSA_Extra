@@ -10,8 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.Game;
-import models.GamesSet;
+import pokerlibrary.models.Game;
+import pokerlibrary.models.GamesSet;
 
 import java.io.File;
 import java.io.IOException;
