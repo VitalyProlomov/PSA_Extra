@@ -33,7 +33,7 @@ public class ComboCardsPairTest {
     }
 
     @Test
-    public void testComboBoardPairToString() throws IncorrectBoardException, IncorrectCardException {
+    public void testComboBoardPairToString() throws IncorrectCardException {
         ArrayList sameCards = new ArrayList(List.of(
                         new Card("5d"),
                         new Card("4c"),

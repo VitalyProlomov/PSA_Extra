@@ -57,7 +57,7 @@ public class HomeController {
         enhancedButton.setOnMouseClicked(action -> onEnhancedStatsButtonClicked());
         evCalculatorButton.setOnMouseClicked(actionEvent -> onEVCalculatorButtonClicked());
         examinePlayersButton.setOnMouseClicked(action -> onExaminePlayersButtonClicked());
-        handsEVButton.setOnMouseClicked(action -> onHandsEVButtonClicked());;
+        handsEVButton.setOnMouseClicked(action -> onHandsEVButtonClicked());
         helpButton.setOnMouseClicked(action -> onHelpButtonClicked());
         uploadButton.setOnAction(actionEvent -> onUploadButtonClick());
         deleteGamesButton.setOnMouseClicked(action -> onDeleteGamesButtonClicked());

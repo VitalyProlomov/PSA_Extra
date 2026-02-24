@@ -16,7 +16,7 @@ public class Board {
     /**
      * Constructs the Board with the array of cards (the amount of cards must be in [3; 5])
      *
-     * @param cards
+     * @param cards cards on the board
      * @throws IncorrectBoardException if the cards given are invalid
      *                                 (not unique or length is not in [3; 5]
      */
@@ -44,7 +44,7 @@ public class Board {
             throw new IncorrectBoardException( "Board must contain from 3 to 5 cards.");
         }
 
-        HashSet<Card> unique = new HashSet<Card>();
+        HashSet<Card> unique = new HashSet<>();
         for (String rep : cardReps) {
             unique.add(new Card(rep));
         }
@@ -61,7 +61,7 @@ public class Board {
     /**
      * Constructs the Board with the given cards
      *
-     * @param cards
+     * @param cards cards on the board
      * @throws IncorrectBoardException if the cards given are invalid
      *                                 (not unique or length is not in [3; 5]
      */
@@ -70,7 +70,7 @@ public class Board {
         if (cards.size() < 3 || cards.size() > 5) {
             throw new IncorrectBoardException( "Board must contain from 3 to 5 cards.");
         }
-        HashSet<Card> unique = new HashSet<Card>(cards);
+        HashSet<Card> unique = new HashSet<>(cards);
         if (unique.size() != cards.size()) {
             throw new IncorrectBoardException("Board must only contain unique cards");
         }
@@ -137,13 +137,13 @@ public class Board {
                 trSame = false;
             }
         }
-        return set2.size() == 0 && trSame;
+        return set2.isEmpty() && trSame;
     }
 
     /**
-     * returns hashcode of the Board object - first 3 cards` order does not matter,
+     *
+     * @return returns hashcode of the Board object - first 3 cards` order does not matter,
      * but 4th and 5th cards order matters.
-     * @return
      */
     @Override
     public int hashCode() {

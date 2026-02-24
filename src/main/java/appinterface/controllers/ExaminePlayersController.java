@@ -98,7 +98,7 @@ public class ExaminePlayersController {
     }
 
     private void showSearchResults(String search) {
-        if (search.equals("")) {
+        if (search.isEmpty()) {
             updateTable();
             return;
         }
@@ -157,7 +157,7 @@ public class ExaminePlayersController {
                 this.userProfileSet = new UserProfileSet();
             }
 
-            if (userProfileSet.getIdUserMap().size() != 0) {
+            if (!userProfileSet.getIdUserMap().isEmpty()) {
                 userProfilesTableView.getItems().addAll(userProfileSet.getIdUserMap().values());
             }
         } catch (Exception ex) {
@@ -171,7 +171,7 @@ public class ExaminePlayersController {
     }
 
     private void initializeEventHandling() {
-        searchIdCustomTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        searchIdCustomTextField.setOnKeyPressed(new EventHandler<>() {
             @Override
             public void handle(KeyEvent key) {
                 if (key.getCode().equals(KeyCode.ENTER)) {

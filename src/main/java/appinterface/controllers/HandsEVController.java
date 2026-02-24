@@ -49,13 +49,13 @@ public class HandsEVController {
     @FXML
     private Label totalWinlossLabel;
 
-    private static int RANKS_AMOUNT = 13;
+    private static final int RANKS_AMOUNT = 13;
 
-    private static Paint negativePaint = Color.rgb(180, 70, 70);
+    private static final Paint negativePaint = Color.rgb(180, 70, 70);
 
-    private static Paint positivePaint = Color.rgb(66, 231, 88);
+    private static final Paint positivePaint = Color.rgb(66, 231, 88);
 
-    private static Paint neutralPaint = Color.rgb(121, 125, 129);
+    private static final Paint neutralPaint = Color.rgb(121, 125, 129);
 
     private GamesSet gamesSet;
 
@@ -252,9 +252,6 @@ public class HandsEVController {
     public HashMap<Hand, Double> countHandsEV(List<Game> games) {
         HashMap<Hand, Double> allHandsEv = new HashMap<>();
         for (Game g : games) {
-            Hand h = g.getPlayer("Hero").getHand();
-
-
             PlayerInGame hero = g.getPlayer("Hero");
             if (g.getPreFlop().isAllIn() && g.getPreFlop().getPlayersAfterBetting().contains(hero) ||
                     g.getFlop() != null && g.getFlop().isAllIn() && g.getFlop().getPlayersAfterBetting().contains(hero) ||
@@ -267,7 +264,6 @@ public class HandsEVController {
                 }
             } else {
                 allHandsEv.merge(g.getPlayer("Hero").getHand(), g.getHeroWinloss(), Double::sum);
-//                System.out.println(g.getPlayer("Hero").getHand() + ": " + g.getHeroWinloss());
             }
         }
 

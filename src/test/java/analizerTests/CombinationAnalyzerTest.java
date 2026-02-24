@@ -20,13 +20,13 @@ public class CombinationAnalyzerTest {
     @Test
     public void testFlushCountingMethod() throws IncorrectCardException, IncorrectBoardException {
         Board b = new Board("2c", "4c", "8c", "Kc", "Jc");
-        assertEquals(CombinationAnalyzer.countFlushSuit(b.getCards()), Card.Suit.CLUBS);
+        assertEquals(Card.Suit.CLUBS, CombinationAnalyzer.countFlushSuit(b.getCards()));
 
         b = new Board("5d", "Ad", "Kd", "2d", "5s");
         assertNull(CombinationAnalyzer.countFlushSuit(b.getCards()));
 
         b = new Board("5d", "Ad", "Kd", "2d", "6d");
-        assertEquals(CombinationAnalyzer.countFlushSuit(b.getCards()), Card.Suit.DIAMONDS);
+        assertEquals(Card.Suit.DIAMONDS, CombinationAnalyzer.countFlushSuit(b.getCards()));
     }
 
     @Test
@@ -487,7 +487,6 @@ public class CombinationAnalyzerTest {
         ArrayList<Card> expCards2 = expected2.getCards();
         assertEquals(cards2, expCards2);
 
-        Card sixD = new Card("6d");
         Card nineD = new Card("9d");
         Card fiveD = new Card("5d");
         Card Ad = new Card("ad");
@@ -575,9 +574,6 @@ public class CombinationAnalyzerTest {
         CombinationAnalyzer.recognizeCombinationOnBoard(board, new Hand("8s", "8c"));
 
         assertEquals(2, winnerArray.size());
-
-        hands = prepareArrayWithHands(new Hand("6d", "6s"), new Hand("5h", "4h"), new Hand("Tc", "Jc"));
-        board = new Board("Ah", "Ad", "9c", "9s", "Kd");
     }
 
     @Test
@@ -590,7 +586,7 @@ public class CombinationAnalyzerTest {
     }
 
     @Test
-    public void testEvPreflopMonteCarloCalculation() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
+    public void testEvPreflopMonteCarloCalculation() throws IncorrectHandException, IncorrectCardException {
         ArrayList<Hand> hands = new ArrayList<>();
 
         hands.add(new Hand("As", "Ks"));
@@ -639,7 +635,6 @@ public class CombinationAnalyzerTest {
     @Test
     public void testPreciseEvPreFlopCount() throws IncorrectHandException, IncorrectCardException, IncorrectBoardException {
         ArrayList<Hand> hands = new ArrayList<>();
-        hands.clear();
         hands.add(new Hand("Kd", "Jd"));
         hands.add(new Hand("Ad", "3h"));
         HashMap<Hand, Double> ev = CombinationAnalyzer.countEVPreFlopPrecise(hands);
@@ -761,38 +756,18 @@ public class CombinationAnalyzerTest {
 
     @Test
     public void testEV() throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
-        Hand h1 = new Hand("Kc", "Js");
-        Hand h2 = new Hand("Kd", "7s");
-        Hand h3 = new Hand("7d", "6d");
+        new Hand("Kc", "Js");
+        Hand h1;
+        new Hand("Kd", "7s");
+        Hand h2;
+        Hand h3;
         ArrayList<Hand> hands = new ArrayList<>();
-//        hands.add(h1);
-//        hands.add(h2);
-//        hands.add(h3);
-//        HashMap<Hand, Double> evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
-////        System.out.println(evMap);
-//
-//        evMap = CombinationAnalyzer.countEVPreFlopPrecise(hands);
-////        System.out.println(evMap);
-//
-//        hands.clear();
-//        h1 = new Hand("Jd", "9d");
-//        h2 = new Hand("Qc", "2c");
-//        h3 = new Hand("Th", "9h");
-//        hands.add(h1);
-//        hands.add(h2);
-//        hands.add(h3);
-//        evMap = CombinationAnalyzer.countEVPostFlop(new Board("Qd", "9c", "6d"), hands);
-//        System.out.println(evMap);
-//
-//        hands.clear();
 
         h1 = new Hand("Ad", "8d");
         h2 = new Hand("6s", "6c");
         h3 = new Hand("As", "Kh");
         Hand h4 = new Hand("5c", "4c");
         hands.addAll(List.of(h1, h2, h3, h4));
-//        evMap = CombinationAnalyzer.countEVPreFlopMonteCarlo(hands);
-//        System.out.println(evMap);
         System.out.println(CombinationAnalyzer.countEVPreFlopPrecise(hands));
     }
 
@@ -821,51 +796,15 @@ public class CombinationAnalyzerTest {
         winnerHands = CombinationAnalyzer.determineWinningHand(b, hands);
         assertEquals(1, winnerHands.size());
         assertEquals(h2, winnerHands.get(0));
-
-//        Parser parser = new GGPokerokHoldem9MaxParser();
-//        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
-//        g  = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/flopAllInDrawGame.txt");
-//        Game game = g.get(0);
-//        CombinationAnalyzer.determineWinningHand()
-
-//        HashMap<String, Double> evMap = CombinationAnalyzer.countMoneyEv(game);
-//
     }
 
     @Test
     public void testCountMoneyEV() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
         Parser parser = new GGPokerokHoldem9MaxParser();
-        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
-        Game game = g.get(0);
+        ArrayList<Game> g;
+        Game game ;
 
-        HashMap<String, Double> evMap = CombinationAnalyzer.countMoneyEv(game);
-//        for (String s : evMap.keySet()) {
-//            System.out.println(s + ": " + evMap.get(s));
-//        }
-
-        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/acesAllInFlopGame.txt");
-        game = g.get(0);
-
-//        for (String s : evMap.keySet()) {
-//            System.out.println(s + ": " + evMap.get(s));
-//        }
-
-        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/flopAllInDrawGame.txt");
-        game = g.get(0);
-
-        evMap = CombinationAnalyzer.countMoneyEv(game);
-//        System.out.println();
-//        for (String s : evMap.keySet()) {
-//            System.out.println(s + ": " + evMap.get(s));
-//        }
-
-        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/turnAcesAllInGame.txt");
-        game = g.get(0);
-        evMap = CombinationAnalyzer.countMoneyEv(game);
-//        for (String s : evMap.keySet()) {
-//            System.out.println(s + ": " + evMap.get(s));
-//        }
-
+        HashMap<String, Double> evMap;
 
         g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/riverGameAllIn.txt");
         game = g.get(0);

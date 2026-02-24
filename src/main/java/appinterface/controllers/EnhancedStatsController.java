@@ -21,7 +21,6 @@ import pokerlibrary.models.*;
 import static pokerlibrary.models.PositionType.*;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -94,7 +93,7 @@ public class EnhancedStatsController {
 
     private GamesSet gamesSet;
 
-    private ArrayList<Hand> handsChosen = new ArrayList<>();
+    private final ArrayList<Hand> handsChosen = new ArrayList<>();
 
 
     @FXML
@@ -117,16 +116,15 @@ public class EnhancedStatsController {
 
     @FXML
     private void initializeTable() {
-        TableColumn<Game, String> idColumn = new TableColumn<Game, String>();
-        TableColumn<Game, Double> potColumn = new TableColumn<Game, Double>();
+        TableColumn<Game, String> idColumn = new TableColumn<>();
+        TableColumn<Game, Double> potColumn = new TableColumn<>();
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("gameId"));
-        potColumn.setCellValueFactory(new PropertyValueFactory<Game, Double>("finalPot"));
+        potColumn.setCellValueFactory(new PropertyValueFactory<>("finalPot"));
         idColumn.setPrefWidth(190);
         idColumn.setMinWidth(10);
         potColumn.setPrefWidth(190);
         potColumn.setMinWidth(10);
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
         idColumn.setText("ID");
         potColumn.setText("Pot");
@@ -142,7 +140,7 @@ public class EnhancedStatsController {
                     }
 
                     private String getString() {
-                        String ret = "";
+                        String ret;
                         if (getItem() != null) {
                             ret = new DecimalFormat("#0.00").format(getItem());
                         } else {

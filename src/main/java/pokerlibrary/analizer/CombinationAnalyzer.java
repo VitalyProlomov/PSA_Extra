@@ -20,7 +20,7 @@ public class CombinationAnalyzer {
      * @param hand  hand of the player in the game
      * @return true if the board is valid, false otherwise.
      */
-    public static boolean isBoardValid(Board board, Hand hand) throws IncorrectBoardException {
+    public static boolean isBoardValid(Board board, Hand hand) {
         ArrayList<Card> ext = board.getCards();
         if (hand != null) {
             ext.addAll(hand.getCards());
@@ -101,7 +101,7 @@ public class CombinationAnalyzer {
             throw new IncorrectBoardException();
         }
 
-        ArrayList<Card> extendedCards = new ArrayList<Card>(board.getCards());
+        ArrayList<Card> extendedCards = new ArrayList<>(board.getCards());
         if (hand != null) {
             extendedCards.addAll(hand.getCards());
         }
@@ -115,20 +115,14 @@ public class CombinationAnalyzer {
 
     /**
      * recognizes the best combination on board, but all inputs must be already VALID !
-     *
-     * @param board
-     * @param hand
-     * @return
-     * @throws IncorrectBoardException
      */
     private static ComboCardsPair recognizeCombinationOnBoardChecked(Board board, Hand hand)
             throws IncorrectBoardException {
-        ArrayList<Card> extendedCards = new ArrayList<Card>(board.getCards());
+        ArrayList<Card> extendedCards = new ArrayList<>(board.getCards());
         if (hand != null) {
             extendedCards.addAll(hand.getCards());
         }
 
-        // Sorts the board by increasing the card rank.
         sortBoard(extendedCards);
 
         ComboCardsPair ccp = findBestRoyalFlush(extendedCards);
@@ -682,11 +676,6 @@ public class CombinationAnalyzer {
 
     /**
      * determines the hand that will win in given situation, but all inputs must be VALID !
-     *
-     * @param board
-     * @param hands
-     * @return
-     * @throws IncorrectBoardException
      */
     private static ArrayList<Hand> determineWinningHandChecked(Board board, ArrayList<Hand> hands) throws IncorrectBoardException {
         ArrayList<ComboCardsPair> bestHandsCombos = new ArrayList<>();
@@ -749,8 +738,6 @@ public class CombinationAnalyzer {
     }
 
     /**
-     * @param ccp1
-     * @param ccp2
      * @return ArrayList of ComboCardsCombination, that contians best combinations
      */
     private ArrayList<ComboCardsPair> compareSameCombinations(ComboCardsPair ccp1, ComboCardsPair ccp2) {
@@ -960,8 +947,8 @@ public class CombinationAnalyzer {
         for (int i = 0; i < 52; ++i) {
             leftCards.add(new Card(i));
         }
-        for (int i = 0; i < usedCards.size(); ++i) {
-            leftCards.remove(usedCards.get(i));
+        for (Card usedCard : usedCards) {
+            leftCards.remove(usedCard);
         }
 
         HashMap<Hand, Double> evMap = new HashMap<>();
@@ -990,9 +977,9 @@ public class CombinationAnalyzer {
                 }
             }
         } else {
-            for (int index1 = 0; index1 < leftCards.size(); ++index1) {
+            for (Card leftCard : leftCards) {
                 cards = new ArrayList<>(board.getCards());
-                cards.add(leftCards.get(index1));
+                cards.add(leftCard);
                 finalBoard = new Board(cards);
                 determineWinningHand(finalBoard, playersHands);
 
@@ -1023,8 +1010,6 @@ public class CombinationAnalyzer {
         HashMap<String, Double> finalLimitPot = new HashMap<>();
 
         HashMap<String, Double> moneyEVMap = new HashMap<>();
-
-        Random r = new Random();
 
         // That means that river was played => the winnings are determined without EV.
         if (g.getTurn() != null && !g.getTurn().isAllIn()) {

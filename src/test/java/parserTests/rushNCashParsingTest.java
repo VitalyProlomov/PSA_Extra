@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import pokerlibrary.models.*;
 import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static pokerlibrary.models.Action.ActionType.*;
+import static pokerlibrary.models.PositionType.*;
 
 public class rushNCashParsingTest {
     public ArrayList<PositionType> orderedPositions =
@@ -54,7 +57,7 @@ public class rushNCashParsingTest {
                 new PlayerInGame("96112e6e", BTN, 42.6),
                 new PlayerInGame("bdfdf5d3", SB, 35.23),
                 new PlayerInGame("Hero", PositionType.BB, 58.12),
-                new PlayerInGame("906a880b", PositionType.LJ, 148.44),
+                new PlayerInGame("906a880b", LJ, 148.44),
                 new PlayerInGame("40b398d7", PositionType.HJ, 30.35),
                 new PlayerInGame("805c6855", CO, 21.99)
         ));
@@ -70,10 +73,10 @@ public class rushNCashParsingTest {
         actions.add(new Action(BLIND, correctPlayers.get(2).getId(), 0.25, 0.1));
         actions.add(new Action(Action.ActionType.FOLD, correctPlayers.get(3).getId(), 0, 0.35));
         actions.add(new Action(Action.ActionType.FOLD, correctPlayers.get(4).getId(), 0, 0.35));
-        actions.add(new Action(Action.ActionType.RAISE, correctPlayers.get(5).getId(), 0.63, 0.35));
+        actions.add(new Action(RAISE, correctPlayers.get(5).getId(), 0.63, 0.35));
         actions.add(new Action(Action.ActionType.FOLD, correctPlayers.get(0).getId(), 0, 0.98));
         actions.add(new Action(Action.ActionType.FOLD, correctPlayers.get(1).getId(), 0, 0.98));
-        actions.add(new Action(Action.ActionType.CALL, correctPlayers.get(2).getId(), 0.38, 0.98));
+        actions.add(new Action(CALL, correctPlayers.get(2).getId(), 0.38, 0.98));
 
         ArrayList<PlayerInGame> left = new ArrayList<>(List.of(correctPlayers.get(2), correctPlayers.get(5)));
         StreetDescription correctPreFlop = new StreetDescription(1.36, null, left, actions);
@@ -86,7 +89,7 @@ public class rushNCashParsingTest {
 
         StreetDescription correctFLop = new StreetDescription(1.36,
                 new Board("8d", "6d", "Qh"),
-                new ArrayList<PlayerInGame>(List.of(
+                new ArrayList<>(List.of(
                         correctPlayers.get(2), correctPlayers.get(5))), actions);
 
         correctFLop.setPlayersAfterBetting(new ArrayList<>(
@@ -307,10 +310,10 @@ public class rushNCashParsingTest {
 
         StreetDescription flop = new StreetDescription(1.48,
                 new Board("5h", "7d", "Jh"),
-                new HashSet<PlayerInGame>(List.of(
+                new HashSet<>(List.of(
                         new PlayerInGame("Hero", SB, 8.02),
                         new PlayerInGame("480564b2", BB, 5.23))),
-                new ArrayList<Action>(List.of(
+                new ArrayList<>(List.of(
                         new Action(CHECK, "Hero", 0.0, 0.88),
                         new Action(BET, "480564b2", 0.3, 0.88),
                         new Action(CALL, "Hero", 0.3, 1.18)
@@ -321,9 +324,9 @@ public class rushNCashParsingTest {
         StreetDescription turn = new StreetDescription(
                 1.48,
                 new Board("5h", "7d", "Jh", "4c"),
-                new HashSet<PlayerInGame>(List.of(
+                new HashSet<>(List.of(
                         new PlayerInGame("480564b2", BB, 4.49))),
-                new ArrayList<Action>(List.of(
+                new ArrayList<>(List.of(
                         new Action(CHECK, "Hero", 0.0, 1.48),
                         new Action(BET, "480564b2", 1.11, 1.48),
                         new Action(FOLD, "Hero", 0, 2.59)
@@ -394,8 +397,6 @@ public class rushNCashParsingTest {
     public void testTwoRunoutsGame() throws FileNotFoundException, IncorrectHandException, IncorrectBoardException, IncorrectCardException {
         GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
         String txt = getTextFromFile("/ggPokerokFiles/gamesFiles/rushNCash/allInTwoRunoutsGame.txt");
-        Game topG = parser.parseGame(txt);
-
     }
     // endregion
 
@@ -419,7 +420,7 @@ public class rushNCashParsingTest {
                  Actions: [(Action| Type: CHECK, Pot before action: 9.74, Player Id: 195539ef), (Action| Type: CHECK, Pot before action: 9.74, Player Id: a7067c39)],
                 River: (StreetDescription| Board: ([9♣, 3♠, 8♠, K♦, 6♥]), pot after betting: 9.74, Players after betting: [(PlayerInGame| UserName: _UNDEFINED_, Id: 195539ef, Pos: BB, Balance: 24.04), (PlayerInGame| UserName: _UNDEFINED_, Id: a7067c39, Pos: CO, Balance: 79.54)],
                  Actions: [(Action| Type: CHECK, Pot before action: 9.74, Player Id: 195539ef), (Action| Type: CHECK, Pot before action: 9.74, Player Id: a7067c39)])""";
-        assertEquals(topG.getPlayer("195539ef").getHand(), new Hand("8h", "Ah"));
+        assertEquals(new Hand("8h", "Ah"), topG.getPlayer("195539ef").getHand());
         assertEquals(s, topG.toString());
         assertFalse(topG.getRiver().isAllIn());
     }
@@ -472,15 +473,15 @@ public class rushNCashParsingTest {
         String path = getFullPath("/ggPokerokFiles/gamesFiles/rushNCash/severalSessions");
         GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
 
-        ArrayList<Game> allGaes = parser.parseDirectoryFiles(path);
+        ArrayList<Game> allGames = parser.parseDirectoryFiles(path);
 
         // Verified Amount on pokerCraft
-        assertEquals(3205, allGaes.size());
+        assertEquals(3205, allGames.size());
 
         Set<Game> gamesWShownCard = new HashSet<>();
-        for (int i = 0; i < allGaes.size(); ++i) {
-            if (allGaes.get(i).getShownOneCards().size() != 0) {
-                gamesWShownCard.add(allGaes.get(i));
+        for (Game allGame : allGames) {
+            if (!allGame.getShownOneCards().isEmpty()) {
+                gamesWShownCard.add(allGame);
             }
         }
         assertEquals(9, gamesWShownCard.size());
@@ -502,7 +503,6 @@ public class rushNCashParsingTest {
                 gamesWShownCard.add(allGaes.get(i));
             }
         }
-//        assertEquals(9, gamesWShownCard.size());
     }
 
     @Test

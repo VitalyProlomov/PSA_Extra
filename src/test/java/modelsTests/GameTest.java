@@ -24,27 +24,23 @@ public class GameTest {
     @Test
     public void testGameGetSB() {
         Game game = new Game("RC3", 0.02, null, null);
-        assertEquals(game.getSB(), 0.01);
+        assertEquals(0.01, game.getSB());
 
         game = new Game("RC3", 0.05, null, null);
         assertTrue(Math.abs(game.getSB() - 0.02) < 0.001);
 
         game = new Game("RC1234567", 0.25, null, null);
-        assertEquals(game.getSB(), 0.1);
+        assertEquals(0.1, game.getSB());
 
         game = new Game("RC3", 0.5, null, null);
-        assertEquals(game.getSB(), 0.25);
+        assertEquals(0.25, game.getSB());
 
         game = new Game("RC4", 1, null, null);
-        assertEquals(game.getSB(), 0.5);
+        assertEquals(0.5, game.getSB());
     }
 
     @Test
     public void testDecrementBalance() {
-        HashSet<PlayerInGame> players = new HashSet<>(List.of(
-                new PlayerInGame("player1", CO, 1000),
-                new PlayerInGame("player2", BTN, 960)
-        ));
         HashMap<String, Double> initBalances = new HashMap<>();
         HashMap<String, PlayerInGame> playersMap = new HashMap<>();
         playersMap.put("player1", new PlayerInGame("player1", CO, 1000));
@@ -56,7 +52,7 @@ public class GameTest {
         Game game = new Game("Test", 10, playersMap, initBalances);
 
         game.decrementPlayersBalance("player1", 50);
-        assertEquals(game.getPlayer("player1").getBalance(), 950);
+        assertEquals(950, game.getPlayer("player1").getBalance());
 
         assertEquals(game.getInitialBalances(), initBalances);
     }

@@ -20,7 +20,7 @@ public interface GGParser extends Parser {
      * @return ArrayList of parsed Games
      * @throws IOException if something is wrong with file reading
      */
-    public default ArrayList<Game> parseDirectoryFiles(String path)
+    default ArrayList<Game> parseDirectoryFiles(String path)
             throws IOException, IncorrectHandException, IncorrectBoardException, IncorrectCardException {
         File dir = new File(path);
         if (!dir.exists()) {
@@ -45,14 +45,6 @@ public interface GGParser extends Parser {
         return allGames;
     }
 
-    /**
-     * @param allGames
-     * @param dir
-     * @throws IncorrectHandException
-     * @throws IncorrectBoardException
-     * @throws IOException
-     * @throws IncorrectCardException
-     */
     private void addSubDirectoryGames(ArrayList<Game> allGames, File dir) throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
         for (File f : dir.listFiles()) {
             if (f.isDirectory()) {
@@ -64,7 +56,7 @@ public interface GGParser extends Parser {
         }
     }
 
-    public default ArrayList<Game> parseFile(String path) throws IOException, IncorrectHandException, IncorrectBoardException, IncorrectCardException {
+    default ArrayList<Game> parseFile(String path) throws IOException, IncorrectHandException, IncorrectBoardException, IncorrectCardException {
         ArrayList<Game> parsedGames = new ArrayList<>();
 
         // try with resources
@@ -75,11 +67,11 @@ public interface GGParser extends Parser {
         while (line != null) {
             StringBuilder gameText = new StringBuilder();
             // Getting to the first line of the game text.
-            while (line != null && (line.equals("") || !line.substring(0, 5).equals("Poker"))) {
+            while (line != null && (!line.startsWith("Poker"))) {
                 line = bfr.readLine();
             }
 
-            while (line != null && !line.equals("")) {
+            while (line != null && !line.isEmpty()) {
                 gameText.append(line).append("\n");
                 line = bfr.readLine();
             }

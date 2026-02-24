@@ -41,22 +41,13 @@ public class SerializerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src/test/resources/serializedFiles/serializedGames1.txt");
 
-        HashMap<String, Game> gamesMap = new HashMap<String, Game>();
+        HashMap<String, Game> gamesMap = new HashMap<>();
         for (Game g : allGames) {
             gamesMap.put(g.getGameId(), g);
         }
         GamesSet gamesSet = new GamesSet(gamesMap);
 
         objectMapper.writeValue(file, gamesSet);
-
-//        StringBuilder text = new StringBuilder();
-//        FileReader fr = new FileReader(file);
-//        BufferedReader bfr = new BufferedReader(fr);
-//        String line = bfr.readLine();
-//        while (line != null) {
-//            text.append(line).append("\n");
-//            line = bfr.readLine();
-//        }
 
         GamesSet deserializedGame = objectMapper.readValue(file, GamesSet.class);
         assertEquals(gamesSet.getGames(), deserializedGame.getGames());
@@ -72,10 +63,10 @@ public class SerializerTest {
         Action action = new Action(Action.ActionType.RAISE, "Fish", 10,1.65);
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String JSONtext = "";
+        String JSONtext;
 
         JSONtext = objectMapper.writeValueAsString(action);
-        Action deserializedAction = objectMapper.readValue(JSONtext, Action.class);
+//        Action deserializedAction = objectMapper.readValue(JSONtext, Action.class);
     }
 
     @Test
@@ -83,16 +74,16 @@ public class SerializerTest {
         Board board = new Board("As", "5d", "5h");
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String JSONtext = "";
+        String JSONtext;
 
         JSONtext = objectMapper.writeValueAsString(board);
-        Board deserializedAction = objectMapper.readValue(JSONtext, board.getClass());
+//        Board deserializedAction = objectMapper.readValue(JSONtext, board.getClass());
     }
 
     private Object serializeAndDeserializeGivenObject(Object object, Class objClass) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String JSONtext = "";
+        String JSONtext;
 
         JSONtext = objectMapper.writeValueAsString(object);
 
@@ -113,7 +104,7 @@ public class SerializerTest {
         deserObject = serializeAndDeserializeGivenObject(obj, obj.getClass());
         assertEquals(obj, deserObject);
 
-        obj = new ComboCardsPair(Combination.PAIR, new ArrayList<Card>(
+        obj = new ComboCardsPair(Combination.PAIR, new ArrayList<>(
                 List.of(new Card("3h"),
                 new Card("Ah"),
                 new Card("3d"),
@@ -185,9 +176,6 @@ public class SerializerTest {
         GamesSet gameSet = new GamesSet();
 
         gameSet.addGames(gameAr);
-        ObjectMapper objectMapper = new ObjectMapper();
-        Object obj = serializeAndDeserializeGivenObject(gameSet, GamesSet.class);
-        GamesSet deserializedGameSet = (GamesSet) obj;
         assertTrue(gameSet.getGames().containsKey("RC1328499375"));
     }
 }

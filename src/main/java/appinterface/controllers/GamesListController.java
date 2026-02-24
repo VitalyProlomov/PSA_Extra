@@ -176,7 +176,7 @@ public class GamesListController {
         TableColumn<Game, Double> bbSizeColumn = new TableColumn<>();
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("gameId"));
-        potColumn.setCellValueFactory(new PropertyValueFactory<Game, Double>("finalPot"));
+        potColumn.setCellValueFactory(new PropertyValueFactory<>("finalPot"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         bbSizeColumn.setCellValueFactory(new PropertyValueFactory<>("BigBlindSize$"));
 
@@ -198,7 +198,7 @@ public class GamesListController {
                     }
 
                     private String getString() {
-                        String ret = "";
+                        String ret;
                         if (getItem() != null) {
                             ret = new DecimalFormat("#0.00").format(getItem());
                         } else {

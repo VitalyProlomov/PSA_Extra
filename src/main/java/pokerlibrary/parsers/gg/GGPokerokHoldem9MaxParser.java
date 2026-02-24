@@ -23,9 +23,6 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
      *
      * @param gameText text of the game (must be in correct format - as it is on Pokercraft.com)
      * @return instance of the game that was embedded into the given text
-     * @throws IncorrectCardException
-     * @throws IncorrectHandException
-     * @throws IncorrectBoardException
      */
     @Override
     public Game parseGame(String gameText)
@@ -228,7 +225,6 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
 
         while (!wordsInLines.get(curLine).get(0).equals("***")) {
             Action action;
-            amount = 0;
             if (wordsInLines.get(curLine).get(1).equals("straddle")) {
                 hash = wordsInLines.get(curLine).get(0).substring(0, wordsInLines.get(curLine).get(0).length() - 1);
                 amount = parseDouble(wordsInLines.get(curLine).get(2).substring(1));

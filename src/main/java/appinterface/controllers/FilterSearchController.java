@@ -97,16 +97,14 @@ public class FilterSearchController {
             gamesAfterFilter = searchFilteredGames(unfilteredGames);
             this.searchButton.getScene().getWindow().hide();
         });
-        clearButton.setOnMouseClicked(action -> {
-            setToDefault();
-        });
+        clearButton.setOnMouseClicked(action -> setToDefault());
     }
 
     public Set<Game> searchFilteredGames(Set<Game> unfilteredGames) {
         if (unfilteredGames == null) {
             return new HashSet<>();
         }
-        if (unfilteredGames.size() == 0) {
+        if (unfilteredGames.isEmpty()) {
             return unfilteredGames;
         }
 

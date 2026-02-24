@@ -20,9 +20,6 @@ public class GGPokerokRushNCashParser implements GGParser {
      *
      * @param gameText text of the game (must be in correct format - as it is on Pokercraft.com)
      * @return instance of the game that was embedded into the given text
-     * @throws IncorrectCardException
-     * @throws IncorrectHandException
-     * @throws IncorrectBoardException
      */
     @Override
     public Game parseGame(String gameText)
@@ -105,7 +102,7 @@ public class GGPokerokRushNCashParser implements GGParser {
     private Game initiateGame(String handId, double bbSize,
                               ArrayList<PlayerInGame> players,
                               Date date, String table) {
-        HashMap<String, Double> initBalances  = new HashMap<String, Double>();
+        HashMap<String, Double> initBalances  = new HashMap<>();
         for (PlayerInGame p : players) {
             initBalances.put(p.getId(), p.getBalance());
         }
@@ -193,7 +190,7 @@ public class GGPokerokRushNCashParser implements GGParser {
                     game.getPreFlop().getPotAfterBetting(),
                     flopBoard,
                     game.getPreFlop().getPlayersAfterBetting(),
-                    new ArrayList<Action>());
+                    new ArrayList<>());
             flop.setAllIn(true);
         }
 
@@ -227,7 +224,7 @@ public class GGPokerokRushNCashParser implements GGParser {
                     game.getFlop().getPotAfterBetting(),
                     null,
                     game.getFlop().getPlayersAfterBetting(),
-                    new ArrayList<Action>());
+                    new ArrayList<>());
             turn.setAllIn(true);
         }
 

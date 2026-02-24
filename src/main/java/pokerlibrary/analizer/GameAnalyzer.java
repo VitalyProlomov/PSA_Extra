@@ -38,7 +38,7 @@ public class GameAnalyzer {
             return false;
         }
 
-        HashSet<String> checkedPlayers = new HashSet<String>();
+        HashSet<String> checkedPlayers = new HashSet<>();
         for (Action action : game.getFlop().getAllActions()) {
             if (!action.getPlayerId().equals(pfrHash) && action.getActionType().equals(CHECK)) {
                 checkedPlayers.add(action.getPlayerId());
@@ -418,10 +418,10 @@ public class GameAnalyzer {
         boolean was1stRaiseFound = false;
         ArrayList<Action> actions = game.getPreFlop().getAllActions();
 
-        for (int i = 0; i < actions.size(); ++i) {
-            if (actions.get(i).getActionType() == RAISE) {
+        for (Action action : actions) {
+            if (action.getActionType() == RAISE) {
                 if (was1stRaiseFound) {
-                    return actions.get(i).getPlayerId().equals(hash);
+                    return action.getPlayerId().equals(hash);
                 }
                 was1stRaiseFound = true;
             }

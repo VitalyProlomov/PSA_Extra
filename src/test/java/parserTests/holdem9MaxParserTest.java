@@ -105,12 +105,12 @@ public class holdem9MaxParserTest {
             assertEquals(expInitB.get(hash), game.getInitialBalances().get(hash));
         }
 
-        assertEquals(game.getPlayer("Hero").getPosition(), SB);
-        assertEquals(game.getPlayer("fdeaae24").getPosition(), BB);
-        assertEquals(game.getPlayer("f1ba23db").getPosition(), BTN);
-        assertEquals(game.getPlayer("da52607b").getPosition(), UTG);
+        assertEquals(SB, game.getPlayer("Hero").getPosition());
+        assertEquals(BB, game.getPlayer("fdeaae24").getPosition());
+        assertEquals(BTN, game.getPlayer("f1ba23db").getPosition());
+        assertEquals(UTG, game.getPlayer("da52607b").getPosition());
 
-        assertEquals(game.getPlayer("Hero").getHand(), new Hand("Ah", "5h"));
+        assertEquals(new Hand("Ah", "5h"), game.getPlayer("Hero").getHand());
 
         assertTrue(Math.abs(17.78 -  game.getPlayer("Hero").getBalance()) < 0.0005);
         assertTrue(Math.abs(8.6 -  game.getPlayer("fdeaae24").getBalance()) < 0.0005);
@@ -203,9 +203,7 @@ public class holdem9MaxParserTest {
     @Test
     public void testParsingShownHandsPreflopAllIn() throws IncorrectHandException, IncorrectBoardException, IOException, IncorrectCardException {
         Parser parser = new GGPokerokHoldem9MaxParser();
-        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/showdownGame.txt");
-
-        g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
+        ArrayList<Game> g = parser.parseFile("src/test/resources/ggPokerokFiles/gamesFiles/holdem9Max/preflopUnusual/straddledK7Game.txt");
 
         Game game = g.get(0);
         assertEquals(new Hand("Kd", "7s"), game.getPlayer("Hero").getHand());
@@ -283,9 +281,9 @@ public class holdem9MaxParserTest {
         assertTrue(Math.abs(game.getPlayer("2f7211df").getBalance() - 24.82) < 0.005);
         assertTrue(Math.abs(game.getPlayer("7221acc3").getBalance() - 47.58) < 0.005);
 
-        assertEquals(game.getPlayer("Hero").getHand(), new Hand("Js", "Jd"));
-        assertEquals(game.getPlayer("161e7c76").getHand(), new Hand("As", "7c"));
-        assertEquals(game.getPlayer("d0bfd2e1").getHand(), new Hand("Ac", "9d"));
+        assertEquals(new Hand("Js", "Jd"), game.getPlayer("Hero").getHand());
+        assertEquals(new Hand("As", "7c"), game.getPlayer("161e7c76").getHand());
+        assertEquals(new Hand("Ac", "9d"), game.getPlayer("d0bfd2e1").getHand());
 
         assertTrue(GameAnalyzer.isPot3Bet(game));
     }

@@ -501,7 +501,7 @@ public class GameDisplay9MaxController {
 
             labelToChange.setText(curPlayer.getPosition() + ": " + userName);
             if (curPlayer.getPosition().equals(BTN)) {
-                ((ImageView) this.gameDisplayAnchorPane.getScene().lookup("#player" + index + "ButtonIcon")).setVisible(true);
+                this.gameDisplayAnchorPane.getScene().lookup("#player" + index + "ButtonIcon").setVisible(true);
             }
 
         }
@@ -666,8 +666,8 @@ public class GameDisplay9MaxController {
 //                gameDisplayAnchorPane.getScene().lookup("#player" + index + "LeftCardShirt").setVisible(false);
 //                gameDisplayAnchorPane.getScene().lookup("#player" + index + "RightCardShirt").setVisible(false);
 
-                ((ImageView) gameDisplayAnchorPane.getScene().lookup("#player" + index + "LeftCardShirt")).setOpacity(0.1);
-                ((ImageView) gameDisplayAnchorPane.getScene().lookup("#player" + index + "RightCardShirt")).setOpacity(0.1);
+                gameDisplayAnchorPane.getScene().lookup("#player" + index + "LeftCardShirt").setOpacity(0.1);
+                gameDisplayAnchorPane.getScene().lookup("#player" + index + "RightCardShirt").setOpacity(0.1);
 
             }
         }

@@ -405,10 +405,7 @@ public class EVCalculatorController {
         }
         ArrayList<Card> cardsToCheck = new ArrayList<>(flopCards);
         cardsToCheck.addAll(cards);
-        if (!CombinationAnalyzer.isBoardValid(cardsToCheck)) {
-            return false;
-        }
-        return true;
+        return CombinationAnalyzer.isBoardValid(cardsToCheck);
     }
 
     private boolean checkIfCompatibleWithTurn(ArrayList<Card> cards) {
