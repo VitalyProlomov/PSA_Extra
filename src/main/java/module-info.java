@@ -7,7 +7,6 @@ module psa.app.psawindowapp {
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
 
     opens appinterface to javafx.fxml;
     opens models to javafx.base, com.fasterxml.jackson.databind;
