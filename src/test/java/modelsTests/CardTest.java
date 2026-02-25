@@ -57,15 +57,15 @@ public class CardTest {
         Card Td = new Card("Td");
 
 
-        assertEquals(Ah, new Card(Card.Rank.ACE, Card.Suit.HEARTS));
-        assertEquals(Kc, new Card(Card.Rank.KING, Card.Suit.CLUBS));
-        assertEquals(Jd, new Card(Card.Rank.JACK, Card.Suit.DIAMONDS));
-        assertEquals(JD, new Card(Card.Rank.JACK, Card.Suit.DIAMONDS));
-        assertEquals(jd, new Card(Card.Rank.JACK, Card.Suit.DIAMONDS));
-        assertEquals(eightS, new Card(Card.Rank.EIGHT, Card.Suit.SPADES));
-        assertEquals(eights, new Card(Card.Rank.EIGHT, Card.Suit.SPADES));
-        assertEquals(twoH, new Card(Card.Rank.TWO, Card.Suit.HEARTS));
-        assertEquals(Td, new Card(Card.Rank.TEN, Card.Suit.DIAMONDS));
+        assertEquals(new Card(Card.Rank.ACE, Card.Suit.HEARTS), Ah);
+        assertEquals(new Card(Card.Rank.KING, Card.Suit.CLUBS), Kc);
+        assertEquals(new Card(Card.Rank.JACK, Card.Suit.DIAMONDS), Jd);
+        assertEquals(new Card(Card.Rank.JACK, Card.Suit.DIAMONDS), JD);
+        assertEquals(new Card(Card.Rank.JACK, Card.Suit.DIAMONDS), jd);
+        assertEquals(new Card(Card.Rank.EIGHT, Card.Suit.SPADES), eightS);
+        assertEquals(new Card(Card.Rank.EIGHT, Card.Suit.SPADES), eights);
+        assertEquals(new Card(Card.Rank.TWO, Card.Suit.HEARTS), twoH);
+        assertEquals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS), Td);
     }
 
     @Test
@@ -84,8 +84,6 @@ public class CardTest {
     @Test
     public void checkGetterIsCorrectTest() throws IncorrectCardException {
         Card c = new Card("Js");
-        Card.Rank r = c.getRank();
-        r = Card.Rank.ACE;
         assertNotEquals(Card.Rank.ACE, c.getRank());
     }
 
@@ -99,13 +97,13 @@ public class CardTest {
         Card sevenS = new Card("7S");
         Card eightS = new Card("8s");
 
-        assertEquals(twoH, new Card(Card.Rank.TWO, Card.Suit.HEARTS));
-        assertEquals(threeH, new Card(Card.Rank.THREE, Card.Suit.HEARTS));
-        assertEquals(fourD, new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS));
-        assertEquals(fiveC, new Card(Card.Rank.FIVE, Card.Suit.CLUBS));
-        assertEquals(sixC, new Card(Card.Rank.SIX, Card.Suit.CLUBS));
-        assertEquals(sevenS, new Card(Card.Rank.SEVEN, Card.Suit.SPADES));
-        assertEquals(eightS, new Card(Card.Rank.EIGHT, Card.Suit.SPADES));
+        assertEquals(new Card(Card.Rank.TWO, Card.Suit.HEARTS), twoH);
+        assertEquals(new Card(Card.Rank.THREE, Card.Suit.HEARTS), threeH);
+        assertEquals(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS), fourD);
+        assertEquals(new Card(Card.Rank.FIVE, Card.Suit.CLUBS), fiveC);
+        assertEquals(new Card(Card.Rank.SIX, Card.Suit.CLUBS), sixC);
+        assertEquals(new Card(Card.Rank.SEVEN, Card.Suit.SPADES), sevenS);
+        assertEquals(new Card(Card.Rank.EIGHT, Card.Suit.SPADES), eightS);
     }
 
     @Test
@@ -135,11 +133,6 @@ public class CardTest {
         }
     }
 
-//    @Test
-//    public void equalsHashCodeContracts() {
-//        EqualsVerifier.forClass(Card.class).verify();
-//    }
-
     @Test
     public void testHashcodeConstructor() throws IncorrectCardException {
         Card c = new Card(51);
@@ -149,13 +142,13 @@ public class CardTest {
         }
 
         c = new Card("2d");
-        assertEquals(c, new Card(0));
+        assertEquals(new Card(0), c);
         c = new Card("3d");
-        assertEquals(c, new Card(1));
+        assertEquals(new Card(1), c);
         c = new Card("Ks");
-        assertEquals(c, new Card(50));
+        assertEquals(new Card(50), c);
         c = new Card("4h");
-        assertEquals(c, new Card(15));
+        assertEquals(new Card(15), c);
 
         char[] symbols = new char[] {'♦', '♥', '♣', '♠'};
         int hash = 0;

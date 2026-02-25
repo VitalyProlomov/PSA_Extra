@@ -33,17 +33,15 @@ public class BoardTest {
 
         Board b = new Board(c1, c2, c3, c4, c5);
         ArrayList<Card> actual = b.getCards();
-        ArrayList<Card> expected = new ArrayList<Card>(List.of(new Card[]{c1, c2, c3, c4, c5}));
+        ArrayList<Card> expected = new ArrayList<>(List.of(new Card[]{c1, c2, c3, c4, c5}));
 
         assertEquals(actual, expected);
-        ArrayList<Card> nc = new ArrayList<>(List.of(new Card[]{c2, c5, c3, c8, c4}));
-     }
+    }
 
     @Test
     public void testBoardEquals() throws IncorrectBoardException, IncorrectCardException {
         Board a = new Board("3c", "7d", "As");
         Board b = new Board("3c", "7d", "As");
-        boolean s = a.equals(b);
         assertEquals(a, b);
 
         b = new Board("7d", "As", "3c");
@@ -56,7 +54,7 @@ public class BoardTest {
         assertNotEquals(a, b);
 
         b = null;
-        assertNotEquals(a, b);
+        assertNotEquals(b, a);
 
         Object obj = new Object();
         assertNotEquals(a, obj);
@@ -77,7 +75,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testIncorrectBoard() throws IncorrectCardException, IncorrectBoardException {
+    public void testIncorrectBoard() throws IncorrectCardException {
         assertThrows(IncorrectBoardException.class, () -> new Board("4c", "7d", "Ks", "2s", "Ks"));
         assertThrows(IncorrectBoardException.class, () -> new Board("Qs", "Qs", "As", "2s", "Ks"));
         assertThrows(IncorrectBoardException.class, () -> new Board(

@@ -291,8 +291,8 @@ public class StreetDescription {
     public String toString() {
         ArrayList<PlayerInGame> orderedPlayers = new ArrayList<>();
         ArrayList<PositionType> orderPos = new ArrayList<>(List.of(UTG, UTG_1, UTG_2, SB, BB, LJ, HJ, CO, BTN));
-        for (int i = 0; i < orderPos.size(); ++i) {
-            PlayerInGame p = playersAfterBetting.get(orderPos.get(i));
+        for (PositionType orderPo : orderPos) {
+            PlayerInGame p = playersAfterBetting.get(orderPo);
             if (p != null) {
                 orderedPlayers.add(p);
             }

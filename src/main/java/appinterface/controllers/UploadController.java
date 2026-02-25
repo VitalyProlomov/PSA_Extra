@@ -55,7 +55,7 @@ public class UploadController {
         alert.setContentText("You have uploaded " + (files.size() - allExceptions.size()) + " files, containing " +
                 allGames.size() + " games.");
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        if (allExceptions.size() != 0) {
+        if (!allExceptions.isEmpty()) {
             alert.setContentText(alert.getContentText() + "\n" + allExceptions.size() + " files were in incorrect format or could not be read.");
         }
         alert.show();

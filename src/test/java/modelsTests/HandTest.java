@@ -49,7 +49,7 @@ public class HandTest {
     @Test
     public void testHandToString() throws IncorrectHandException, IncorrectCardException {
         Hand h = new Hand(new Card("9c"), new Card("5d"));
-        assertEquals(h.toString(), "[9♣ 5♦]");
+        assertEquals("[9♣ 5♦]", h.toString());
     }
 
     @Test
@@ -74,7 +74,6 @@ public class HandTest {
     public void testHandHashCodeCollisions() throws IncorrectCardException, IncorrectHandException {
         ArrayList<Card> allCards = new ArrayList<>();
         char[] symbols = new char[] {'♦', '♥', '♣', '♠'};
-        int hash = 1;
         for (char j : symbols) {
             for (int i = 2; i <= 14; ++i) {
                 String repr = String.valueOf(i);
