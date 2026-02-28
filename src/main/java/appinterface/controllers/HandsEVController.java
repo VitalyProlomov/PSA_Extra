@@ -1,7 +1,7 @@
 package appinterface.controllers;
 
 import pokerlibrary.analizer.CombinationAnalyzer;
-import appinterface.PSAApplication;
+import appinterface.PsaDesktopApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -149,7 +149,7 @@ public class HandsEVController {
     @FXML
     void onSearchFiltersButtonClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/filterSearchView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/filterSearchView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));

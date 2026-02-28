@@ -1,6 +1,6 @@
 package appinterface.controllers;
 
-import appinterface.PSAApplication;
+import appinterface.PsaDesktopApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -110,7 +110,7 @@ public class DeleteGamesController {
     @FXML
     void onSearchFilterButtonClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/filterSearchView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/filterSearchView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));

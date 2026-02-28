@@ -1,7 +1,7 @@
 package appinterface.controllers;
 
 import pokerlibrary.analizer.GameAnalyzer;
-import appinterface.PSAApplication;
+import appinterface.PsaDesktopApplication;
 import pokerlibrary.exceptions.IncorrectCardException;
 import pokerlibrary.exceptions.IncorrectHandException;
 import javafx.beans.binding.Bindings;
@@ -170,12 +170,12 @@ public class EnhancedStatsController {
                         Stage stage = new Stage();
 
                         if (rowData.getGameType().equals(Game.GameType.HOLDEM_RNC_6MAX)) {
-                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
+                            loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
                             stage.setScene(new Scene(loader.load()));
                             GameDisplay6MaxController controller = loader.getController();
                             controller.setGame(rowData);
                         } else if (rowData.getGameType().equals(Game.GameType.HOLDEM_9MAX)) {
-                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
+                            loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
                             stage.setScene(new Scene(loader.load()));
                             GameDisplay9MaxController controller = loader.getController();
                             controller.setGame(rowData);
@@ -749,6 +749,7 @@ public class EnhancedStatsController {
         pieChart2.setLabelsVisible(false);
     }
 
+    // TODO
     private void initializeRiver() {
 
     }

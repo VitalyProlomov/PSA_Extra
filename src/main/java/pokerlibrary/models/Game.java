@@ -40,7 +40,6 @@ public class Game {
         }
     }
 
-
     /**
      * Map containing pairs hash - player, that are present in given Game
      */

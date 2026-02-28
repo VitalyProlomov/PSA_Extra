@@ -1,6 +1,6 @@
 package appinterface.controllers;
 
-import appinterface.PSAApplication;
+import appinterface.PsaDesktopApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,10 +34,8 @@ public class ExaminePlayersController {
     @FXML
     private Button assignNewPlayerButton;
 
-
     @FXML
     private TableView<UserProfile> userProfilesTableView;
-
 
     private GamesSet gamesSet;
 
@@ -49,7 +47,7 @@ public class ExaminePlayersController {
 
     private void onAssignNewPlayerMouseClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/assignNewPlayerView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/assignNewPlayerView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -124,7 +122,7 @@ public class ExaminePlayersController {
                     try {
                         UserProfile rowData = row.getItem();
 
-                        FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/userProfileDisplayView.fxml"));
+                        FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/userProfileDisplayView.fxml"));
                         Stage stage = new Stage();
                         stage.setScene(new Scene(loader.load()));
 

@@ -1,7 +1,7 @@
 package appinterface.controllers;
 
 
-import appinterface.PSAApplication;
+import appinterface.PsaDesktopApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,7 +63,7 @@ public class GamesListController {
     @FXML
     void onProfileButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/profileView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/profileView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -82,7 +82,7 @@ public class GamesListController {
     @FXML
     void onSearchFiltersButtonClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/filterSearchView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/filterSearchView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -155,7 +155,7 @@ public class GamesListController {
     @FXML
     private void onExaminePlayersButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/examinePlayersView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/examinePlayersView.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             ExaminePlayersController controller = loader.getController();
@@ -237,12 +237,12 @@ public class GamesListController {
                         Stage stage = new Stage();
 
                         if (rowData.getGameType().equals(Game.GameType.HOLDEM_RNC_6MAX)) {
-                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
+                            loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/gameDisplay6MaxView.fxml"));
                             stage.setScene(new Scene(loader.load()));
                             GameDisplay6MaxController controller = loader.getController();
                             controller.setGame(rowData);
                         } else if (rowData.getGameType().equals(Game.GameType.HOLDEM_9MAX)) {
-                            loader = new FXMLLoader(PSAApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
+                            loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/gameDisplay9MaxView.fxml"));
                             stage.setScene(new Scene(loader.load()));
                             GameDisplay9MaxController controller = loader.getController();
                             controller.setGame(rowData);

@@ -1,6 +1,6 @@
 package appinterface.controllers;
 
-import appinterface.PSAApplication;
+import appinterface.PsaDesktopApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,7 +67,7 @@ public class HomeController {
     @FXML
     void onDownloadedGamesButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/gamesListView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/gamesListView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -86,7 +86,7 @@ public class HomeController {
     @FXML
     private void onExaminePlayersButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/examinePlayersView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/examinePlayersView.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             ExaminePlayersController controller = loader.getController();
@@ -102,7 +102,7 @@ public class HomeController {
     @FXML
     void onProfileButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/profileView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/profileView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -121,7 +121,7 @@ public class HomeController {
     @FXML
     void onHandsEVButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/handsEVView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/handsEVView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -167,7 +167,7 @@ public class HomeController {
 
     public void onEVCalculatorButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/evCalculatorView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/evCalculatorView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -183,7 +183,7 @@ public class HomeController {
 
     private void onEnhancedStatsButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/enhancedStatsView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/enhancedStatsView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
@@ -202,7 +202,7 @@ public class HomeController {
 
     private void onDeleteGamesButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(PSAApplication.class.getResource("views/deleteGamesView.fxml"));
+            FXMLLoader loader = new FXMLLoader(PsaDesktopApplication.class.getResource("views/deleteGamesView.fxml"));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
