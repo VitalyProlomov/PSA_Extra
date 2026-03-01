@@ -34,4 +34,7 @@ module psa.app.psawindowapp {
     opens appinterface.controllers to javafx.fxml;
     opens pokerlibrary.models to javafx.base, com.fasterxml.jackson.databind;
 
+    opens templates to org.thymeleaf, spring.boot.autoconfigure;
+
+
 }
