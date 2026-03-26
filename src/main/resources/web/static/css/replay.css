@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1a1a1a;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Info Panel (Right Side) */
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 200px;
+    height: fit-content;
+}
+
+.info-item {
+    color: white;
+    font-size: 13px;
+    padding: 4px 0;
+    border-bottom: 1px solid #444;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+/* Table Container (matches JavaFX: 815x439) */
+.table-container {
+    position: relative;
+    width: 815px;
+    height: 439px;
+    background: #1a1a1a;
+}
+
+/* Table Ellipse (matches JavaFX: layoutX=279, layoutY=186, radiusX=209, radiusY=120, fill=#cf558d) */
+.table-ellipse {
+    position: absolute;
+    width: 418px;
+    height: 240px;
+    background: #cf558d;
+    border: 3px solid #000;
+    border-radius: 50%;
+    left: 70px;
+    top: 66px;
+}
+
+/* Community Cards (matches JavaFX: layoutX=169-356, layoutY=149) */
+.community-cards {
+    position: absolute;
+    display: flex;
+    gap: 5px;
+    left: 169px;
+    top: 149px;
+    z-index: 10;
+}
+
+.card-slot {
+    position: relative;
+    width: 36px;
+    height: 52px;
+}
+
+.card-rect {
+    position: absolute;
+    width: 36px;
+    height: 52px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    display: none;
+}
+
+.card-rank {
+    position: absolute;
+    width: 36px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: none;
+}
+
+/* Card Suit Colors (matches JavaFX fillMaps()) */
+.spades { background: rgb(53, 56, 59); }
+.hearts { background: rgb(196, 30, 30); }
+.diamonds { background: rgb(30, 144, 255); }
+.clubs { background: rgb(9, 183, 0); }
+
+/* Pot Display (matches JavaFX: layoutX=234, layoutY=222) */
+.pot-display {
+    position: absolute;
+    left: 234px;
+    top: 222px;
+    color: white;
+    font-size: 14px;
+    z-index: 10;
+}
+
+/* Seats */
+.seat {
+    position: absolute;
+    text-align: center;
+}
+
+/* Hero Seat (matches JavaFX: layoutX=233, layoutY=335) */
+.seat-hero {
+    left: 233px;
+    top: 335px;
+}
+
+/* Opponent Seats (positions match JavaFX FXML coordinates exactly) */
+#seat-1 { left: 100px; top: 297px; }
+#seat-2 { left: -1px; top: 236px; }
+#seat-3 { left: 56px; top: 50px; }
+#seat-4 { left: 185px; top: 32px; }
+#seat-5 { left: 294px; top: 32px; }
+#seat-6 { left: 402px; top: 52px; }
+#seat-7 { left: 472px; top: 217px; }
+#seat-8 { left: 350px; top: 309px; }
+
+/* Dealer Button (30x30px, matches JavaFX ImageView) */
+.dealer-button {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    z-index: 20;
+}
+
+#heroButtonIcon { left: -16px; top: -83px; }
+#player1ButtonIcon { left: 3px; top: -115px; }
+#player2ButtonIcon { left: 93px; top: -89px; }
+#player3ButtonIcon { left: 92px; top: 53px; }
+#player4ButtonIcon { left: 75px; top: 68px; }
+#player5ButtonIcon { left: 57px; top: 72px; }
+#player6ButtonIcon { left: -9px; top: 92px; }
+#player7ButtonIcon { left: -48px; top: -32px; }
+#player8ButtonIcon { left: -25px; top: -74px; }
+
+/* Action Labels (matches JavaFX Label positions) */
+.action-label {
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    width: 102px;
+    text-align: center;
+    z-index: 15;
+}
+
+#heroActionLabel { left: -4px; top: -74px; }
+#player1ActionLabel { left: 12px; top: -72px; }
+#player2ActionLabel { left: -21px; top: -39px; }
+#player3ActionLabel { left: 0px; top: 75px; }
+#player4ActionLabel { left: -2px; top: 69px; }
+#player5ActionLabel { left: -4px; top: 69px; }
+#player6ActionLabel { left: -36px; top: 73px; }
+#player7ActionLabel { left: -105px; top: 52px; }
+#player8ActionLabel { left: -4px; top: -72px; }
+
+/* Player Cards */
+.cards-container {
+    display: flex;
+    gap: 5px;
+    position: relative;
+    z-index: 5;
+    justify-content: center;
+}
+
+.card-slot-player {
+    position: relative;
+    width: 36px;
+    height: 52px;
+}
+
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 6;
+}
+
+/* Position & Balance Labels */
+.position-label {
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.balance-label {
+    color: white;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Next Action Button (Triangle - matches JavaFX Polygon) */
+.next-action-btn {
+    position: absolute;
+    left: 463px;
+    top: 422px;
+    cursor: pointer;
+    z-index: 30;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 53px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 60px solid #3d51ffe7;
+    transform: rotate(-30deg);
+}
+
+.next-action-btn:hover .triangle {
+    border-bottom-color: #5a6aff;
+}
+
+/* Restart Button (matches JavaFX: layoutX=13, layoutY=363, 69x70) */
+.restart-btn {
+    position: absolute;
+    left: 13px;
+    top: 363px;
+    width: 69px;
+    height: 70px;
+    cursor: pointer;
+    z-index: 30;
+}
+
+.restart-btn img {
+    width: 100%;
+    height: 100%;
+}
+
+.restart-btn:hover {
+    opacity: 0.8;
+}
+
+/* Visibility Classes */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Poker Hand Replay</title>
+    <!-- CSS - CORRECT SYNTAX -->
+    <link rel="stylesheet" th:href="@{/css/replay.css}">
+</head>
+<body>
+<div class="main-container">
+    <!-- Game Info Panel -->
+    <div class="info-panel">
+        <div class="info-item">Game ID: <span th:text="${game.gameId}"></span></div>
+        <div class="info-item">Date: <span th:text="${formattedDate}"></span></div>
+        <div class="info-item">Pot Type: <span th:text="${potType}"></span></div>
+        <div class="info-item">Players Post Flop: <span th:text="${playersPostFlop}"></span></div>
+        <div class="info-item">Hero Win/Loss: <span th:text="${heroWinLossFormatted}"></span></div>
+        <div class="info-item">Total Pot: <span th:text="${totalPotFormatted}"></span></div>
+    </div>
+
+    <!-- Poker Table Container -->
+    <div class="table-container">
+        <div class="table-ellipse"></div>
+
+        <!-- Community Cards -->
+        <div class="community-cards">
+            <div class="card-slot" id="flopCard1">
+                <div class="card-rect" id="flopCard1Rect"></div>
+                <div class="card-rank" id="flopCard1Rank"></div>
+            </div>
+            <div class="card-slot" id="flopCard2">
+                <div class="card-rect" id="flopCard2Rect"></div>
+                <div class="card-rank" id="flopCard2Rank"></div>
+            </div>
+            <div class="card-slot" id="flopCard3">
+                <div class="card-rect" id="flopCard3Rect"></div>
+                <div class="card-rank" id="flopCard3Rank"></div>
+            </div>
+            <div class="card-slot" id="turnCard">
+                <div class="card-rect" id="turnCardRect"></div>
+                <div class="card-rank" id="turnCardRank"></div>
+            </div>
+            <div class="card-slot" id="riverCard">
+                <div class="card-rect" id="riverCardRect"></div>
+                <div class="card-rank" id="riverCardRank"></div>
+            </div>
+        </div>
+
+        <!-- Pot Display -->
+        <div class="pot-display" id="potLabel">POT: </div>
+
+        <!-- Hero Seat - CORRECT ASSET SYNTAX -->
+        <div class="seat seat-hero" id="seat-hero">
+            <img class="dealer-button" id="heroButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="heroActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="heroLeftCardRect"></div>
+                    <div class="card-rank" id="heroLeftCardRank"></div>
+                    <img class="card-back" id="heroLeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="heroRightCardRect"></div>
+                    <div class="card-rank" id="heroRightCardRank"></div>
+                    <img class="card-back" id="heroRightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="heroPositionLabel"></div>
+            <div class="balance-label" id="heroBalanceLabel"></div>
+        </div>
+
+        <!-- Opponent Seats 1-8 - CORRECT ASSET SYNTAX -->
+        <div class="seat seat-opponent" id="seat-1">
+            <img class="dealer-button" id="player1ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player1ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player1LeftCardRect"></div>
+                    <div class="card-rank" id="player1LeftCardRank"></div>
+                    <img class="card-back" id="player1LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player1RightCardRect"></div>
+                    <div class="card-rank" id="player1RightCardRank"></div>
+                    <img class="card-back" id="player1RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player1PositionLabel"></div>
+            <div class="balance-label" id="player1BalanceLabel"></div>
+        </div>
+
+        <!-- Seats 2-8 follow same pattern... -->
+        <div class="seat seat-opponent" id="seat-2">
+            <img class="dealer-button" id="player2ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player2ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player2LeftCardRect"></div>
+                    <div class="card-rank" id="player2LeftCardRank"></div>
+                    <img class="card-back" id="player2LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player2RightCardRect"></div>
+                    <div class="card-rank" id="player2RightCardRank"></div>
+                    <img class="card-back" id="player2RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player2PositionLabel"></div>
+            <div class="balance-label" id="player2BalanceLabel"></div>
+        </div>
+
+        <div class="seat seat-opponent" id="seat-3">
+            <img class="dealer-button" id="player3ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player3ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player3LeftCardRect"></div>
+                    <div class="card-rank" id="player3LeftCardRank"></div>
+                    <img class="card-back" id="player3LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player3RightCardRect"></div>
+                    <div class="card-rank" id="player3RightCardRank"></div>
+                    <img class="card-back" id="player3RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player3PositionLabel"></div>
+            <div class="balance-label" id="player3BalanceLabel"></div>
+        </div>
+
+        <div class="seat seat-opponent" id="seat-4">
+            <img class="dealer-button" id="player4ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player4ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player4LeftCardRect"></div>
+                    <div class="card-rank" id="player4LeftCardRank"></div>
+                    <img class="card-back" id="player4LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player4RightCardRect"></div>
+                    <div class="card-rank" id="player4RightCardRank"></div>
+                    <img class="card-back" id="player4RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player4PositionLabel"></div>
+            <div class="balance-label" id="player4BalanceLabel"></div>
+        </div>
+
+        <div class="seat seat-opponent" id="seat-5">
+            <img class="dealer-button" id="player5ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player5ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player5LeftCardRect"></div>
+                    <div class="card-rank" id="player5LeftCardRank"></div>
+                    <img class="card-back" id="player5LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player5RightCardRect"></div>
+                    <div class="card-rank" id="player5RightCardRank"></div>
+                    <img class="card-back" id="player5RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player5PositionLabel"></div>
+            <div class="balance-label" id="player5BalanceLabel"></div>
+        </div>
+
+        <div class="seat seat-opponent" id="seat-6">
+            <img class="dealer-button" id="player6ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player6ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player6LeftCardRect"></div>
+                    <div class="card-rank" id="player6LeftCardRank"></div>
+                    <img class="card-back" id="player6LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player6RightCardRect"></div>
+                    <div class="card-rank" id="player6RightCardRank"></div>
+                    <img class="card-back" id="player6RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player6PositionLabel"></div>
+            <div class="balance-label" id="player6BalanceLabel"></div>
+        </div>
+
+        <div class="seat seat-opponent" id="seat-7">
+            <img class="dealer-button" id="player7ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player7ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player7LeftCardRect"></div>
+                    <div class="card-rank" id="player7LeftCardRank"></div>
+                    <img class="card-back" id="player7LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player7RightCardRect"></div>
+                    <div class="card-rank" id="player7RightCardRank"></div>
+                    <img class="card-back" id="player7RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player7PositionLabel"></div>
+            <div class="balance-label" id="player7BalanceLabel"></div>
+        </div>
+
+        <div class="seat seat-opponent" id="seat-8">
+            <img class="dealer-button" id="player8ButtonIcon" th:src="@{assets/dealerButton.png}" style="display:none;">
+            <div class="action-label" id="player8ActionLabel"></div>
+            <div class="cards-container">
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player8LeftCardRect"></div>
+                    <div class="card-rank" id="player8LeftCardRank"></div>
+                    <img class="card-back" id="player8LeftCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+                <div class="card-slot-player">
+                    <div class="card-rect" id="player8RightCardRect"></div>
+                    <div class="card-rank" id="player8RightCardRank"></div>
+                    <img class="card-back" id="player8RightCardBack" th:src="@{/assets/cardBackImage.png}">
+                </div>
+            </div>
+            <div class="position-label" id="player8PositionLabel"></div>
+            <div class="balance-label" id="player8BalanceLabel"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="next-action-btn" id="nextActionBtn" title="Next Action">
+            <div class="triangle"></div>
+        </div>
+        <a th:href="@{/hands}" class="restart-btn" title="Restart">
+            <img th:src="@{/assets/restartIcon.png}" alt="Restart">
+        </a>
+    </div>
+</div>
+
+<!-- Embed Game JSON for JavaScript -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.gameData = /*[[${gameJson}]]*/ {};
+    /*]]>*/
+</script>
+
+<!-- JavaScript - CORRECT SYNTAX -->
+<script th:src="@{/js/replay.js}"></script>
+</body>
+</html>

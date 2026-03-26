@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hands</title>
+</head>
+<body>
+<h1>hands</h1>
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <label for="file-upload">Choose a file to upload:</label>
+    <input type="file" id="file-upload" name="fileToUpload">
+    <button type="submit">Upload File</button>
+</form>
+
+</body>
+</html>
