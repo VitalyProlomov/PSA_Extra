@@ -1,5 +1,6 @@
 package pokerlibrary.models;
 
+import lombok.Getter;
 import pokerlibrary.analizer.Combination;
 import pokerlibrary.analizer.CombinationAnalyzer;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,6 +15,7 @@ import java.util.Set;
  * The Class for Pair of Combination on board and the cards that make up this combination
  */
 public class ComboCardsPair {
+    @Getter
     private final Combination combination;
     private final HashSet<Card> cards;
 
@@ -48,13 +50,6 @@ public class ComboCardsPair {
      */
     public HashSet<Card> getCards() {
         return new HashSet<>(cards);
-    }
-
-    /**
-     * @return combination value
-     */
-    public Combination getCombination() {
-        return combination;
     }
 
     /**

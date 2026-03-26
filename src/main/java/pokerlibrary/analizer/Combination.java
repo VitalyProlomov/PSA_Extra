@@ -1,5 +1,9 @@
 package pokerlibrary.analizer;
-    /**
+
+import lombok.Getter;
+import lombok.Setter;
+
+/**
      * All possible combinations in Texas Holdem
      */
     public enum Combination {
@@ -16,17 +20,12 @@ package pokerlibrary.analizer;
 
         public final int value;
 
+        @Setter
+        @Getter
         public double specifiedValue;
 
         Combination(int value) {
             this.value = value;
         }
 
-        public double getSpecifiedValue() {
-            return specifiedValue;
-        }
-
-        public void setSpecifiedValue(double specifiedValue) {
-            this.specifiedValue = specifiedValue;
-        }
-    }
+}

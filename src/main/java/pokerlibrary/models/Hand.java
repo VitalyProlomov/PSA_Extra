@@ -2,6 +2,7 @@ package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import pokerlibrary.exceptions.IncorrectCardException;
 import pokerlibrary.exceptions.IncorrectHandException;
 
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Class that represents Hand of the player (2 unique cards)
  */
+@Getter
 public class Hand {
     private final Card card1;
     private final Card card2;
@@ -66,14 +68,6 @@ public class Hand {
      */
     public HashSet<Card> getCards() {
         return new HashSet<>(List.of(card1, card2));
-    }
-
-    public Card getCard1() {
-        return card1;
-    }
-
-    public Card getCard2() {
-        return card2;
     }
 
 

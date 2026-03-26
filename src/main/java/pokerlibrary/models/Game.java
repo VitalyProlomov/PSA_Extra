@@ -3,6 +3,8 @@ package pokerlibrary.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -14,11 +16,15 @@ import static pokerlibrary.models.PositionType.*;
  * (if revealed) and other.
  */
 public class Game {
+
     // Unique (At least for PokerOk)
+    @Getter
     private final String gameId;
     /**
      * Contains the table index information.
      */
+    @Getter
+    @Setter
     private String table;
 
 
@@ -28,11 +34,8 @@ public class Game {
         UNKNOWN
     }
 
+    @Getter
     private GameType gameType = GameType.UNKNOWN;
-
-    public GameType getGameType() {
-        return this.gameType;
-    }
 
     public void setGameType(GameType gameType) {
         if (this.gameType == GameType.UNKNOWN) {
@@ -47,9 +50,33 @@ public class Game {
     private HashMap<String, PlayerInGame> players = new HashMap<>();
     private final HashMap<String, Double> initialBalances = new HashMap<>();
 
+    /**
+     * -- GETTER --
+     *
+     * @return extra cash amount
+     */
     // Amount of dollars as a cash drop (or 0 if there is no cash drop)
+    @Getter
     private double extraCashAmount = 0;
+    /**
+     * -- GETTER --
+     *
+     *
+     * -- SETTER --
+     *  sets the date of the game
+     *
+     @return Date when the game took place.
+      * @param date given date to set (no setting conditions)
+     */
+    @Setter
+    @Getter
     private Date date;
+    /**
+     * -- GETTER --
+     *
+     * @return Big Blind (BB) size in dollars.
+     */
+    @Getter
     private final double bigBlindSize$;
 
     private StreetDescription preFlop;
@@ -59,7 +86,10 @@ public class Game {
 
     @JsonProperty(value = "allWinners", required = true)
     private HashMap<String, Double> allWinners = new HashMap<>();
-//    private double finalPot;
+
+    //    private double finalPot;
+    @Setter
+    @Getter
     private double rake;
 
 
@@ -156,36 +186,6 @@ public class Game {
             return players.get(hash).getBalance() - initialBalances.get(hash);
         }
         return 0;
-    }
-
-    /**
-     * @return ID of the game
-     */
-    public String getGameId() {
-        return gameId;
-    }
-
-    /**
-     * @return Big Blind (BB) size in dollars.
-     */
-    public double getBigBlindSize$() {
-        return bigBlindSize$;
-    }
-
-    /**
-     * @return Date when the game took place.
-     */
-    public Date getDate() {
-        return date;
-    }
-
-    /**
-     * sets the date of the game
-     *
-     * @param date given date to set (no setting conditions)
-     */
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     /**
@@ -347,7 +347,7 @@ public class Game {
     }
 
     /**
-     * @return ture if extra cash is more than zero,
+     * @return true if extra cash is more than zero,
      * false otherwise.
      */
     @JsonIgnore
@@ -367,13 +367,6 @@ public class Game {
         }
 
         extraCashAmount = amount;
-    }
-
-    /**
-     * @return extra cash amount
-     */
-    public double getExtraCashAmount() {
-        return extraCashAmount;
     }
 
     /**
@@ -457,9 +450,9 @@ public class Game {
     public void setTurn(StreetDescription turn) {
         if (turn == null) {
             this.turn = null;
-            return;
+        } else {
+            this.turn = new StreetDescription(turn);
         }
-        this.turn = new StreetDescription(turn);
     }
 
     /**
@@ -543,14 +536,6 @@ public class Game {
         throw new RuntimeException("Final pot was not counted.");
     }
 
-    public void setTable(String table) {
-        this.table = table;
-    }
-
-    public String getTable() {
-        return table;
-    }
-
     /**
      * @return HashMap of all the initial balances of players in game
      */
@@ -565,22 +550,6 @@ public class Game {
      */
     private void setInitialBalances(Map<String, Double> players) {
         initialBalances.putAll(players);
-    }
-
-    /**
-     * @return the rake
-     */
-    public double getRake() {
-        return rake;
-    }
-
-    /**
-     * Sets the rake
-     *
-     * @param rake rake to set
-     */
-    public void setRake(double rake) {
-        this.rake = rake;
     }
 
     @Override

@@ -2,6 +2,7 @@ package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -27,9 +28,12 @@ public class Action {
         MISSED_BLIND
     }
 
+    @Getter
     private final ActionType actionType;
+    @Getter
     private final double amount;
     private final String playerInGameId;
+    @Getter
     private final double potBeforeAction;
 
     /**
@@ -68,27 +72,6 @@ public class Action {
         this.potBeforeAction = potBeforeAction;
     }
 
-
-    /**
-     * @return ActionType of this action
-     */
-    public ActionType getActionType() {
-        return actionType;
-    }
-
-    /**
-     * @return amount contributed to the pot by this action (in dollars)
-     */
-    public double getAmount() {
-        return amount;
-    }
-
-    /**
-     * @return amount in dollars in the pot before this action.
-     */
-    public double getPotBeforeAction() {
-        return potBeforeAction;
-    }
 
     /**
      * @return copy of the playerInGame in this Action

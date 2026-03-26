@@ -3,12 +3,14 @@ package pokerlibrary.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class UserProfile {
+    @Getter
     private final String userName;
 
     private final HashSet<String> allGamesIds;
@@ -30,10 +32,6 @@ public class UserProfile {
         gameIdPlayerHashMap = new HashMap<>();
     }
 
-
-    public String getUserName() {
-        return userName;
-    }
 
     public void addGame(String id, String hashInGame) {
         this.allGamesIds.add(id);

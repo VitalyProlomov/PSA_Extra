@@ -1,5 +1,7 @@
 package appinterface.controllers;
 
+import lombok.Getter;
+import lombok.Setter;
 import pokerlibrary.analizer.GameAnalyzer;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -59,16 +61,10 @@ public class FilterSearchController {
     @FXML
     private DatePicker toDatePicker;
 
+    @Setter
     private Set<Game> unfilteredGames;
+    @Getter
     private Set<Game> gamesAfterFilter;
-
-    public void setUnfilteredGames(Set<Game> games) {
-        this.unfilteredGames = games;
-    }
-
-    public Set<Game> getGamesAfterFilter() {
-        return gamesAfterFilter;
-    }
 
     private void setToDefault() {
         bbSizeCheckComboBox.getCheckModel().clearChecks();

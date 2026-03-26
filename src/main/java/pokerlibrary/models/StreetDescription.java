@@ -1,6 +1,8 @@
 package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -12,11 +14,15 @@ import static pokerlibrary.models.PositionType.*;
  * cards that came.
  */
 public class StreetDescription {
+    @Setter
+    @Getter
     private double potAfterBetting;
     // Will be null for Pre-flop
     private Board board;
     private HashMap<PositionType, PlayerInGame> playersAfterBetting = new HashMap<>();
     private ArrayList<Action> allActions = new ArrayList<>();
+    @Setter
+    @Getter
     private boolean isAllIn = false;
 
     /**
@@ -189,21 +195,6 @@ public class StreetDescription {
     }
 
     /**
-     * @return pot after all the actions
-     */
-    public double getPotAfterBetting() {
-        return potAfterBetting;
-    }
-
-    /**
-     * Sets potAfterBetting
-     * @param potAfterBetting pot to set
-     */
-    public void setPotAfterBetting(double potAfterBetting) {
-        this.potAfterBetting = potAfterBetting;
-    }
-
-    /**
      * @return the board of this Street
      */
     public Board getBoard() {
@@ -223,27 +214,6 @@ public class StreetDescription {
             return;
         }
         this.board = new Board(board);
-    }
-
-    /**
-     * isAllIn is ture if all players went all-in on this Street
-     * (if just one player still has chips and didn't fold,
-     * the condition is also met).
-     * River might not work though (unnecessary).
-     * @return value of isAllIn field
-     */
-    public boolean isAllIn() {
-        return isAllIn;
-    }
-
-//    public boolean isCheckRaised()
-
-    /**
-     * Sets isAllIn field
-     * @param allIn value to set
-     */
-    public void setAllIn(boolean allIn) {
-        isAllIn = allIn;
     }
 
     /**

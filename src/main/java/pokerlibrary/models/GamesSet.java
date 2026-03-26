@@ -1,9 +1,11 @@
 package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.util.*;
 
+@Getter
 public class GamesSet {
     private final HashMap<String, Game> games;
 
@@ -18,21 +20,6 @@ public class GamesSet {
         }
         this.games = new HashMap<>(games);
     }
-
-    public HashMap<String, Game> getGames() {
-        return games;
-    }
-//
-//    public void setGames(Map<String, Game> games) {
-//        this.games = new HashMap<>(games);
-//    }
-//
-//    @JsonIgnore
-//    public void setGames(Set<Game> games) {
-//        for (Game g : games) {
-//            this.games.put(g.getGameId(), g);
-//        }
-//    }
 
     public void addGames(Collection<Game> addendumGames) {
         for (Game g : addendumGames) {

@@ -1,16 +1,15 @@
 package pokerlibrary.models;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 
+@Getter
 public class UserProfileSet {
     HashMap<String, UserProfile> idUserMap;
 
     public UserProfileSet() {
         this.idUserMap = new HashMap<>();
-    }
-
-    public HashMap<String, UserProfile> getIdUserMap() {
-        return idUserMap;
     }
 
     public void setIdUserMap(HashMap<String, UserProfile> idUserMap) {

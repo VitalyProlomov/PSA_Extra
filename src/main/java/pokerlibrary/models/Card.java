@@ -2,6 +2,7 @@ package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import pokerlibrary.exceptions.IncorrectCardException;
 
 import java.util.Locale;
@@ -9,6 +10,7 @@ import java.util.Locale;
 /**
  * The class for Card entity. Card has a rank and a suit.
  */
+@Getter
 public class Card {
     private final Rank rank;
     private final Suit suit;
@@ -169,14 +171,6 @@ public class Card {
         Rank(int value) {
             this.value = value;
         }
-    }
-
-    public Rank getRank() {
-        return rank;
-    }
-
-    public Suit getSuit() {
-        return suit;
     }
 
 

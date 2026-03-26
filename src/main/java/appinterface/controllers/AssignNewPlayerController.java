@@ -3,6 +3,8 @@ package appinterface.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
+import lombok.Getter;
+import lombok.Setter;
 import pokerlibrary.models.*;
 
 import static pokerlibrary.models.PositionType.*;
@@ -28,17 +30,11 @@ public class AssignNewPlayerController {
     @FXML
     private Label warningLabel;
 
+    @Setter
     private GamesSet gamesSet;
 
+    @Getter
     private HashSet<UserProfile> newlyAssignedUsers = new HashSet<>();
-
-    public HashSet<UserProfile> getNewlyAssignedUsers() {
-        return newlyAssignedUsers;
-    }
-
-    public void setGamesSet(GamesSet gamesSet) {
-        this.gamesSet = gamesSet;
-    }
 
 
     private void onAssignButtonClicked() {

@@ -23,10 +23,7 @@ import java.util.Objects;
 @Table(name="playersInGame")
 
 public class PlayerInGame {
-    /**
-     * id of the player - only unique in one specific game.
-     * Also stays the same for a single user in one session (on one table)
-     */
+
     @Id
     private final String id;
     private PositionType positionType;
@@ -88,13 +85,6 @@ public class PlayerInGame {
 //    private int handsPlayed;
 
     /**
-     * @return id of the player - string identification of the player in current session
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
      * @return position of the player in table.
      */
     public PositionType getPosition() {
@@ -107,22 +97,6 @@ public class PlayerInGame {
      */
     public void setPosition(PositionType positionType) {
         this.positionType = positionType;
-    }
-
-    /**
-     * @return UserProfile that is linked to the current player in game
-     */
-    public UserProfile getRef() {
-        return ref;
-    }
-
-    /**
-     * Sets UserProfile to the current player
-     * @param ref UserProfile link. Setting the actual object, NOT COPY.
-     *            SO ALL THE CHANGES OUTSIDE THE CLASS WILL BE SEEN
-     */
-    public void setRef(UserProfile ref) {
-        this.ref = ref;
     }
 
     /**
@@ -211,13 +185,5 @@ public class PlayerInGame {
         balanceStr = balanceStr.replace(',', '.');
         rep += ", Id: " + id + ", Pos: " + positionType + ", Balance: " + balanceStr + ")";
         return rep;
-    }
-
-    public Integer getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(Integer seatNumber) {
-        this.seatNumber = seatNumber;
     }
 }
