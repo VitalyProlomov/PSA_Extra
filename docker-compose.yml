@@ -1,0 +1,14 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: psa-db
+    environment:
+      MYSQL_ROOT_PASSWORD: psa_db_password
+      MYSQL_DATABASE: psa-db
+      MYSQL_USER: psa_user
+      MYSQL_PASSWORD: psa_user_password
+    ports:
+      - "3306:3306"
+    command:
+      - --default_authentication_plugin=caching_sha2_password
+      - --ssl=1
