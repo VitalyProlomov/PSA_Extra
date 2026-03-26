@@ -2,18 +2,32 @@ package pokerlibrary.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
 /**
  * Class that represents the player in a specific game.
  */
+@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor(access= AccessLevel.PRIVATE, force=true)
+@Table(name="playersInGame")
+
 public class PlayerInGame {
     /**
      * id of the player - only unique in one specific game.
      * Also stays the same for a single user in one session (on one table)
      */
+    @Id
     private final String id;
     private PositionType positionType;
     private UserProfile ref;
@@ -159,11 +173,14 @@ public class PlayerInGame {
         if (this == obj) {
             return true;
         }
-        if (obj == null || obj.getClass() != PlayerInGame.class) {
+        if (obj == null || obj.getClass() != PlayerInGame.class ) {
             return false;
         }
+        if (this.id == null) {
+            return ((PlayerInGame) obj).getId() == null;
+        }
         // Maybe I should change this to not just comparing the hashes
-        return ((PlayerInGame) obj).id.equals(this.id);
+        return this.id.equals(((PlayerInGame) obj).id);
 
     }
 

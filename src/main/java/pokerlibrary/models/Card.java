@@ -15,6 +15,7 @@ public class Card {
 
     /**
      * Creates new instance of the Card with given Rank and Suit.
+     *
      * @param rank rank of the created card (could be 2 .. 9, or T, J, Q, K, A)
      * @param suit suit of the created card (could be one of the 4 possible suits)
      */
@@ -73,28 +74,20 @@ public class Card {
         }
 
         char suitChar = strRepresentation.toLowerCase(Locale.ROOT).charAt(1);
-        if (suitChar == 's') {
+        if (suitChar == 's' || suitChar == '♠') {
             suit = Suit.SPADES;
-        } else if (suitChar == 'c') {
+        } else if (suitChar == 'c' || suitChar == '♣') {
             suit = Suit.CLUBS;
-        } else if (suitChar == 'h') {
+        } else if (suitChar == 'h' || suitChar == '♥') {
             suit = Suit.HEARTS;
-        } else if (suitChar == 'd') {
+        } else if (suitChar == 'd' || suitChar == '♦') {
             suit = Suit.DIAMONDS;
         } else {
-            if (suitChar == '♠') {
-                suit = Suit.SPADES;
-            } else if (suitChar == '♥') {
-                suit = Suit.HEARTS;
-            } else if (suitChar == '♦') {
-                suit = Suit.DIAMONDS;
-            } else if (suitChar == '♣') {
-                suit = Suit.CLUBS;
-            } else {
-                throw new IncorrectCardException("Incorrect Representation: '" + strRepresentation + "'. Representation of the card must be [Rank][suit], 10 being T," +
-                        " suit = 1st letter (ex: 4 of spades = 4s)");
-            }
+            throw new IncorrectCardException("Incorrect Representation: '" + strRepresentation +
+                    "'. Representation of the card must be [Rank][suit], 10 being T," +
+                    " suit = 1st letter (ex: 4 of spades = 4s)");
         }
+
     }
 
     /**
@@ -115,7 +108,7 @@ public class Card {
         }
         this.rank = rankToGive;
 
-        int suitHash = hashcode / 13 ;
+        int suitHash = hashcode / 13;
         switch (suitHash) {
             case 0:
                 this.suit = Suit.DIAMONDS;

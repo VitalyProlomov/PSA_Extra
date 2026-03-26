@@ -170,24 +170,25 @@ public class CombinationAnalyzer {
             return ccp;
         }
 
-        ccp = findBestHighCard(extendedCards);
-        return ccp;
+        return findBestHighCard(extendedCards);
     }
 
     /**
-     * @param extendedCards Checks if there is a Royal flush on the board.
+     * Checks if there is a Royal flush on the board.
+     *
+     * @param sortedExtCards for method to work correctly
      * @return Board containing the cards of the combination or {@code}null if the combination was not found
      * @throws IncorrectBoardException in case the cards do not form a valid board
      */
-    private static ComboCardsPair findBestRoyalFlush(ArrayList<Card> extendedCards)
+    private static ComboCardsPair findBestRoyalFlush(ArrayList<Card> sortedExtCards)
             throws IncorrectBoardException {
-        Card.Suit majorSuit = countFlushSuit(extendedCards);
+        Card.Suit majorSuit = countFlushSuit(sortedExtCards);
         if (majorSuit == null) {
             return null;
         }
 
         ArrayList<Card> suitedCards = new ArrayList<>();
-        for (Card extendedCard : extendedCards) {
+        for (Card extendedCard : sortedExtCards) {
             if (extendedCard.getSuit() == majorSuit) {
                 suitedCards.add(extendedCard);
             }
@@ -218,7 +219,7 @@ public class CombinationAnalyzer {
      * Checks if there is a straight flush on the board and finds the best one there is.
      *
      * @param extendedCards cards being checked - must be sorted by method {@code sortBoard}
-     *                      *                            for method to work correctly
+     *                      for method to work correctly
      * @return Board containing the cards of the combination or {@code null} if the combination was not found
      * @throws IncorrectBoardException in case the cards do not form a valid board
      */
@@ -610,38 +611,19 @@ public class CombinationAnalyzer {
         if (!isBoardValid(extendedCards)) {
             throw new IncorrectBoardException("The board is incorrect. It must be valid.");
         }
-        int s = 0;
-        int c = 0;
-        int h = 0;
-        int d = 0;
+        HashMap<Card.Suit, Integer> map = new HashMap<>();
 
         for (Card card : extendedCards) {
-            if (card.getSuit() == Card.Suit.SPADES) {
-                s++;
-            }
-            if (card.getSuit() == Card.Suit.CLUBS) {
-                c++;
-            }
-            if (card.getSuit() == Card.Suit.HEARTS) {
-                h++;
-            }
-            if (card.getSuit() == Card.Suit.DIAMONDS) {
-                d++;
-            }
+            map.put(card.getSuit(), map.getOrDefault(card.getSuit(), 0) + 1);
         }
 
-        if (s >= 5) {
-            return Card.Suit.SPADES;
-        } else if (c >= 5) {
-            return Card.Suit.CLUBS;
-        } else if (h >= 5) {
-            return Card.Suit.HEARTS;
-        } else if (d >= 5) {
-            return Card.Suit.DIAMONDS;
+        for (Card.Suit suit : map.keySet()) {
+            if (map.get(suit) >= 5) {
+                return suit;
+            }
         }
         return null;
     }
-
 
     /**
      * Determines which hand is best at showdown (only works for full 5 cards board)
@@ -738,7 +720,7 @@ public class CombinationAnalyzer {
     }
 
     /**
-     * @return ArrayList of ComboCardsCombination, that contians best combinations
+     * @return ArrayList of ComboCardsCombination, that contains best combinations
      */
     private ArrayList<ComboCardsPair> compareSameCombinations(ComboCardsPair ccp1, ComboCardsPair ccp2) {
         ArrayList<ComboCardsPair> bestCcp = new ArrayList<>();
@@ -803,8 +785,8 @@ public class CombinationAnalyzer {
     public static HashMap<Hand, Double> countEVPreFlopPrecise(ArrayList<Hand> playersHands) throws IncorrectBoardException {
         Board b;
         HashMap<Hand, Double> boardsWon = new HashMap<>();
-        for (int i = 0; i < playersHands.size(); ++i) {
-            boardsWon.put(playersHands.get(i), 0.0);
+        for (Hand playersHand : playersHands) {
+            boardsWon.put(playersHand, 0.0);
         }
 
         ArrayList<Card> cards = new ArrayList<>();
