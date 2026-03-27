@@ -6,189 +6,259 @@
 
 body {
     background-color: #1a1a1a;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
 .main-container {
     display: flex;
     gap: 20px;
     padding: 20px;
+    max-width: 1400px;
+    width: 100%;
 }
 
-/* Info Panel (Right Side) */
+/* ========== Info Panel ========== */
 .info-panel {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     background: #2a2a2a;
-    padding: 15px;
-    border-radius: 8px;
-    min-width: 200px;
+    padding: 20px;
+    border-radius: 12px;
+    min-width: 220px;
     height: fit-content;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .info-item {
     color: white;
-    font-size: 13px;
-    padding: 4px 0;
+    font-size: 14px;
+    padding: 8px 0;
     border-bottom: 1px solid #444;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .info-item:last-child {
     border-bottom: none;
 }
 
-/* Table Container (matches JavaFX: 815x439) */
+.info-item span {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* ========== Table Wrapper ========== */
+.table-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+}
+
 .table-container {
     position: relative;
-    width: 815px;
-    height: 439px;
+    width: 100%;
+    max-width: 1100px;
+    min-width: 700px;
+    aspect-ratio: 815/439;
     background: #1a1a1a;
 }
 
-/* Table Ellipse (matches JavaFX: layoutX=279, layoutY=186, radiusX=209, radiusY=120, fill=#cf558d) */
+/* ========== Table Ellipse (REFERENCE POINT) ========== */
 .table-ellipse {
     position: absolute;
-    width: 418px;
-    height: 240px;
-    background: #cf558d;
-    border: 3px solid #000;
+    width: 55%;
+    height: 60%;
+    background: linear-gradient(145deg, #cf558d, #a8406d);
+    border: 4px solid #000;
     border-radius: 50%;
-    left: 70px;
-    top: 66px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(207, 85, 141, 0.3);
 }
 
-/* Community Cards (matches JavaFX: layoutX=169-356, layoutY=149) */
+/* ========== Community Cards (CENTERED ON TABLE) ========== */
 .community-cards {
     position: absolute;
     display: flex;
-    gap: 5px;
-    left: 169px;
-    top: 149px;
+    gap: 0.5%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
 }
 
 .card-slot {
     position: relative;
-    width: 36px;
-    height: 52px;
+    width: 4.5%;
+    height: 12%;
+    min-width: 36px;
+    min-height: 52px;
 }
 
 .card-rect {
     position: absolute;
-    width: 36px;
-    height: 52px;
-    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
     border: 2px solid #000;
     display: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .card-rank {
     position: absolute;
-    width: 36px;
-    height: 52px;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 16px;
+    font-size: clamp(12px, 1.8vw, 18px);
     font-weight: bold;
     display: none;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* Card Suit Colors (matches JavaFX fillMaps()) */
+/* Card Suit Colors */
 .spades { background: rgb(53, 56, 59); }
 .hearts { background: rgb(196, 30, 30); }
 .diamonds { background: rgb(30, 144, 255); }
 .clubs { background: rgb(9, 183, 0); }
 
-/* Pot Display (matches JavaFX: layoutX=234, layoutY=222) */
+/* ========== Pot Display ========== */
 .pot-display {
     position: absolute;
-    left: 234px;
-    top: 222px;
+    left: 50%;
+    top: 58%;
+    transform: translate(-50%, -50%);
     color: white;
-    font-size: 14px;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: bold;
     z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 20px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Seats */
+/* ========== Seats (EVENLY DISTRIBUTED AROUND TABLE ELLIPSE) ========== */
 .seat {
     position: absolute;
     text-align: center;
+    transition: opacity 0.3s ease;
 }
 
-/* Hero Seat (matches JavaFX: layoutX=233, layoutY=335) */
+/* Hero at bottom (6 o'clock) */
 .seat-hero {
-    left: 233px;
-    top: 335px;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
 }
 
-/* Opponent Seats (positions match JavaFX FXML coordinates exactly) */
-#seat-1 { left: 100px; top: 297px; }
-#seat-2 { left: -1px; top: 236px; }
-#seat-3 { left: 56px; top: 50px; }
-#seat-4 { left: 185px; top: 32px; }
-#seat-5 { left: 294px; top: 32px; }
-#seat-6 { left: 402px; top: 52px; }
-#seat-7 { left: 472px; top: 217px; }
-#seat-8 { left: 350px; top: 309px; }
-
-/* Dealer Button (30x30px, matches JavaFX ImageView) */
-.dealer-button {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    z-index: 20;
+/* Bottom-left (7 o'clock) - closer to hero */
+#seat-1 {
+    left: 25%;
+    bottom: 8%;
 }
 
-#heroButtonIcon { left: -16px; top: -83px; }
-#player1ButtonIcon { left: 3px; top: -115px; }
-#player2ButtonIcon { left: 93px; top: -89px; }
-#player3ButtonIcon { left: 92px; top: 53px; }
-#player4ButtonIcon { left: 75px; top: 68px; }
-#player5ButtonIcon { left: 57px; top: 72px; }
-#player6ButtonIcon { left: -9px; top: 92px; }
-#player7ButtonIcon { left: -48px; top: -32px; }
-#player8ButtonIcon { left: -25px; top: -74px; }
+/* Left (8-9 o'clock) - closer to hero */
+#seat-2 {
+    left: 12%;
+    bottom: 27%;
+}
 
-/* Action Labels (matches JavaFX Label positions) */
-.action-label {
-    position: absolute;
+/* Top-left (10 o'clock) */
+#seat-3 {
+    left: 12%;
+    top: 17%;
+}
+
+/* Top-left-center (11 o'clock) - spread out from seat 5 */
+#seat-4 {
+    left: 27%;
+    top: 8%;
+}
+
+/* Top-center (12 o'clock) */
+#seat-5 {
+    left: 52%;
+    top: 4%;
+    transform: translateX(-50%);
+}
+
+/* Top-right-center (1 o'clock) - spread out from seat 5 */
+#seat-6 {
+    right: 25%;
+    top: 12%;
+}
+
+/* Top-right (2 o'clock) - closer to hero */
+#seat-7 {
+    right: 12%;
+    top: 36%;
+}
+
+/* Right (3-4 o'clock) - closer to hero */
+#seat-8 {
+    right: 22%;
+    bottom: 8%;
+}
+
+/* ========== Player Info ========== */
+.player-info {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+    min-width: 100px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.position-label {
     color: white;
-    font-size: 12px;
-    width: 102px;
-    text-align: center;
-    z-index: 15;
+    font-size: clamp(10px, 1.5vw, 13px);
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 
-#heroActionLabel { left: -4px; top: -74px; }
-#player1ActionLabel { left: 12px; top: -72px; }
-#player2ActionLabel { left: -21px; top: -39px; }
-#player3ActionLabel { left: 0px; top: 75px; }
-#player4ActionLabel { left: -2px; top: 69px; }
-#player5ActionLabel { left: -4px; top: 69px; }
-#player6ActionLabel { left: -36px; top: 73px; }
-#player7ActionLabel { left: -105px; top: 52px; }
-#player8ActionLabel { left: -4px; top: -72px; }
+.balance-label {
+    color: #4CAF50;
+    font-size: clamp(10px, 1.5vw, 12px);
+    font-weight: bold;
+    white-space: nowrap;
+}
 
-/* Player Cards */
+/* ========== Cards Container (MORE SCALABLE - SMALLER) ========== */
 .cards-container {
     display: flex;
-    gap: 5px;
+    gap: clamp(2px, 0.3vw, 5px);  /* ✅ Smaller gap */
     position: relative;
     z-index: 5;
     justify-content: center;
+    margin: 0 auto;
 }
 
 .card-slot-player {
     position: relative;
-    width: 36px;
-    height: 52px;
+    /* ✅ MUCH SMALLER cards with better scaling */
+    width: clamp(28px, 4vw, 42px);   /* Was: 36px, 5vw, 50px */
+    height: clamp(40px, 5.5vw, 60px); /* Was: 52px, 7vw, 70px */
+    flex-shrink: 0;
 }
 
 .card-back {
@@ -198,65 +268,237 @@ body {
     top: 0;
     left: 0;
     z-index: 6;
+    border-radius: 6px;
+    object-fit: contain;
 }
 
-/* Position & Balance Labels */
-.position-label {
+/* ========== Dealer Button ========== */
+.dealer-button {
+    position: absolute;
+    width: clamp(18px, 2.5vw, 25px);  /* ✅ Smaller */
+    height: clamp(18px, 2.5vw, 25px);
+    z-index: 20;
+    top: -8px;
+    right: -8px;
+}
+
+/* ========== Action Badges ========== */
+.action-badge {
+    position: absolute;
+    top: -22px;  /* ✅ Adjusted for smaller cards */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: clamp(9px, 1.3vw, 12px);  /* ✅ Smaller text */
+    font-weight: bold;
     color: white;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 5px;
+    white-space: nowrap;
+    z-index: 25;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.balance-label {
-    color: white;
-    font-size: 11px;
-    text-align: center;
+.action-badge.show {
+    opacity: 1;
+    animation: badgePop 0.4s ease-out;
 }
 
-/* Next Action Button (Triangle - matches JavaFX Polygon) */
+@keyframes badgePop {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* Action Colors */
+.action-raise {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border: 2px solid #1B5E20;
+}
+
+.action-bet {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border: 2px solid #1B5E20;
+}
+
+.action-call {
+    background: linear-gradient(135deg, #FFC107, #FFA000);
+    border: 2px solid #FF6F00;
+    color: #000;
+    text-shadow: none;
+}
+
+.action-check {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    border: 2px solid #0D47A1;
+}
+
+.action-fold {
+    background: linear-gradient(135deg, #F44336, #D32F2F);
+    border: 2px solid #B71C1C;
+}
+
+.action-blind {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    border: 2px solid #4A148C;
+}
+
+.action-ante {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    border: 2px solid #E65100;
+    color: #000;
+    text-shadow: none;
+}
+
+.action-straddle {
+    background: linear-gradient(135deg, #00BCD4, #0097A7);
+    border: 2px solid #006064;
+}
+
+/* ========== Controls ========== */
 .next-action-btn {
     position: absolute;
-    left: 463px;
-    top: 422px;
+    right: 2%;
+    bottom: 2%;
     cursor: pointer;
     z-index: 30;
+    transition: transform 0.2s ease;
+}
+
+.next-action-btn:hover {
+    transform: scale(1.1);
 }
 
 .triangle {
     width: 0;
     height: 0;
-    border-left: 53px solid transparent;
+    border-left: 40px solid transparent;
     border-right: 0px solid transparent;
-    border-bottom: 60px solid #3d51ffe7;
+    border-bottom: 50px solid #3d51ffe7;
     transform: rotate(-30deg);
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 .next-action-btn:hover .triangle {
     border-bottom-color: #5a6aff;
 }
 
-/* Restart Button (matches JavaFX: layoutX=13, layoutY=363, 69x70) */
 .restart-btn {
     position: absolute;
-    left: 13px;
-    top: 363px;
-    width: 69px;
-    height: 70px;
+    left: 2%;
+    bottom: 2%;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
     z-index: 30;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .restart-btn img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
 }
 
 .restart-btn:hover {
+    transform: scale(1.1);
     opacity: 0.8;
 }
 
-/* Visibility Classes */
+/* ========== Responsive Breakpoints ========== */
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+    .table-container {
+        max-width: 1100px;
+    }
+}
+
+/* Medium Desktop (900px - 1199px) */
+@media (max-width: 1199px) {
+    .table-container {
+        max-width: 900px;
+    }
+
+    .main-container {
+        gap: 15px;
+    }
+}
+
+/* Tablet (600px - 899px) */
+@media (max-width: 899px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-panel {
+        width: 100%;
+        max-width: 700px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .info-item {
+        min-width: 45%;
+    }
+
+    .table-container {
+        min-width: 600px;
+    }
+
+    .position-label {
+        max-width: 120px;
+    }
+}
+
+/* Mobile (below 600px) */
+@media (max-width: 599px) {
+    body {
+        padding: 10px;
+    }
+
+    .main-container {
+        padding: 10px;
+    }
+
+    .info-panel {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .info-item {
+        min-width: 100%;
+        font-size: 12px;
+    }
+
+    .table-container {
+        min-width: 500px;
+    }
+
+    .action-badge {
+        padding: 2px 6px;
+        font-size: 9px;
+    }
+
+    .position-label,
+    .balance-label {
+        font-size: 9px;
+    }
+}
+
+/* ========== Utility Classes ========== */
 .hidden {
     display: none !important;
 }
