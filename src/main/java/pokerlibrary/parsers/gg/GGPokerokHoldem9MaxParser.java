@@ -191,7 +191,6 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
     }
 
     private void parseMissedBlindsAndAntes(ArrayList<ArrayList<String>> wordsInLines, Game game, StreetDescription st) {
-        ArrayList<Action> actionArray = new ArrayList<>();
         double curPot = 0;
         // Antes
         while (wordsInLines.get(curLine).size() == 5 && wordsInLines.get(curLine).get(3).equals("ante")) {
@@ -284,7 +283,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
 
     private void parseFlop(Game game, ArrayList<ArrayList<String>> wordsInLines)
             throws IncorrectCardException, IncorrectBoardException, IncorrectHandException {
-        if (game.getPreFlop().getPlayersAfterBetting().size() == 1 || game.getPreFlop().isAllIn()) {
+        if (game.getPreFlop().getPlayersAfterBetting().size() == 1) {
             return;
         }
         while (wordsInLines.get(curLine).size() < 2 || !wordsInLines.get(curLine).get(1).equals("FLOP")) {
@@ -318,7 +317,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
     }
 
     private void parseTurn(Game game, ArrayList<ArrayList<String>> wordsInLines) throws IncorrectCardException, IncorrectBoardException, IncorrectHandException {
-        if (game.getFlop() == null || game.getFlop().getPlayersAfterBetting().size() == 1 || game.getFlop().isAllIn()) {
+        if (game.getFlop() == null || game.getFlop().getPlayersAfterBetting().size() == 1) {
             return;
         }
         while (wordsInLines.get(curLine).size() < 2 || !wordsInLines.get(curLine).get(1).equals("TURN")) {
@@ -352,7 +351,7 @@ public class GGPokerokHoldem9MaxParser implements GGParser {
 
     private void parseRiver(Game game, ArrayList<ArrayList<String>> wordsInLines)
             throws IncorrectCardException, IncorrectBoardException, IncorrectHandException {
-        if (game.getTurn() == null || game.getTurn().getPlayersAfterBetting().size() == 1 || game.getTurn().isAllIn()) {
+        if (game.getTurn() == null || game.getTurn().getPlayersAfterBetting().size() == 1) {
             return;
         }
         while (wordsInLines.get(curLine).size() < 2 || !wordsInLines.get(curLine).get(1).equals("RIVER")) {

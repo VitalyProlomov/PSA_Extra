@@ -7,8 +7,8 @@ import pokerlibrary.models.StreetDescription;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 public class StreetDescriptionDTO {
 
     @JsonProperty("allActions")
@@ -23,12 +23,16 @@ public class StreetDescriptionDTO {
     @JsonProperty("potAfterBetting")
     private double potAfterBetting;
 
+    @JsonProperty("isAllIn")
+    private boolean isAllIn;
+
     public StreetDescriptionDTO() {}
 
     public StreetDescriptionDTO(StreetDescription street) {
         if (street != null) {
             this.potAfterBetting = street.getPotAfterBetting();
             this.board = new BoardDTO(street.getBoard());
+            this.isAllIn = street.isAllIn();
 
             for (pokerlibrary.models.Action action : street.getAllActions()) {
                 this.allActions.add(new ActionDTO(action));

@@ -8,6 +8,7 @@ class PokerReplayViewer {
         this.curActionIndex = -1;
         this.prevActionBadge = null;
         this.hashPlayerIndexMap = {};
+        this.shownCardsStreet = null;  //  Track which street cards were shown
 
         this.suitColorMap = {
             "SPADES": "spades",
@@ -210,6 +211,7 @@ class PokerReplayViewer {
         this.curStreetStr = "preflop";
         this.curActionIndex = -1;
         this.prevActionBadge = null;
+        this.shownCardsStreet = null;  // ✅ Reset all-in tracking
 
         document.getElementById('potLabel').textContent = "POT: ";
 
@@ -283,14 +285,29 @@ class PokerReplayViewer {
         if (this.curStreetStr === "preflop") {
             curStreet = this.game.preFlop;
             if (!curStreet || !curStreet.allActions || curStreet.allActions.length <= this.curActionIndex) {
+                // ✅ CHECK ALL-IN ON PREFLOP
+                if (curStreet && curStreet.isAllIn && curStreet.playersAfterBetting &&
+                 curStreet.playersAfterBetting.length > 1 && !this.shownCardsStreet) {
+                    console.log("🎯 PREFLOP ALL-IN - Showing cards immediately");
+                    this.updatePot(curStreet.potAfterBetting);
+                    this.displayShownCards(curStreet);
+                    this.shownCardsStreet = "preflop";
+
+                    return;
+                    // Continue to show community cards if they exist
+                }
+
                 // End of preflop actions
                 this.curStreetStr = "flop";
                 this.curActionIndex = 0;
 
+
+
                 if (this.game.flop && this.game.flop.board && this.game.flop.board.cards && this.game.flop.board.cards.length > 0) {
-                    // Flop exists - continue to flop
                     this.renderCommunityCards(this.game.flop.board.cards, "flop");
-                    this.updatePot(this.game.preFlop.potAfterBetting);
+                    if (!this.shownCardsStreet) {
+                        this.updatePot(this.game.preFlop.potAfterBetting);
+                    }
                     this.hideActionBadge("hero");
                     for (let i = 1; i <= 8; i++) {
                         this.hideActionBadge(`player${i}`);
@@ -300,13 +317,9 @@ class PokerReplayViewer {
                 } else {
                     // No flop - hand ended preflop
                     this.updatePot(this.game.preFlop.potAfterBetting);
-                    // ✅ SHOWDOWN: Check if 2+ players reached preflop showdown
-                    if (this.game.preFlop && this.game.preFlop.playersAfterBetting && this.game.preFlop.playersAfterBetting.length > 1) {
+                    if (!this.shownCardsStreet && this.game.preFlop && this.game.preFlop.playersAfterBetting && this.game.preFlop.playersAfterBetting.length > 1) {
                         console.log("Preflop showdown - showing cards");
                         this.displayShownCards(this.game.preFlop);
-                    } else if (this.game.preFlop && this.game.preFlop.playersAfterBetting && this.game.preFlop.playersAfterBetting.length === 1) {
-                        console.log("Only 1 player left preflop - showing winner");
-                        this.displayWinnerCards(this.game.preFlop);
                     }
                     return;
                 }
@@ -318,25 +331,36 @@ class PokerReplayViewer {
             curStreet = this.game.flop;
 
             if (!curStreet) {
-                // No flop street data - hand ended
                 this.updatePot(this.game.preFlop.potAfterBetting);
-                // ✅ SHOWDOWN: Show cards for players who reached flop
-                if (this.game.preFlop && this.game.preFlop.playersAfterBetting && this.game.preFlop.playersAfterBetting.length > 1) {
-                    console.log("Flop ended - showing cards");
+                if (!this.shownCardsStreet && this.game.preFlop && this.game.preFlop.playersAfterBetting && this.game.preFlop.playersAfterBetting.length > 1) {
                     this.displayShownCards(this.game.preFlop);
                 }
                 return;
             }
 
             if (curStreet.allActions.length <= this.curActionIndex) {
+
+
+                // ✅ CHECK ALL-IN ON FLOP
+                if (curStreet.isAllIn && curStreet.playersAfterBetting &&
+                 curStreet.playersAfterBetting.length > 1 && !this.shownCardsStreet) {
+                    console.log("🎯 FLOP ALL-IN - Showing cards immediately");
+                    this.updatePot(curStreet.potAfterBetting);
+                    this.displayShownCards(curStreet);
+                    this.shownCardsStreet = "flop";
+                    return;
+                    // Continue to show turn/river cards if they exist
+                }
+
                 // End of flop actions
                 this.curStreetStr = "turn";
                 this.curActionIndex = 0;
 
                 if (this.game.turn && this.game.turn.board && this.game.turn.board.cards && this.game.turn.board.cards.length > 0) {
-                    // Turn exists - continue to turn
                     this.renderCommunityCards(this.game.turn.board.cards, "turn");
-                    this.updatePot(this.game.flop.potAfterBetting);
+                    if (!this.shownCardsStreet) {
+                        this.updatePot(this.game.flop.potAfterBetting);
+                    }
                     this.hideActionBadge("hero");
                     for (let i = 1; i <= 8; i++) {
                         this.hideActionBadge(`player${i}`);
@@ -344,15 +368,11 @@ class PokerReplayViewer {
                     this.curActionIndex = -1;
                     return;
                 } else {
-                    // No turn - hand ended on flop (ALL-IN SCENARIO)
+                    // No turn - hand ended on flop
                     this.updatePot(this.game.flop.potAfterBetting);
-                    // ✅ ALL-IN SHOWDOWN: Show cards for all players who reached flop
-                    if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length > 1) {
-                        console.log("Flop all-in showdown - showing all cards");
+                    if (!this.shownCardsStreet && curStreet.playersAfterBetting && curStreet.playersAfterBetting.length > 1) {
+                        console.log("Flop ended - showing cards");
                         this.displayShownCards(curStreet);
-                    } else if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length === 1) {
-                        console.log("Flop all-in winner - showing winner cards");
-                        this.displayWinnerCards(curStreet);
                     }
                     return;
                 }
@@ -364,24 +384,34 @@ class PokerReplayViewer {
             curStreet = this.game.turn;
 
             if (!curStreet) {
-                // No turn street data - hand ended
                 this.updatePot(this.game.flop.potAfterBetting);
-                if (this.game.flop && this.game.flop.playersAfterBetting && this.game.flop.playersAfterBetting.length > 1) {
-                    console.log("Turn ended - showing cards");
+                if (!this.shownCardsStreet && this.game.flop && this.game.flop.playersAfterBetting && this.game.flop.playersAfterBetting.length > 1) {
                     this.displayShownCards(this.game.flop);
                 }
                 return;
             }
 
             if (curStreet.allActions.length <= this.curActionIndex) {
+                // ✅ CHECK ALL-IN ON TURN
+                if (curStreet.isAllIn && curStreet.playersAfterBetting &&
+                 curStreet.playersAfterBetting.length > 1 && !this.shownCardsStreet) {
+                    console.log("🎯 TURN ALL-IN - Showing cards immediately");
+                    this.updatePot(curStreet.potAfterBetting);
+                    this.displayShownCards(curStreet);
+                    this.shownCardsStreet = "turn";
+                    return;
+                    // Continue to show river cards if they exist
+                }
+
                 // End of turn actions
                 this.curStreetStr = "river";
                 this.curActionIndex = 0;
 
                 if (this.game.river && this.game.river.board && this.game.river.board.cards && this.game.river.board.cards.length > 0) {
-                    // River exists - continue to river
                     this.renderCommunityCards(this.game.river.board.cards, "river");
-                    this.updatePot(this.game.turn.potAfterBetting);
+                    if (!this.shownCardsStreet) {
+                        this.updatePot(this.game.turn.potAfterBetting);
+                    }
                     this.hideActionBadge("hero");
                     for (let i = 1; i <= 8; i++) {
                         this.hideActionBadge(`player${i}`);
@@ -389,15 +419,11 @@ class PokerReplayViewer {
                     this.curActionIndex = -1;
                     return;
                 } else {
-                    // No river - hand ended on turn (ALL-IN SCENARIO)
+                    // No river - hand ended on turn
                     this.updatePot(this.game.turn.potAfterBetting);
-                    // ✅ ALL-IN SHOWDOWN: Show cards for all players who reached turn
-                    if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length > 1) {
-                        console.log("Turn all-in showdown - showing all cards");
+                    if (!this.shownCardsStreet && curStreet.playersAfterBetting && curStreet.playersAfterBetting.length > 1) {
+                        console.log("Turn ended - showing cards");
                         this.displayShownCards(curStreet);
-                    } else if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length === 1) {
-                        console.log("Turn all-in winner - showing winner cards");
-                        this.displayWinnerCards(curStreet);
                     }
                     return;
                 }
@@ -409,10 +435,8 @@ class PokerReplayViewer {
             curStreet = this.game.river;
 
             if (!curStreet) {
-                // No river street data - hand ended
                 this.updatePot(this.game.turn.potAfterBetting);
-                if (this.game.turn && this.game.turn.playersAfterBetting && this.game.turn.playersAfterBetting.length > 1) {
-                    console.log("River ended - showing cards");
+                if (!this.shownCardsStreet && this.game.turn && this.game.turn.playersAfterBetting && this.game.turn.playersAfterBetting.length > 1) {
                     this.displayShownCards(this.game.turn);
                 }
                 return;
@@ -422,13 +446,17 @@ class PokerReplayViewer {
                 // End of river actions - FINAL SHOWDOWN
                 this.updatePot(curStreet.potAfterBetting);
 
-                // ✅ FINAL SHOWDOWN: Show cards for all remaining players
-                if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length > 1) {
-                    console.log("River showdown - showing all cards");
-                    this.displayShownCards(curStreet);
-                } else if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length === 1) {
-                    console.log("River winner - showing winner cards");
-                    this.displayWinnerCards(curStreet);
+                // ✅ FINAL SHOWDOWN (only if cards haven't been shown yet)
+                if (!this.shownCardsStreet) {
+                    if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length > 1) {
+                        console.log("🎯 RIVER SHOWDOWN - showing all cards");
+                        this.displayShownCards(curStreet);
+                    } else if (curStreet.playersAfterBetting && curStreet.playersAfterBetting.length === 1) {
+                        console.log("🎯 RIVER WINNER - showing winner cards");
+                        this.displayWinnerCards(curStreet);
+                    }
+                } else {
+                    console.log("Cards already shown on street:", this.shownCardsStreet);
                 }
                 return;
             }
@@ -499,10 +527,10 @@ class PokerReplayViewer {
         }
 
         console.log("Players after betting:", street.playersAfterBetting.length);
+        console.log("Street isAllIn:", street.isAllIn);
 
         street.playersAfterBetting.forEach(p => {
             if (p.id === "Hero") {
-                console.log("Skipping Hero (cards already visible)");
                 return;
             }
 
@@ -518,8 +546,6 @@ class PokerReplayViewer {
                 this.setPlayerCard(`player${index}`, "right", playerObj.hand.card2);
             } else {
                 console.log(`⚠️ Player ${p.id} has no cards data (folded before showdown or data missing)`);
-                console.log("playerObj:", playerObj);
-                console.log("hand:", playerObj?.hand);
             }
         });
 
