@@ -181,38 +181,38 @@ body {
 
 /* Top-left (10 o'clock) */
 #seat-3 {
-    left: 12%;
-    top: 17%;
+    left: 16%;
+    top: 21%;
 }
 
 /* Top-left-center (11 o'clock) - spread out from seat 5 */
 #seat-4 {
-    left: 27%;
+    left: 33%;
     top: 8%;
 }
 
 /* Top-center (12 o'clock) */
 #seat-5 {
-    left: 52%;
-    top: 4%;
+    left: 57%;
+    top: 5%;
     transform: translateX(-50%);
 }
 
 /* Top-right-center (1 o'clock) - spread out from seat 5 */
 #seat-6 {
-    right: 25%;
-    top: 12%;
+    right: 20%;
+    top: 18%;
 }
 
 /* Top-right (2 o'clock) - closer to hero */
 #seat-7 {
-    right: 12%;
-    top: 36%;
+    right: 14%;
+    top: 48%;
 }
 
 /* Right (3-4 o'clock) - closer to hero */
 #seat-8 {
-    right: 22%;
+    right: 27%;
     bottom: 8%;
 }
 
