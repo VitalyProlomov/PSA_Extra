@@ -173,7 +173,7 @@ body {
     bottom: 8%;
 }
 
-/* Left (8-9 o'clock) - closer to hero */
+/* Left (9 o'clock) */
 #seat-2 {
     left: 12%;
     bottom: 27%;
@@ -185,32 +185,32 @@ body {
     top: 21%;
 }
 
-/* Top-left-center (11 o'clock) - spread out from seat 5 */
+/* Top-left-center (11-12 o'clock) - spread out from seat 5 */
 #seat-4 {
     left: 33%;
     top: 8%;
 }
 
-/* Top-center (12 o'clock) */
+/* Top-center (12-1 o'clock) */
 #seat-5 {
     left: 57%;
     top: 5%;
     transform: translateX(-50%);
 }
 
-/* Top-right-center (1 o'clock) - spread out from seat 5 */
+/* Top-right-center (2 o'clock) - spread out from seat 5 */
 #seat-6 {
     right: 20%;
     top: 18%;
 }
 
-/* Top-right (2 o'clock) - closer to hero */
+/* Top-right (3 o'clock) - closer to hero */
 #seat-7 {
     right: 14%;
     top: 48%;
 }
 
-/* Right (3-4 o'clock) - closer to hero */
+/* Right (5) o'clock) - closer to hero */
 #seat-8 {
     right: 27%;
     bottom: 8%;
