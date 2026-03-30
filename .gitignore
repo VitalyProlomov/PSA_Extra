@@ -1,2 +1,6 @@
 # Project exclude paths
 /target/
+
+.env
+*.sql
+!init-db/schema.sql

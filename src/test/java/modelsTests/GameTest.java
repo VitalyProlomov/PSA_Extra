@@ -12,8 +12,6 @@ import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 
 import static pokerlibrary.models.PositionType.BTN;
 import static pokerlibrary.models.PositionType.CO;

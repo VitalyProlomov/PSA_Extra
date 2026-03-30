@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
-import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -17,7 +16,6 @@ import java.util.Objects;
  * Class that represents the player in a specific game.
  */
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor(access= AccessLevel.PRIVATE, force=true)
 @Table(name="playersInGame")
