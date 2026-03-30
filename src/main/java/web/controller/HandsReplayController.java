@@ -1,4 +1,4 @@
-package web;
+package web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pokerlibrary.models.Game;
 import pokerlibrary.parsers.gg.GGPokerokHoldem9MaxParser;
-import web.models.dto.GameDTO;
+import web.model.dto.GameDTO;
 
 import java.nio.charset.StandardCharsets;
 

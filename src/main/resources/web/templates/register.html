@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Poker Hand Replay</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <link rel="icon" th:href="@{/assets/favicon.ico}" type="image/x-icon">
+</head>
+<body>
+<div class="auth-wrapper">
+    <!-- Background Decoration -->
+    <div class="background-decoration">
+        <div class="poker-chip chip-1"></div>
+        <div class="poker-chip chip-2"></div>
+        <div class="poker-chip chip-3"></div>
+    </div>
+
+    <div class="auth-container">
+        <!-- Logo/Brand -->
+        <div class="auth-brand">
+            <div class="brand-icon">🃏</div>
+            <h1>Poker Replay</h1>
+            <p class="brand-tagline">Analyze your hands like a pro</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="auth-form-container">
+            <h2>Create Account</h2>
+            <p class="form-subtitle">Join thousands of poker players improving their game</p>
+
+            <!-- Error Messages -->
+            <div th:if="${error}" class="alert alert-error">
+                <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span th:text="${error}">Error message</span>
+            </div>
+
+            <div th:if="${successMessage}" class="alert alert-success">
+                <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M5 13l4 4L19 7"/>
+                </svg>
+                <span th:text="${successMessage}">Success message</span>
+            </div>
+
+            <!-- Registration Form -->
+            <form th:action="@{/register}" method="post"
+                  th:object="${registrationRequest}"
+                  class="auth-form"
+                  id="registerForm"
+                  novalidate>
+
+                <!-- CSRF Token (Required by Spring Security) -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="username" class="form-label">
+                        <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Username
+                    </label>
+                    <input type="text"
+                           id="username"
+                           th:field="*{username}"
+                           class="form-input"
+                           placeholder="Choose a username (3-50 characters)"
+                           required
+                           autofocus
+                           autocomplete="username"
+                           minlength="3"
+                           maxlength="50"
+                           pattern="[a-zA-Z0-9_]+">
+                    <span th:if="${#fields.hasErrors('username')}"
+                          th:errors="*{username}"
+                          class="field-error">
+                        </span>
+                    <div class="field-hint">
+                        <span id="usernameLength" class="hint-item">✓ 3-50 characters</span>
+                        <span id="usernameFormat" class="hint-item">✓ Letters, numbers, underscores only</span>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Email Address
+                    </label>
+                    <input type="email"
+                           id="email"
+                           th:field="*{email}"
+                           class="form-input"
+                           placeholder="Enter your email"
+                           required
+                           autocomplete="email">
+                    <span th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}"
+                          class="field-error">
+                        </span>
+                    <div class="field-hint">
+                        <span id="emailFormat" class="hint-item">✓ Valid email format</span>
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        Password
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input type="password"
+                               id="password"
+                               th:field="*{password}"
+                               class="form-input"
+                               placeholder="Create a strong password"
+                               required
+                               autocomplete="new-password"
+                               minlength="8">
+                        <button type="button" class="password-toggle" id="togglePassword" title="Show/Hide password">
+                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span th:if="${#fields.hasErrors('password')}"
+                          th:errors="*{password}"
+                          class="field-error">
+                        </span>
+                    <div class="field-hint">
+                        <span id="passwordLength" class="hint-item">✓ At least 8 characters</span>
+                        <span id="passwordUpper" class="hint-item">✓ One uppercase letter</span>
+                        <span id="passwordLower" class="hint-item">✓ One lowercase letter</span>
+                        <span id="passwordNumber" class="hint-item">✓ One number</span>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">
+                        <svg class="label-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Confirm Password
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input type="password"
+                               id="confirmPassword"
+                               th:field="*{confirmPassword}"
+                               class="form-input"
+                               placeholder="Confirm your password"
+                               required
+                               autocomplete="new-password">
+                        <button type="button" class="password-toggle" id="toggleConfirmPassword" title="Show/Hide password">
+                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span th:if="${#fields.hasErrors('confirmPassword')}"
+                          th:errors="*{confirmPassword}"
+                          class="field-error">
+                        </span>
+                    <div class="field-hint">
+                        <span id="passwordMatch" class="hint-item">✓ Passwords match</span>
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox"
+                               id="agreeTerms"
+                               name="agreeTerms"
+                               class="checkbox-input"
+                               required>
+                        <span class="checkbox-text">
+                                I agree to the
+                                <a href="#" class="link">Terms of Service</a>
+                                and
+                                <a href="#" class="link">Privacy Policy</a>
+                            </span>
+                    </label>
+                    <span id="termsError" class="field-error" style="display: none;">
+                            You must agree to the terms and conditions
+                        </span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                    </svg>
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="form-divider">
+                <span>or</span>
+            </div>
+
+            <!-- Login Link -->
+            <div class="auth-footer">
+                <p>Already have an account?</p>
+                <a th:href="@{/login}" class="btn btn-secondary btn-full">
+                    Sign In
+                </a>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="auth-features">
+            <h3>Why Join Poker Replay?</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h4>Hand Analysis</h4>
+                    <p>Review every hand with detailed replay</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <h4>Private Storage</h4>
+                    <p>Your hands are secure and private</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📈</div>
+                    <h4>Track Progress</h4>
+                    <p>Monitor your win rates and stats</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <h4>Improve Game</h4>
+                    <p>Learn from every decision</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="auth-page-footer">
+        <p>&copy; 2025 Poker Replay. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Support</a>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Interactions -->
+<script th:src="@{/js/auth.js}"></script>
+</body>
+</html>
