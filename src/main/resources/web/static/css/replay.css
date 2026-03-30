@@ -136,22 +136,6 @@ body {
 .diamonds { background: rgb(30, 144, 255); }
 .clubs { background: rgb(9, 183, 0); }
 
-/* ========== Pot Display ========== */
-.pot-display {
-    position: absolute;
-    left: 50%;
-    top: 58%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: clamp(14px, 2vw, 18px);
-    font-weight: bold;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 8px 20px;
-    border-radius: 20px;
-    white-space: nowrap;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
 
 /* ========== Seats (EVENLY DISTRIBUTED AROUND TABLE ELLIPSE) ========== */
 .seat {
@@ -505,4 +489,79 @@ body {
 
 .visible {
     display: block !important;
+}
+
+/* ========== Balance Label Animations ========== */
+.balance-label {
+    color: #4CAF50;
+    font-size: clamp(10px, 1.5vw, 12px);
+    font-weight: bold;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Balance Increase Animation (Green) */
+.balance-increase {
+    color: #4CAF50 !important;
+    background: rgba(76, 175, 80, 0.2);
+    animation: balancePulse 0.5s ease-out;
+}
+
+/* Balance Decrease Animation (Red) */
+.balance-decrease {
+    color: #F44336 !important;
+    background: rgba(244, 67, 54, 0.2);
+    animation: balancePulse 0.5s ease-out;
+}
+
+@keyframes balancePulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ========== Pot Display Animation ========== */
+.pot-display {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: bold;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 20px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.pot-increase {
+    animation: potGlow 0.5s ease-out;
+}
+
+@keyframes potGlow {
+    0% {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+        background: rgba(0, 0, 0, 0.8);
+    }
+    100% {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
 }

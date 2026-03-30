@@ -8,7 +8,11 @@ class PokerReplayViewer {
         this.curActionIndex = -1;
         this.prevActionBadge = null;
         this.hashPlayerIndexMap = {};
-        this.shownCardsStreet = null;  //  Track which street cards were shown
+        this.shownCardsStreet = null;
+
+        // ✅ NEW: Track player balances during replay
+        this.playerBalances = {};
+        this.initialBalances = {};  // Keep copy for reset
 
         this.suitColorMap = {
             "SPADES": "spades",
@@ -80,7 +84,114 @@ class PokerReplayViewer {
             return;
         }
 
+        // ✅ Initialize balance tracking
+        this.initializeBalances();
+
         this.updateTableInfo();
+    }
+
+    // ✅ NEW: Initialize balance tracking from initialBalances
+    initializeBalances() {
+        console.log("=== initializeBalances() ===");
+        this.initialBalances = {};
+        this.playerBalances = {};
+
+        for (const playerId in this.game.initialBalances) {
+            const balance = this.game.initialBalances[playerId];
+            this.initialBalances[playerId] = balance;
+            this.playerBalances[playerId] = balance;
+            console.log(`Player ${playerId} initial balance: $${balance}`);
+        }
+    }
+
+    // ✅ NEW: Update balance display with animation
+    updateBalanceDisplay(playerId, newBalance, oldBalance) {
+        const index = this.hashPlayerIndexMap[playerId];
+        const seatPrefix = playerId === "Hero" ? "hero" : `player${index}`;
+        const balanceEl = document.getElementById(`${seatPrefix}BalanceLabel`);
+
+        if (balanceEl) {
+            const formattedBalance = `${this.formatMoney(newBalance)}$`;
+            balanceEl.textContent = formattedBalance;
+
+            // ✅ Add animation class based on change
+            balanceEl.classList.remove('balance-increase', 'balance-decrease');
+
+            // Force reflow to restart animation
+            void balanceEl.offsetWidth;
+
+            if (newBalance > oldBalance) {
+                balanceEl.classList.add('balance-increase');
+                console.log(`💰 ${playerId} balance increased: ${oldBalance} → ${newBalance}`);
+            } else if (newBalance < oldBalance) {
+                balanceEl.classList.add('balance-decrease');
+                console.log(`💸 ${playerId} balance decreased: ${oldBalance} → ${newBalance}`);
+            }
+
+            // Remove animation class after animation completes
+            setTimeout(() => {
+                balanceEl.classList.remove('balance-increase', 'balance-decrease');
+            }, 1000);
+        }
+    }
+
+    // ✅ NEW: Process balance change for an action
+    processBalanceChange(action) {
+        const playerId = action.playerId;
+        const actionType = action.actionType;
+        const amount = action.amount;
+
+        // Get current balance
+        const oldBalance = this.playerBalances[playerId] || 0;
+        let newBalance = oldBalance;
+
+        // ✅ Calculate new balance based on action type
+        if (actionType === 'BLIND' || actionType === 'ANTE' || actionType === 'STRADDLE') {
+            // Blinds/antes/straddles decrease balance
+            newBalance = oldBalance - amount;
+        } else if (actionType === 'BET' || actionType === 'RAISE' || actionType === 'CALL') {
+            // Bets/raises/calls decrease balance
+            newBalance = oldBalance - amount;
+        } else if (actionType === 'FOLD' || actionType === 'CHECK') {
+            // Folds/checks don't change balance
+            newBalance = oldBalance;
+        }
+
+        // Ensure balance doesn't go negative (all-in protection)
+        if (newBalance < 0) {
+            console.warn(`⚠️ Balance would go negative for ${playerId}: ${newBalance}, setting to 0`);
+            newBalance = 0;
+        }
+
+        // Update tracking and display
+        this.playerBalances[playerId] = newBalance;
+
+        if (oldBalance !== newBalance) {
+            this.updateBalanceDisplay(playerId, newBalance, oldBalance);
+        }
+
+        return newBalance;
+    }
+
+    // ✅ NEW: Distribute winnings at showdown
+    distributeWinnners() {
+        console.log("=== distributeWinnners() ===");
+
+        if (!this.game.allWinners || Object.keys(this.game.allWinners).length === 0) {
+            console.log("No winners data available");
+            return;
+        }
+
+        for (const winnerId in this.game.allWinners) {
+            const winAmount = this.game.allWinners[winnerId];
+            const oldBalance = this.playerBalances[winnerId] || 0;
+            const newBalance = oldBalance + winAmount;
+
+            this.playerBalances[winnerId] = newBalance;
+            this.updateBalanceDisplay(winnerId, newBalance, oldBalance);
+
+            console.log(`🏆 ${winnerId} won $${winAmount}, balance: ${oldBalance} → ${newBalance}`);
+        }
     }
 
     setupResponsiveScaling() {
@@ -128,6 +239,8 @@ class PokerReplayViewer {
         }
 
         document.getElementById('heroPositionLabel').textContent = `${hero.position}: Hero`;
+
+        // ✅ Use initial balance for display (will update during replay)
         const initBalance = this.game.initialBalances["Hero"];
         document.getElementById('heroBalanceLabel').textContent = `${this.formatMoney(initBalance)}$`;
 
@@ -168,6 +281,7 @@ class PokerReplayViewer {
             const posEl = document.getElementById(`player${index}PositionLabel`);
             const btnIcon = document.getElementById(`player${index}ButtonIcon`);
 
+            // ✅ Use initial balance for display (will update during replay)
             const balance = this.game.initialBalances[playerId];
             balanceEl.textContent = `${this.formatMoney(balance)}$`;
 
@@ -211,7 +325,13 @@ class PokerReplayViewer {
         this.curStreetStr = "preflop";
         this.curActionIndex = -1;
         this.prevActionBadge = null;
-        this.shownCardsStreet = null;  // ✅ Reset all-in tracking
+        this.shownCardsStreet = null;
+
+        // ✅ Reset balances to initial values
+        this.initializeBalances();
+
+        // ✅ Reset balance displays to initial values
+        this.resetBalanceDisplays();
 
         document.getElementById('potLabel').textContent = "POT: ";
 
@@ -244,6 +364,32 @@ class PokerReplayViewer {
         });
 
         console.log("✅ All states reset to beginning of hand");
+    }
+
+    // ✅ NEW: Reset all balance displays to initial values
+    resetBalanceDisplays() {
+        console.log("=== resetBalanceDisplays() ===");
+
+        // Reset Hero balance
+        const heroBalanceEl = document.getElementById('heroBalanceLabel');
+        if (heroBalanceEl && this.initialBalances["Hero"]) {
+            heroBalanceEl.textContent = `${this.formatMoney(this.initialBalances["Hero"])}$`;
+            heroBalanceEl.classList.remove('balance-increase', 'balance-decrease');
+        }
+
+        // Reset opponent balances
+        for (const playerId in this.initialBalances) {
+            if (playerId === "Hero") continue;
+
+            const index = this.hashPlayerIndexMap[playerId];
+            if (index) {
+                const balanceEl = document.getElementById(`player${index}BalanceLabel`);
+                if (balanceEl) {
+                    balanceEl.textContent = `${this.formatMoney(this.initialBalances[playerId])}$`;
+                    balanceEl.classList.remove('balance-increase', 'balance-decrease');
+                }
+            }
+        }
     }
 
     showActionBadge(playerPrefix, actionType, amount) {
@@ -292,16 +438,12 @@ class PokerReplayViewer {
                     this.updatePot(curStreet.potAfterBetting);
                     this.displayShownCards(curStreet);
                     this.shownCardsStreet = "preflop";
-
                     return;
-                    // Continue to show community cards if they exist
                 }
 
                 // End of preflop actions
                 this.curStreetStr = "flop";
                 this.curActionIndex = 0;
-
-
 
                 if (this.game.flop && this.game.flop.board && this.game.flop.board.cards && this.game.flop.board.cards.length > 0) {
                     this.renderCommunityCards(this.game.flop.board.cards, "flop");
@@ -339,8 +481,6 @@ class PokerReplayViewer {
             }
 
             if (curStreet.allActions.length <= this.curActionIndex) {
-
-
                 // ✅ CHECK ALL-IN ON FLOP
                 if (curStreet.isAllIn && curStreet.playersAfterBetting &&
                  curStreet.playersAfterBetting.length > 1 && !this.shownCardsStreet) {
@@ -349,7 +489,6 @@ class PokerReplayViewer {
                     this.displayShownCards(curStreet);
                     this.shownCardsStreet = "flop";
                     return;
-                    // Continue to show turn/river cards if they exist
                 }
 
                 // End of flop actions
@@ -400,7 +539,6 @@ class PokerReplayViewer {
                     this.displayShownCards(curStreet);
                     this.shownCardsStreet = "turn";
                     return;
-                    // Continue to show river cards if they exist
                 }
 
                 // End of turn actions
@@ -458,6 +596,10 @@ class PokerReplayViewer {
                 } else {
                     console.log("Cards already shown on street:", this.shownCardsStreet);
                 }
+
+                // ✅ Distribute winnings at end of hand
+                this.distributeWinnners();
+
                 return;
             }
         }
@@ -468,6 +610,9 @@ class PokerReplayViewer {
 
         const isHero = nextAction.playerId === "Hero";
         const seatIndex = isHero ? "hero" : this.hashPlayerIndexMap[nextAction.playerId];
+
+        // ✅ Process balance change BEFORE showing action badge
+        this.processBalanceChange(nextAction);
 
         this.showActionBadge(isHero ? 'hero' : `player${seatIndex}`, nextAction.actionType, nextAction.amount);
 
