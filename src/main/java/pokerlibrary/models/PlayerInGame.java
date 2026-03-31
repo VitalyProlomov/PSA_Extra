@@ -50,7 +50,7 @@ public class PlayerInGame {
      * balance in dollars and a Userprofile object (link to the real user).
      */
     @JsonCreator
-    public PlayerInGame(@JsonProperty("id)") String id, @JsonProperty("position") PositionType position,
+    public PlayerInGame(@JsonProperty("id") String id, @JsonProperty("position") PositionType position,
                         @JsonProperty("balance") double balance, @JsonProperty("ref") UserProfile ref) {
         this.id = id;
         this.positionType = position;

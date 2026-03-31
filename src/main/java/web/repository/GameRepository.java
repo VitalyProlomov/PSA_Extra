@@ -39,4 +39,11 @@ public interface GameRepository extends JpaRepository<GameEntity, Long> {
      * @param user user whose games to delete
      */
     void deleteByUser(UserEntity user);
+
+    /**
+     * Count games by user
+     * @param user user to count games for
+     * @return count of games
+     */
+    long countByUser(UserEntity user);
 }

@@ -1,0 +1,302 @@
+/* Use same base styles as hands.css, then add profile-specific */
+
+/* ========== Profile Header ========== */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #cf558d, #ff6b6b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 4px 20px rgba(207, 85, 141, 0.4);
+}
+
+.profile-info h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.profile-email {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.profile-badges {
+    display: flex;
+    gap: 10px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-role {
+    background: rgba(33, 150, 243, 0.2);
+    color: #64b5f6;
+}
+
+.badge-admin {
+    background: rgba(156, 39, 176, 0.2);
+    color: #ce93d8;
+}
+
+.badge-user {
+    background: rgba(76, 175, 80, 0.2);
+    color: #66bb6a;
+}
+
+/* ========== Profile Grid ========== */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.profile-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.card-header {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.view-all {
+    color: #64b5f6;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+/* ========== Info Rows ========== */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+
+.info-value {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.status-active {
+    color: #66bb6a;
+}
+
+.status-inactive {
+    color: #ef5350;
+}
+
+/* ========== Statistics ========== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: #cf558d;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+}
+
+/* ========== Subscription ========== */
+.subscription-active,
+.subscription-inactive {
+    text-align: center;
+}
+
+.subscription-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.subscription-active h3 {
+    color: #66bb6a;
+    margin-bottom: 10px;
+}
+
+.subscription-inactive h3 {
+    color: #ffb74d;
+    margin-bottom: 10px;
+}
+
+.subscription-active p,
+.subscription-inactive p {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 20px;
+}
+
+.feature-list {
+    list-style: none;
+    text-align: left;
+    margin: 20px 0;
+    padding: 0 20px;
+}
+
+.feature-list li {
+    padding: 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+/* ========== Activity List ========== */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    transition: background 0.3s ease;
+}
+
+.activity-item:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.activity-icon {
+    font-size: 32px;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.activity-details h4 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.activity-details p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+}
+
+.activity-result {
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.result-win {
+    color: #66bb6a;
+    background: rgba(76, 175, 80, 0.2);
+}
+
+.result-loss {
+    color: #ef5350;
+    background: rgba(244, 67, 54, 0.2);
+}
+
+.empty-state-small {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-badges {
+        justify-content: center;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-item {
+        flex-wrap: wrap;
+    }
+
+    .activity-result {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+}

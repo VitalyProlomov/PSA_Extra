@@ -50,32 +50,14 @@ public class Game {
     private HashMap<String, PlayerInGame> players = new HashMap<>();
     private final HashMap<String, Double> initialBalances = new HashMap<>();
 
-    /**
-     * -- GETTER --
-     *
-     * @return extra cash amount
-     */
     // Amount of dollars as a cash drop (or 0 if there is no cash drop)
     @Getter
     private double extraCashAmount = 0;
-    /**
-     * -- GETTER --
-     *
-     *
-     * -- SETTER --
-     *  sets the date of the game
-     *
-     @return Date when the game took place.
-      * @param date given date to set (no setting conditions)
-     */
+
     @Setter
     @Getter
     private Date date;
-    /**
-     * -- GETTER --
-     *
-     * @return Big Blind (BB) size in dollars.
-     */
+
     @Getter
     private final double bigBlindSize$;
 

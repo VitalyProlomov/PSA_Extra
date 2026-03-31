@@ -11,11 +11,11 @@
     <!-- Game Info Panel -->
     <div class="info-panel">
         <div class="info-item">Game ID: <span th:text="${game.gameId}"></span></div>
-        <div class="info-item">Date: <span th:text="${game.date}"></span></div>
+        <div class="info-item">Date: <span th:text="${formattedDate}"></span></div>
         <div class="info-item">Pot Type: <span th:text="${potType}"></span></div>
-        <div class="info-item">Players Post Flop: <span th:text="${game.playersPostFlop}"></span></div>
-        <div class="info-item">Hero Win/Loss: <span th:text="${game.heroWinLoss}"></span></div>
-        <div class="info-item">Total Pot: <span th:text="${game.finalPot}"></span></div>
+        <div class="info-item">Players Post Flop: <span th:text="${playersPostFlop}"></span></div>
+        <div class="info-item">Hero Win/Loss: <span th:text="${heroWinLossFormatted}"></span></div>
+        <div class="info-item">Total Pot: <span th:text="${totalPotFormatted}"></span></div>
     </div>
 
     <!-- Poker Table Container -->
@@ -252,18 +252,12 @@
         </div>
     </div>
 </div>
-
 <!-- Embed Game JSON for JavaScript -->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    console.log("=== Loading Game Data ===");
-    try {
-        window.gameData = JSON.parse([[${gameJson}]]);
-        console.log("✅ Game data loaded successfully!");
-    } catch (e) {
-        console.error("❌ Failed to parse game JSON:", e);
-        window.gameData = null;
-    }
+    // Thymeleaf serializes the Game object to JSON automatically
+    window.gameData = /*[[${pokerGame}]]*/ null;
+    console.log("Game loaded:", window.gameData !== null);
     /*]]>*/
 </script>
 

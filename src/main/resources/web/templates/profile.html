@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Poker Replay</title>
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="icon" th:href="@{/assets/favicon.ico}" type="image/x-icon">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="brand-icon">🃏</span>
+        <span class="brand-text">Poker Replay</span>
+    </div>
+    <div class="nav-menu">
+        <a th:href="@{/hands}" class="nav-link">My Hands</a>
+        <a th:href="@{/profile}" class="nav-link active">Profile</a>
+        <a th:href="@{/logout}" class="nav-link nav-logout">Logout</a>
+    </div>
+    <div class="nav-user">
+        <span class="user-greeting">Welcome, <span sec:authentication="name"></span>!</span>
+    </div>
+</nav>
+
+<div class="main-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <span class="avatar-icon">👤</span>
+        </div>
+        <div class="profile-info">
+            <h1 th:text="${user.username}">Username</h1>
+            <p class="profile-email" th:text="${user.email}">user@example.com</p>
+            <div class="profile-badges">
+                    <span class="badge badge-role"
+                          th:each="role : ${user.roles}"
+                          th:classappend="${role.name.name() == 'ROLE_ADMIN' ? 'badge-admin' : 'badge-user'}"
+                          th:text="${role.name.name() == 'ROLE_ADMIN' ? 'Admin' :
+                                   role.name.name() == 'ROLE_USER_SUBSCRIBED' ? 'Subscriber' : 'User'}">User</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Content Grid -->
+    <div class="profile-grid">
+        <!-- Account Information -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2>📋 Account Information</h2>
+            </div>
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="info-label">Username:</span>
+                    <span class="info-value" th:text="${user.username}">username</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value" th:text="${user.email}">email@example.com</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Account Status:</span>
+                    <span class="info-value"
+                          th:class="${user.enabled ? 'status-active' : 'status-inactive'}"
+                          th:text="${user.enabled ? 'Active' : 'Inactive'}">Active</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Member Since:</span>
+                    <span class="info-value" th:text="${#temporals.format(user.createdAt, 'MMM dd, yyyy')}">Jan 01, 2024</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Last Updated:</span>
+                    <span class="info-value" th:text="${#temporals.format(user.updatedAt, 'MMM dd, yyyy HH:mm')}">Jan 01, 2024 12:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2>📊 Poker Statistics</h2>
+            </div>
+            <div class="card-body">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" th:text="${totalHands}">0</span>
+                        <span class="stat-label">Total Hands</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" th:text="${winningHands}">0</span>
+                        <span class="stat-label">Winning Hands</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" th:text="${totalWinloss >= 0 ? '+' : ''} + '$' + ${#numbers.formatDecimal(totalWinloss, 1, 2)}">+$0.00</span>
+                        <span class="stat-label">Total Win/Loss</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" th:if="${totalHands > 0}" th:text="${winRate} + '%'">0%</span>
+                        <span class="stat-value" th:unless="${totalHands > 0}">—</span>
+                        <span class="stat-label">Win Rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Status -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2>⭐ Subscription</h2>
+            </div>
+            <div class="card-body">
+                <div th:if="${hasSubscription}" class="subscription-active">
+                    <div class="subscription-icon">✅</div>
+                    <h3>Active Subscriber</h3>
+                    <p>You have access to all premium features</p>
+                    <ul class="feature-list">
+                        <li>✓ Unlimited hand storage</li>
+                        <li>✓ Advanced analytics</li>
+                        <li>✓ Export to CSV/PDF</li>
+                        <li>✓ Priority support</li>
+                    </ul>
+                    <button class="btn btn-secondary">Manage Subscription</button>
+                </div>
+                <div th:unless="${hasSubscription}" class="subscription-inactive">
+                    <div class="subscription-icon">⏳</div>
+                    <h3>Free Plan</h3>
+                    <p>Upgrade to unlock premium features</p>
+                    <ul class="feature-list">
+                        <li>✓ Up to 100 hands</li>
+                        <li>✓ Basic replay viewer</li>
+                        <li>✗ Advanced analytics</li>
+                        <li>✗ Export features</li>
+                    </ul>
+                    <button class="btn btn-primary">Upgrade to Premium</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2>🔒 Security Settings</h2>
+            </div>
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="info-label">Password:</span>
+                    <span class="info-value">••••••••</span>
+                </div>
+                <button class="btn btn-secondary btn-full">Change Password</button>
+
+                <div class="info-row" style="margin-top: 20px;">
+                    <span class="info-label">Two-Factor Auth:</span>
+                    <span class="info-value status-inactive">Not Enabled</span>
+                </div>
+                <button class="btn btn-secondary btn-full">Enable 2FA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="profile-card full-width">
+        <div class="card-header">
+            <h2>🕐 Recent Activity</h2>
+            <a th:href="@{/hands}" class="view-all">View All Hands →</a>
+        </div>
+        <div class="card-body">
+            <div th:if="${recentGames.empty}" class="empty-state-small">
+                <p>No recent activity</p>
+            </div>
+            <div th:unless="${recentGames.empty}" class="activity-list">
+                <div class="activity-item" th:each="game : ${recentGames}">
+                    <div class="activity-icon">🎴</div>
+                    <div class="activity-details">
+                        <h4 th:text="${'Hand #' + game.gameId}">Hand #HD123456</h4>
+                        <p th:text="${#temporals.format(game.dateCreated, 'MMM dd, yyyy HH:mm')}">Jan 01, 2024 12:00</p>
+                    </div>
+                    <div class="activity-result"
+                         th:class="${game.heroWinloss >= 0 ? 'result-win' : 'result-loss'}"
+                         th:text="${(game.heroWinloss >= 0 ? '+' : '') + '$' + #numbers.formatDecimal(game.heroWinloss, 1, 2)}">+$5.00</div>
+                    <a th:href="@{/hands/view/{gameId}(gameId=${game.gameId})}" class="btn btn-sm btn-view">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer">
+    <p>&copy; 2025 Poker Replay. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+    </div>
+</footer>
+</body>
+</html>
