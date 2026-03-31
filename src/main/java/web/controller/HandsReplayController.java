@@ -55,6 +55,6 @@ public class HandsReplayController {
             return "hands";
         }
 
-        return "view-hand";
+        return "replay";
     }
 }
