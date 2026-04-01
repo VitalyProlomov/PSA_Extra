@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+import pokerlibrary.utils.Money;
+
 import java.time.LocalDateTime;
 
 /**
@@ -67,17 +68,17 @@ public class GameEntity {
 
     /**
      * Hero's win/loss amount for this hand
-     * ✅ CHANGED: BigDecimal for precise monetary values
+     * ✅ CHANGED: Money for precise monetary values
      */
     @Column(name = "hero_winloss", precision = 10, scale = 2)
-    private BigDecimal heroWinloss;
+    private Money heroWinloss;
 
     /**
      * Final pot size at end of hand
-     * ✅ CHANGED: BigDecimal for precise monetary values
+     * ✅ CHANGED: Money for precise monetary values
      */
     @Column(name = "final_pot", precision = 10, scale = 2)
-    private BigDecimal finalPot;
+    private Money finalPot;
 
     /**
      * When this record was created in database
@@ -121,9 +122,9 @@ public class GameEntity {
         entity.setDatePlayed(game.getDate() != null ?
                 LocalDateTime.ofInstant(game.getDate().toInstant(), java.time.ZoneId.systemDefault()) : null);
 
-        // ✅ Convert double to BigDecimal for precise monetary values
-        entity.setHeroWinloss(BigDecimal.valueOf(game.getHeroWinloss()));
-        entity.setFinalPot(BigDecimal.valueOf(game.getFinalPot()));
+        // ✅ Convert double to Money for precise monetary values
+        entity.setHeroWinloss(game.getHeroWinloss());
+        entity.setFinalPot(game.getFinalPot());
 
         // Convert entire game to JSON for storage
         try {

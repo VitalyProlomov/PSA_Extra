@@ -9,6 +9,7 @@ import pokerlibrary.models.PlayerInGame;
 import org.junit.jupiter.api.Test;
 import pokerlibrary.parsers.Parser;
 import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.utils.Money;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,35 +22,35 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GameTest {
     @Test
     public void testGameGetSB() {
-        Game game = new Game("RC3", 0.02, null, null);
+        Game game = new Game("RC3", new Money("0.02"), null, null);
         assertEquals(0.01, game.getSB());
 
-        game = new Game("RC3", 0.05, null, null);
-        assertTrue(Math.abs(game.getSB() - 0.02) < 0.001);
+        game = new Game("RC3", new Money("0.05"), null, null);
+        assertTrue(game.getSB().subtract(new Money("0.02")).isZero());
 
-        game = new Game("RC1234567", 0.25, null, null);
+        game = new Game("RC1234567", new Money("0.25"), null, null);
         assertEquals(0.1, game.getSB());
 
-        game = new Game("RC3", 0.5, null, null);
+        game = new Game("RC3", new Money("0.5"), null, null);
         assertEquals(0.25, game.getSB());
 
-        game = new Game("RC4", 1, null, null);
+        game = new Game("RC4", new Money("1"), null, null);
         assertEquals(0.5, game.getSB());
     }
 
     @Test
     public void testDecrementBalance() {
-        HashMap<String, Double> initBalances = new HashMap<>();
+        HashMap<String, Money> initBalances = new HashMap<>();
         HashMap<String, PlayerInGame> playersMap = new HashMap<>();
-        playersMap.put("player1", new PlayerInGame("player1", CO, 1000));
-        playersMap.put("player2",  new PlayerInGame("player2", BTN, 960));
+        playersMap.put("player1", new PlayerInGame("player1", CO, new Money("1000")));
+        playersMap.put("player2",  new PlayerInGame("player2", BTN, new Money("960")));
 
-        initBalances.put("player1", 1000.0);
-        initBalances.put("player2", 960.0);
+        initBalances.put("player1", new Money("1000.0"));
+        initBalances.put("player2", new Money("960.0"));
 
-        Game game = new Game("Test", 10, playersMap, initBalances);
+        Game game = new Game("Test", new Money("10"), playersMap, initBalances);
 
-        game.decrementPlayersBalance("player1", 50);
+        game.decrementPlayersBalance("player1", new Money("50"));
         assertEquals(950, game.getPlayer("player1").getBalance());
 
         assertEquals(game.getInitialBalances(), initBalances);
@@ -61,7 +62,7 @@ public class GameTest {
         GGPokerokRushNCashParser parser = new GGPokerokRushNCashParser();
         Game game = parser.parseFile(path).get(0);
 
-        assertTrue(Math.abs(7.75 - game.getHeroWinloss()) < 0.005);
+        assertTrue(new Money("7.75").subtract(game.getHeroWinloss()).isZero() );
     }
 
     @Test

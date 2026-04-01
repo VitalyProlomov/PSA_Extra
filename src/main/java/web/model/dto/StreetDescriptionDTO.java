@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import pokerlibrary.models.StreetDescription;
+import pokerlibrary.utils.Money;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class StreetDescriptionDTO {
     private List<PlayerInGameDTO> playersAfterBetting = new ArrayList<>();
 
     @JsonProperty("potAfterBetting")
-    private double potAfterBetting;
+    private Money potAfterBetting;
 
     @JsonProperty("isAllIn")
     private boolean isAllIn;

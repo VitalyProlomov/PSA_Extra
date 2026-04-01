@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import pokerlibrary.utils.Money;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,8 +20,8 @@ public class UserProfile {
 
     private int vpip;
     int threeBetPercentage;
-    double fourBetPercentage;
-    double fiveBetPercentage;
+    Money fourBetPercentage;
+    Money fiveBetPercentage;
     int handsAnalizedAmount;
 
     int bbWinlossAllTime;

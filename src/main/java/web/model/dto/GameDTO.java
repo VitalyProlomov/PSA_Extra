@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import pokerlibrary.models.Game;
+import pokerlibrary.utils.Money;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public class GameDTO {
     private Map<String, PlayerInGameDTO> players = new HashMap<>();
 
     @JsonProperty("initialBalances")
-    private Map<String, Double> initialBalances = new HashMap<>();
+    private Map<String, Money> initialBalances = new HashMap<>();
 
     @JsonProperty("preFlop")
     private StreetDescriptionDTO preFlop;
@@ -47,7 +49,7 @@ public class GameDTO {
     private int playersPostFlop;
 
     @JsonProperty("bigBlindSize")
-    private double bigBlindSize;
+    private Money bigBlindSize;
 
     public GameDTO() {}
 
@@ -78,8 +80,8 @@ public class GameDTO {
 
             // Calculate formatted values
             DecimalFormat df = new DecimalFormat("#0.00");
-            this.heroWinLoss = df.format(game.getHeroWinloss()).replace(',', '.') + "$";
-            this.finalPot = df.format(game.getFinalPot()).replace(',', '.') + "$";
+            this.heroWinLoss = df.format(game.getHeroWinloss().toDouble()).replace(',', '.') + "$";
+            this.finalPot = df.format(game.getFinalPot().toDouble()).replace(',', '.') + "$";
 
             // Players post flop
             if (game.getPreFlop() != null) {

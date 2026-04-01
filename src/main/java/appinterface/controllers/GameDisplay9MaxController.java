@@ -10,6 +10,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import pokerlibrary.models.*;
+import pokerlibrary.utils.Money;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -438,7 +439,7 @@ public class GameDisplay9MaxController {
 
         this.heroPositionLabel.setText(hero.getPosition() + ": Hero");
 
-        double initBalance = displayedGame.getInitialBalances().get("Hero");
+        Money initBalance = displayedGame.getInitialBalances().get("Hero");
         String balanceStr = new DecimalFormat("#0.00").format(initBalance);
         balanceStr = balanceStr.replace(',', '.');
         this.heroBalanceLabel.setText(balanceStr + "$");

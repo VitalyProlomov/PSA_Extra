@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import parserTests.rushNCashParsingTest;
 import pokerlibrary.models.*;
 import pokerlibrary.parsers.gg.GGPokerokRushNCashParser;
+import pokerlibrary.utils.Money;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class SerializerTest {
 
     @Test
     public void serializeActionTest() throws JsonProcessingException {
-        Action action = new Action(Action.ActionType.RAISE, "Fish", 10,1.65);
+        Action action = new Action(Action.ActionType.RAISE, "Fish", new Money("10"),new Money("1.65"));
         ObjectMapper objectMapper = new ObjectMapper();
 
         String JSONtext;
@@ -92,7 +93,7 @@ public class SerializerTest {
 
     @Test
     public void serializeAndDeserializeEveryClass() throws IncorrectCardException, IOException, IncorrectBoardException, IncorrectHandException {
-        Object obj = new Action(Action.ActionType.CHECK, "", 20, 10);
+        Object obj = new Action(Action.ActionType.CHECK, "", new Money("20"), new Money("10"));
         Object deserObject = serializeAndDeserializeGivenObject(obj, obj.getClass());
         assertEquals(obj, deserObject);
 
@@ -139,7 +140,7 @@ public class SerializerTest {
         deserObject = serializeAndDeserializeGivenObject(obj, obj.getClass());
         assertEquals(obj, deserObject);
 
-        obj = new PlayerInGame("Fish234", PositionType.CO, 20.00);
+        obj = new PlayerInGame("Fish234", PositionType.CO, new Money("20.00"));
         deserObject = serializeAndDeserializeGivenObject(obj, obj.getClass());
         assertEquals(obj, deserObject);
 
@@ -150,13 +151,13 @@ public class SerializerTest {
         obj = new StreetDescription();
         deserObject = serializeAndDeserializeGivenObject(obj, obj.getClass());
         assertEquals(obj, deserObject);
-        obj = new StreetDescription(100,  new Board("Ah", "7h", "Qh", "7s", "7c"),
+        obj = new StreetDescription(new Money("100"),  new Board("Ah", "7h", "Qh", "7s", "7c"),
                 new ArrayList<>(List.of(
-                        new PlayerInGame("P1", PositionType.BTN, 50.0),
-                        new PlayerInGame("P2", PositionType.BB, 50.0))),
+                        new PlayerInGame("P1", PositionType.BTN, new Money("50.0")),
+                        new PlayerInGame("P2", PositionType.BB, new Money("50.0")))),
                 new ArrayList<>(List.of(
-                        new Action(Action.ActionType.BET,"P1", 50, 2),
-                        new Action(Action.ActionType.CALL,"P2", 50, 2)
+                        new Action(Action.ActionType.BET,"P1", new Money("50"), new Money("2")),
+                        new Action(Action.ActionType.CALL,"P2", new Money("50"), new Money("2"))
                 )));
         deserObject = serializeAndDeserializeGivenObject(obj, obj.getClass());
         assertEquals(obj, deserObject);

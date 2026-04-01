@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import pokerlibrary.models.*;
+import pokerlibrary.utils.Money;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -184,14 +185,14 @@ public class HandsEVController {
 
 
     public void setGamesAndUpdateTable(ArrayList<Game> games) {
-        HashMap<Hand, Double> values = countHandsEV(games);
-        ArrayList<ArrayList<Double>> evChart = new ArrayList<>();
+        HashMap<Hand, Money> values = countHandsEV(games);
+        ArrayList<ArrayList<Money>> evChart = new ArrayList<>();
         ArrayList<ArrayList<Integer>> handsPlayedAmount = new ArrayList<>();
         for (int i = 0; i < RANKS_AMOUNT; ++i) {
             evChart.add(new ArrayList<>());
             handsPlayedAmount.add(new ArrayList<>());
             for (int j = 0; j < RANKS_AMOUNT; ++j) {
-                evChart.get(i).add(0.0);
+                evChart.get(i).add(Money.ZERO);
                 handsPlayedAmount.get(i).add(0);
                 Rectangle r = (Rectangle) this.anchorPane.getScene().lookup(
                         "#rectangle" + i + "_" + j);
@@ -199,7 +200,7 @@ public class HandsEVController {
             }
         }
 
-        double totalEV = 0.0;
+        Money totalEV = Money.ZERO;
         int totalHandsAmount = 0;
         for (Hand h : values.keySet()) {
             int horizontalShift = 0;
@@ -212,8 +213,8 @@ public class HandsEVController {
                 verticalShift += Card.Rank.ACE.value - h.getCard2().getRank().value;
             }
             evChart.get(horizontalShift).set(verticalShift,
-                    evChart.get(horizontalShift).get(verticalShift) + values.get(h));
-            totalEV += values.get(h);
+                    evChart.get(horizontalShift).get(verticalShift).add(values.get(h)));
+            totalEV = totalEV.add(values.get(h));
             ++totalHandsAmount;
             Rectangle r = (Rectangle) this.anchorPane.getScene().lookup(
                     "#rectangle" + horizontalShift + "_" + verticalShift);
@@ -221,22 +222,22 @@ public class HandsEVController {
         }
         for (int horizontalShift = 0; horizontalShift < RANKS_AMOUNT; ++horizontalShift) {
             for (int verticalShift = 0; verticalShift < RANKS_AMOUNT; ++verticalShift) {
-                Double value = evChart.get(horizontalShift).get(verticalShift);
+                Money value = evChart.get(horizontalShift).get(verticalShift);
                 Label l = (Label) this.anchorPane.getScene().lookup(
                         "#evLabel" + horizontalShift + "_" + verticalShift);
 
-                String formattedDouble = new DecimalFormat("#0.00").format(value);
+                String formattedMoney = new DecimalFormat("#0.00").format(value);
 
-                formattedDouble += "$";
-                l.setText(formattedDouble);
+                formattedMoney += "$";
+                l.setText(formattedMoney);
 
                 Rectangle r = (Rectangle) this.anchorPane.getScene().lookup(
                         "#rectangle" + horizontalShift + "_" + verticalShift);
-                if (Math.abs(value - 0) < 0.000005) {
+                if (value.isZero()) {
                     r.setFill(neutralPaint);
-                } else if (value > 0) {
+                } else if (value.isPositive()) {
                     r.setFill(positivePaint);
-                } else if (value < 0) {
+                } else if (!value.isPositive()) {
                     r.setFill(negativePaint);
                 } else {
                     throw new RuntimeException("value was not detected..");
@@ -245,12 +246,12 @@ public class HandsEVController {
         }
 
         totalHandsLabel.setText("Total hands: " + totalHandsAmount);
-        String formattedDouble = new DecimalFormat("#0.00").format(totalEV);
-        totalWinlossLabel.setText("Total EV: " + formattedDouble + "$");
+        String formattedMoney = new DecimalFormat("#0.00").format(totalEV);
+        totalWinlossLabel.setText("Total EV: " + formattedMoney + "$");
     }
 
-    public HashMap<Hand, Double> countHandsEV(List<Game> games) {
-        HashMap<Hand, Double> allHandsEv = new HashMap<>();
+    public HashMap<Hand, Money> countHandsEV(List<Game> games) {
+        HashMap<Hand, Money> allHandsEv = new HashMap<>();
         for (Game g : games) {
             PlayerInGame hero = g.getPlayer("Hero");
             if (g.getPreFlop().isAllIn() && g.getPreFlop().getPlayersAfterBetting().contains(hero) ||
@@ -258,12 +259,12 @@ public class HandsEVController {
                     g.getTurn() != null && g.getTurn().isAllIn() && g.getTurn().getPlayersAfterBetting().contains(hero) ||
                     g.getRiver() != null && g.getRiver().isAllIn() && g.getRiver().getPlayersAfterBetting().contains(hero)) {
                 try {
-                    allHandsEv.merge(g.getPlayer("Hero").getHand(), CombinationAnalyzer.countMoneyEv(g).get("Hero"), Double::sum);
+                    allHandsEv.merge(g.getPlayer("Hero").getHand(), new Money(String.valueOf(CombinationAnalyzer.countMoneyEv(g).get("Hero"))), Money::add);
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
             } else {
-                allHandsEv.merge(g.getPlayer("Hero").getHand(), g.getHeroWinloss(), Double::sum);
+                allHandsEv.merge(g.getPlayer("Hero").getHand(), g.getHeroWinloss(), Money::add);
             }
         }
 

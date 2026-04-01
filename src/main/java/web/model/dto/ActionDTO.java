@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import pokerlibrary.models.Action;
+import pokerlibrary.utils.Money;
 
 @Getter
 @Setter
@@ -16,10 +17,10 @@ public class ActionDTO {
     private String playerId;
 
     @JsonProperty("amount")
-    private double amount;
+    private Money amount;
 
     @JsonProperty("potBeforeAction")
-    private double potBeforeAction;
+    private Money potBeforeAction;
 
     public ActionDTO() {}
 

@@ -3,6 +3,7 @@ package pokerlibrary.analizer;
 import lombok.Getter;
 import lombok.Setter;
 
+
 /**
      * All possible combinations in Texas Holdem
      */

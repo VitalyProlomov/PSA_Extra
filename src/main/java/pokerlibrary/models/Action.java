@@ -1,12 +1,9 @@
 package pokerlibrary.models;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-
-import java.text.DecimalFormat;
+import pokerlibrary.utils.Money;
 import java.util.Objects;
-
 /**
  * Class that describes the single action in game by a player.
  * Holds info about position, type of action (check, fold, bet, call, and others.)
@@ -27,15 +24,13 @@ public class Action {
         STRADDLE,
         MISSED_BLIND
     }
-
     @Getter
     private final ActionType actionType;
     @Getter
-    private final double amount;
+    private final Money amount;
     private final String playerInGameId;
     @Getter
-    private final double potBeforeAction;
-
+    private final Money potBeforeAction;
     /**
      * Constructs new Action using given ActionType, playerInGame, amount contributed in pot,
      * and pot before this action.
@@ -51,27 +46,24 @@ public class Action {
     @JsonCreator
     public Action(@JsonProperty("actionType") ActionType actionType,
                   @JsonProperty("playerInGameId") String playerInGameId,
-                  @JsonProperty("amount") double amount,
-                  @JsonProperty("potBeforeAction") double potBeforeAction) {
+                  @JsonProperty("amount") Money amount,
+                  @JsonProperty("potBeforeAction") Money potBeforeAction) {
         this.actionType = actionType;
         this.playerInGameId = playerInGameId;
         if (actionType == ActionType.FOLD || actionType == ActionType.CHECK) {
-            this.amount = 0;
+            this.amount = Money.of("0");
         } else {
-            if (amount <= 0) {
+            if (amount == null || amount.compareTo(Money.of("0")) <= 0) {
                 throw new IllegalArgumentException("Amount, contributed to the pot can not be equal or less than 0 " +
                         "for any action type other than FOLD and CHECK");
             }
-
             this.amount = amount;
         }
-
-        if (potBeforeAction < 0) {
+        if (potBeforeAction == null || potBeforeAction.compareTo(Money.of("0")) < 0) {
             throw new IllegalArgumentException("Pot before action can not be less than 0.");
         }
         this.potBeforeAction = potBeforeAction;
     }
-
 
     /**
      * @return copy of the playerInGame in this Action
@@ -80,7 +72,6 @@ public class Action {
     public String getPlayerId() {
         return playerInGameId;
     }
-
     /**
      * Action is equal to another object only if it is another Action and the following
      * fields are equal: actionType, potBeforeBetting, amount and playerInGame
@@ -96,14 +87,12 @@ public class Action {
         if (obj.getClass() == Action.class) {
             Action ac = (Action) obj;
             return this.actionType == ac.actionType &&
-                    Math.abs(this.potBeforeAction - ac.potBeforeAction) < 0.01 &&
-                    Math.abs(this.amount - ac.amount) < 0.01 &&
+                    this.potBeforeAction.compareTo(ac.potBeforeAction) == 0 &&
+                    this.amount.compareTo(ac.amount) == 0 &&
                     this.playerInGameId.equals(ac.playerInGameId);
         }
         return false;
     }
-
-
     /**
      * @return hash function of this Action, using actionType, amount,
      * playerInGameId and potBeforeAction fields.
@@ -112,7 +101,6 @@ public class Action {
     public int hashCode() {
         return Objects.hash(actionType, amount, playerInGameId, potBeforeAction);
     }
-
     /**
      * Returns string representation of this action as such
      * a) if (Action is CHECK or FOLD) => "(Action| Type: t, PotBeforeAction: p, pg)"
@@ -125,13 +113,9 @@ public class Action {
     public String toString() {
         String repr = "(Action| Type: " + actionType;
         if (actionType != ActionType.FOLD && actionType != ActionType.CHECK) {
-            DecimalFormat dcf = new DecimalFormat("##0.00");
-            repr += ", Amount: " + dcf.format(amount).replace(',', '.');
+            repr += ", Amount: " + amount;
         }
-        DecimalFormat dcf = new DecimalFormat("##0.00");
-        String potRep = dcf.format(potBeforeAction);
-        potRep = potRep.replace(",", ".");
-        repr += ", Pot before action: " + potRep + ", Player Id: " + playerInGameId + ")";
+        repr += ", Pot before action: " + potBeforeAction + ", Player Id: " + playerInGameId + ")";
         return repr;
     }
 }

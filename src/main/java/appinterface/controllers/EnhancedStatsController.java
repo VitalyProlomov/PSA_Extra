@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.controlsfx.control.CheckComboBox;
 import pokerlibrary.models.*;
+import pokerlibrary.utils.Money;
+
 import static pokerlibrary.models.PositionType.*;
 
 import java.text.DecimalFormat;
@@ -442,7 +444,7 @@ public class EnhancedStatsController {
                 ++pot5PlusBet;
             }
 
-            if (g.getHeroWinloss() > 0) {
+            if (g.getHeroWinloss().compareTo(Money.ZERO) != 0) {
                 ++gamesWonAmount;
             } else {
                 ++gamesLostAmount;
@@ -598,7 +600,7 @@ public class EnhancedStatsController {
             } else if (GameAnalyzer.didCallerFoldFlop(g, "Hero")) {
                 ++callerFoldedAmount;
             }
-            if (g.getHeroWinloss() > 0) {
+            if (g.getHeroWinloss().compareTo(Money.ZERO) == 1) {
                 ++gamesWonAmount;
             } else {
                 ++gamesLostAmount;
@@ -686,7 +688,7 @@ public class EnhancedStatsController {
             } else if (GameAnalyzer.didCallerFoldTurn(g, "Hero")) {
                 ++callerFoldedAmount;
             }
-            if (g.getHeroWinloss() > 0) {
+            if (g.getHeroWinloss().compareTo(Money.ZERO) == 1) {
                 ++gamesWonAmount;
             } else {
                 ++gamesLostAmount;

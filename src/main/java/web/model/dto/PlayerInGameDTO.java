@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import pokerlibrary.models.PlayerInGame;
+import pokerlibrary.utils.Money;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class PlayerInGameDTO {
     private Integer seatNumber;
 
     @JsonProperty("balance")
-    private double balance;
+    private Money balance;
 
     @JsonProperty("hand")
     private HandDTO hand;

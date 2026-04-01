@@ -5,10 +5,10 @@ import pokerlibrary.exceptions.IncorrectCardException;
 import pokerlibrary.exceptions.IncorrectHandException;
 
 import pokerlibrary.models.*;
+import pokerlibrary.utils.Money;
 
 import java.util.*;
 
-import static java.lang.Double.parseDouble;
 import static pokerlibrary.models.PositionType.BB;
 import static pokerlibrary.models.PositionType.SB;
 
@@ -33,7 +33,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         }
 
         String handId = parseHandId(wordsInLines);
-        double bbSize = parseBBSize(wordsInLines);
+        Money bbSize = parseBBSize(wordsInLines);
 
         Date date = parseDate(wordsInLines);
         String table = parseTable(wordsInLines);
@@ -50,8 +50,8 @@ public class GGPokerokRushNCashParser implements GGParser {
         return game;
     }
 
-    private double parseBBSize(ArrayList<ArrayList<String>> wordsInLines) {
-        return parseDouble(wordsInLines.get(0).get(7).split("/[$]")[1].split("[)]")[0]);
+    private Money parseBBSize(ArrayList<ArrayList<String>> wordsInLines) {
+        return new Money(wordsInLines.get(0).get(7).split("/[$]")[1].split("[)]")[0]);
     }
 
     private String parseHandId(ArrayList<ArrayList<String>> wordsInLines) {
@@ -77,13 +77,13 @@ public class GGPokerokRushNCashParser implements GGParser {
     private ArrayList<PlayerInGame> parsePlayers(ArrayList<ArrayList<String>> wordsInLines) {
         // Getting info about players abd setting to the game
         ArrayList<String> hashes = new ArrayList<>();
-        ArrayList<Double> balances = new ArrayList<>();
+        ArrayList<Money> balances = new ArrayList<>();
 
         ++curLine;
         for (int i = 0; i < 6; ++i) {
             hashes.add(wordsInLines.get(curLine + i).get(2));
             String balanceStr = wordsInLines.get(curLine + i).get(3);
-            balances.add(parseDouble(balanceStr.substring(2)));
+            balances.add(new Money(balanceStr.substring(2)));
         }
 
         curLine += 6;
@@ -99,10 +99,10 @@ public class GGPokerokRushNCashParser implements GGParser {
         return players;
     }
 
-    private Game initiateGame(String handId, double bbSize,
+    private Game initiateGame(String handId, Money bbSize,
                               ArrayList<PlayerInGame> players,
                               Date date, String table) {
-        HashMap<String, Double> initBalances  = new HashMap<>();
+        HashMap<String, Money> initBalances  = new HashMap<>();
         for (PlayerInGame p : players) {
             initBalances.put(p.getId(), p.getBalance());
         }
@@ -125,10 +125,10 @@ public class GGPokerokRushNCashParser implements GGParser {
         if (wordsInLines.get(curLine).get(0).equals("Cash")) {
             ArrayList<String> cashLine = wordsInLines.get(curLine);
             // In case I would want to collect stats about cash drops.
-            double extraCash = parseDouble(wordsInLines.get(curLine).get(cashLine.size() - 1).substring(1));
+            Money extraCash = new Money(wordsInLines.get(curLine).get(cashLine.size() - 1).substring(1));
             game.setExtraCash(extraCash);
         } else {
-            game.setExtraCash(0);
+            game.setExtraCash(Money.ZERO);
         }
     }
 
@@ -144,7 +144,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         game.setHeroHand(heroHand);
     }
 
-    private void parseStreetDescriptions(Game game, ArrayList<ArrayList<String>> wordsInLines, double extraCashAmount)
+    private void parseStreetDescriptions(Game game, ArrayList<ArrayList<String>> wordsInLines, Money extraCashAmount)
             throws IncorrectBoardException, IncorrectCardException, IncorrectHandException {
         parsePreFlop(game, wordsInLines, extraCashAmount);
 
@@ -152,17 +152,17 @@ public class GGPokerokRushNCashParser implements GGParser {
         parseFlop(game, wordsInLines);
         parseTurn(game, wordsInLines);
         parseRiver(game, wordsInLines);
-//        double pot = game.
+//        Money pot = game.
 //        parseFlop(game, wordsInLines, pot);
     }
 
-    private void parsePreFlop(Game game, ArrayList<ArrayList<String>> wordsInLines, double extraCashAmount)
+    private void parsePreFlop(Game game, ArrayList<ArrayList<String>> wordsInLines, Money extraCashAmount)
             throws IncorrectHandException, IncorrectCardException {
         while (wordsInLines.get(curLine).get(0).equals("Dealt")) {
             ++curLine;
         }
 
-        double initPot = game.getBigBlindSize$() + game.getSB() + extraCashAmount;
+        Money initPot = game.getBigBlindSize$().add(game.getSB()).add(extraCashAmount);
         StreetDescription pfsd = parseStreetAction(game, wordsInLines, initPot);
         game.setPreFlop(pfsd);
     }
@@ -213,7 +213,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         Card tCard = new Card(wordsInLines.get(curLine).get(6).substring(1, 3));
         ++curLine;
 
-        double curPot = game.getFlop().getPotAfterBetting();
+        Money curPot = game.getFlop().getPotAfterBetting();
 
         // Cards will be added later in this method
         StreetDescription turn;
@@ -246,7 +246,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         Card rCard = new Card(wordsInLines.get(curLine).get(7).substring(1, 3));
         ++curLine;
 
-        double curPot = game.getTurn().getPotAfterBetting();
+        Money curPot = game.getTurn().getPotAfterBetting();
         StreetDescription river;
 
         if (!game.getTurn().isAllIn()) {
@@ -270,13 +270,13 @@ public class GGPokerokRushNCashParser implements GGParser {
         game.setRiver(river);
     }
 
-    private StreetDescription parseStreetAction(Game game, ArrayList<ArrayList<String>> wordsInLines, double curPot) throws IncorrectCardException, IncorrectHandException {
+    private StreetDescription parseStreetAction(Game game, ArrayList<ArrayList<String>> wordsInLines, Money curPot) throws IncorrectCardException, IncorrectHandException {
         StreetDescription st = new StreetDescription();
         // Adding blinds posting and players left on pre-flop.
-        if (curPot - (game.getBigBlindSize$() + game.getSB() + game.getExtraCashAmount()) < 0.01) {
+        if (curPot.subtract(game.getBigBlindSize$().add(game.getSB()).add(game.getExtraCashAmount())).isZero()) {
             st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, game.getPosPlayersMap().get(SB).getId(), game.getSB(), game.getExtraCashAmount()), game.getSB());
             game.decrementPlayersBalance(game.getPosPlayersMap().get(SB).getId(), game.getSB());
-            st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, game.getPosPlayersMap().get(BB).getId(), game.getBigBlindSize$(), game.getSB() + game.getExtraCashAmount()), game.getBigBlindSize$());
+            st.addActionAndUpdateBalances(new Action(Action.ActionType.BLIND, game.getPosPlayersMap().get(BB).getId(), game.getBigBlindSize$(), game.getSB().add(game.getExtraCashAmount())), game.getBigBlindSize$());
             game.decrementPlayersBalance(game.getPosPlayersMap().get(BB).getId(), game.getBigBlindSize$());
 
             st.setPlayersAfterBetting(game.getPlayers().values());
@@ -319,7 +319,7 @@ public class GGPokerokRushNCashParser implements GGParser {
             String id = wordsInLines.get(curLine).get(5);
             String amountStr = wordsInLines.get(curLine).get(2).substring(2);
             amountStr = amountStr.substring(0, amountStr.length() - 1);
-            double returnedAmount = Double.parseDouble(amountStr);
+            Money returnedAmount = new Money(amountStr);
             game.returnUncalledChips(id, returnedAmount);
             st.returnUncalledChips(id, returnedAmount);
             ++curLine;
@@ -346,7 +346,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         // playing on later streets.
         int allInAm = 0;
         for (PlayerInGame p : st.getPlayersAfterBetting()) {
-            if (p.getBalance() < 0.01) {
+            if (p.getBalance().isZero()) {
                 ++allInAm;
             }
         }
@@ -359,15 +359,15 @@ public class GGPokerokRushNCashParser implements GGParser {
 
     private void addAction(ArrayList<String> line, Game game, StreetDescription st, PlayerInGame curPlayer) {
         Action action;
-        double amount = 0;
+        Money amount = Money.ZERO;
         st.addPlayerAfterBetting(curPlayer);
         switch (line.get(1)) {
             case "folds" -> {
-                action = new Action(Action.ActionType.FOLD, curPlayer.getId(), 0, st.getPotAfterBetting());
+                action = new Action(Action.ActionType.FOLD, curPlayer.getId(), Money.ZERO, st.getPotAfterBetting());
                 st.removePlayerAfterBetting(curPlayer);
             }
             case "raises" -> {
-                double lastAmount = 0;
+                Money lastAmount = Money.ZERO;
                 for (int i = st.getAllActions().size() - 1; i >= 0; --i) {
                     if (st.getAllActions().get(i).getPlayerId().equals(curPlayer.getId())) {
                         // If he folded, he wouldnt be raising now, so old case is impossible.
@@ -376,32 +376,32 @@ public class GGPokerokRushNCashParser implements GGParser {
                         break;
                     }
                 }
-                amount = parseDouble(line.get(4).substring(1));
+                amount = new Money(line.get(4).substring(1));
                 action = new Action(Action.ActionType.RAISE, curPlayer.getId(), amount, st.getPotAfterBetting());
 
-                amount = amount - lastAmount;
-                st.setPotAfterBetting(st.getPotAfterBetting() + amount);
+                amount = amount.subtract(lastAmount);
+                st.setPotAfterBetting(st.getPotAfterBetting().add(amount));
 
                 game.decrementPlayersBalance(curPlayer.getId(), amount);
             }
             case "calls" -> {
-                amount = parseDouble(line.get(2).substring(1));
+                amount = new Money(line.get(2).substring(1));
                 action = new Action(Action.ActionType.CALL, curPlayer.getId(), amount, st.getPotAfterBetting());
-                st.setPotAfterBetting(st.getPotAfterBetting() + amount);
+                st.setPotAfterBetting(st.getPotAfterBetting().add(amount));
                 game.decrementPlayersBalance(curPlayer.getId(), amount);
             }
             case "bets" -> {
-                amount = parseDouble(line.get(2).substring(1));
+                amount = new Money(line.get(2).substring(1));
                 action = new Action(Action.ActionType.BET, curPlayer.getId(), amount, st.getPotAfterBetting());
-                st.setPotAfterBetting(st.getPotAfterBetting() + amount);
+                st.setPotAfterBetting(st.getPotAfterBetting().add(amount));
                 game.decrementPlayersBalance(curPlayer.getId(), amount);
             }
-            case "checks" -> action = new Action(Action.ActionType.CHECK, curPlayer.getId(), 0, st.getPotAfterBetting());
+            case "checks" -> action = new Action(Action.ActionType.CHECK, curPlayer.getId(), Money.ZERO, st.getPotAfterBetting());
             default -> throw new RuntimeException("unexpected line in parsed file (was expected line with action, but got): " + line);
         }
 
 
-//        if (game.getPlayer(curPlayer.getId()).getBalance() < 0.01) {
+//        if (game.getPlayer(curPlayer.getId()).getBalance().isZero()) {
 //            game.setPlayerStatus(curPlayer.getId(), PlayerStatus.ALL_IN);
 //        }
 
@@ -441,7 +441,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         while (!wordsInLines.get(curLine).get(1).equals("SUMMARY")) {
             if (wordsInLines.get(curLine).get(1).equals("collected")) {
                 String id = wordsInLines.get(curLine).get(0);
-                double amount = Double.parseDouble(wordsInLines.get(curLine).get(2).substring(1));
+                Money amount = new Money(wordsInLines.get(curLine).get(2).substring(1));
                 game.addWinner(id, amount);
             }
             ++curLine;
@@ -451,7 +451,7 @@ public class GGPokerokRushNCashParser implements GGParser {
         String rakeStr = wordsInLines.get(curLine).get(5).substring(1);
         String jackpotRake = wordsInLines.get(curLine).get(8).substring(1);
 
-        double amount = Double.parseDouble(rakeStr) + Double.parseDouble(jackpotRake);
+        Money amount = new Money(rakeStr).add(new Money(jackpotRake));
 
         game.setRake(amount);
     }

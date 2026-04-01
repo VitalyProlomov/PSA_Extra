@@ -5,6 +5,7 @@ import pokerlibrary.exceptions.IncorrectBoardException;
 import pokerlibrary.models.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static pokerlibrary.analizer.Combination.*;
 
@@ -824,7 +825,7 @@ public class CombinationAnalyzer {
                 }
             }
         }
-        Double sum = 0.0;
+        double sum = 0.0;
         for (Hand h : boardsWon.keySet()) {
             sum += boardsWon.get(h);
         }
@@ -973,7 +974,7 @@ public class CombinationAnalyzer {
             }
         }
 
-        Double sum = 0.0;
+        double sum = 0.0;
         for (Hand h : evMap.keySet()) {
             sum += evMap.get(h);
         }
@@ -983,31 +984,36 @@ public class CombinationAnalyzer {
 
         return evMap;
     }
-
     public static HashMap<String, Double> countMoneyEv(Game g) throws IncorrectBoardException {
-        HashMap<String, Double> preflopBetMoney = new HashMap<>();
-        HashMap<String, Double> flopBetMoney = new HashMap<>();
-        HashMap<String, Double> turnBetMoney = new HashMap<>();
+        HashMap<String, Double> preflopBetdouble = new HashMap<>();
+        HashMap<String, Double> flopBetdouble = new HashMap<>();
+        HashMap<String, Double> turnBetdouble = new HashMap<>();
 
         HashMap<String, Double> finalLimitPot = new HashMap<>();
 
-        HashMap<String, Double> moneyEVMap = new HashMap<>();
+        HashMap<String, Double> doubleEVMap = new HashMap<>();
 
         // That means that river was played => the winnings are determined without EV.
         if (g.getTurn() != null && !g.getTurn().isAllIn()) {
-            return g.getWinners();
+
+            return new HashMap<>(
+                    g.getWinners().entrySet().stream().collect(
+                            Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toDouble()
+                            )
+                    )
+            );
         }
         for (PlayerInGame p : g.getPlayers().values()) {
-            preflopBetMoney.put(p.getId(), 0.0);
+            preflopBetdouble.put(p.getId(), 0.0);
         }
         for (Action a : g.getPreFlop().getAllActions()) {
-            preflopBetMoney.put(a.getPlayerId(), preflopBetMoney.get(a.getPlayerId()) + a.getAmount());
+            preflopBetdouble.put(a.getPlayerId(), preflopBetdouble.get(a.getPlayerId()) + a.getAmount().toDouble());
         }
         double sum;
         for (PlayerInGame p : g.getPreFlop().getPlayersAfterBetting()) {
             sum = 0.0;
-            for (String s : preflopBetMoney.keySet()) {
-                sum += Math.min(g.getInitialBalances().get(p.getId()), preflopBetMoney.get(s));
+            for (String s : preflopBetdouble.keySet()) {
+                sum += Math.min(g.getInitialBalances().get(p.getId()).toDouble(), preflopBetdouble.get(s));
             }
             finalLimitPot.put(p.getId(), sum);
         }
@@ -1028,10 +1034,10 @@ public class CombinationAnalyzer {
                 HashMap<Hand, Double> handsEV = countEVPreFlopMonteCarlo(hands);
 
                 for (PlayerInGame p : playersAllIn) {
-                    if (moneyEVMap.get(p.getId()) == null) {
-                        moneyEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    if (doubleEVMap.get(p.getId()) == null) {
+                        doubleEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     } else {
-                        moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
+                        doubleEVMap.put(p.getId(), doubleEVMap.get(p.getId()) +
                                 handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     }
                 }
@@ -1042,19 +1048,19 @@ public class CombinationAnalyzer {
                 finalLimitPot.remove(minStackPlayerId);
                 playersAllIn.remove(new PlayerInGame(minStackPlayerId));
             }
-            return moneyEVMap;
+            return doubleEVMap;
         }
 
         for (PlayerInGame p : g.getPlayers().values()) {
-            flopBetMoney.put(p.getId(), 0.0);
+            flopBetdouble.put(p.getId(), 0.0);
         }
         for (Action a : g.getFlop().getAllActions()) {
-            flopBetMoney.put(a.getPlayerId(), flopBetMoney.get(a.getPlayerId()) + a.getAmount());
+            flopBetdouble.put(a.getPlayerId(), flopBetdouble.get(a.getPlayerId()) + a.getAmount().toDouble());
         }
         for (PlayerInGame p : g.getFlop().getPlayersAfterBetting()) {
             sum = 0.0;
-            for (String s : flopBetMoney.keySet()) {
-                sum += Math.min(g.getInitialBalances().get(p.getId()), flopBetMoney.get(s));
+            for (String s : flopBetdouble.keySet()) {
+                sum += Math.min(g.getInitialBalances().get(p.getId()).toDouble(), flopBetdouble.get(s));
             }
             finalLimitPot.put(p.getId(), finalLimitPot.get(p.getId()) + sum);
         }
@@ -1075,10 +1081,10 @@ public class CombinationAnalyzer {
                 HashMap<Hand, Double> handsEV = countEVPostFlop(g.getFlop().getBoard(), hands);
 
                 for (PlayerInGame p : playersAllIn) {
-                    if (moneyEVMap.get(p.getId()) == null) {
-                        moneyEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    if (doubleEVMap.get(p.getId()) == null) {
+                        doubleEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     } else {
-                        moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
+                        doubleEVMap.put(p.getId(), doubleEVMap.get(p.getId()) +
                                 handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     }
                 }
@@ -1089,19 +1095,19 @@ public class CombinationAnalyzer {
                 finalLimitPot.remove(minStackPlayerId);
                 playersAllIn.remove(new PlayerInGame(minStackPlayerId));
             }
-            return moneyEVMap;
+            return doubleEVMap;
         }
 
         for (PlayerInGame p : g.getPlayers().values()) {
-            turnBetMoney.put(p.getId(), 0.0);
+            turnBetdouble.put(p.getId(), 0.0);
         }
         for (Action a : g.getTurn().getAllActions()) {
-            turnBetMoney.put(a.getPlayerId(), turnBetMoney.get(a.getPlayerId()) + a.getAmount());
+            turnBetdouble.put(a.getPlayerId(), turnBetdouble.get(a.getPlayerId()) + a.getAmount().toDouble());
         }
         for (PlayerInGame p : g.getTurn().getPlayersAfterBetting()) {
             sum = 0.0;
-            for (String s : turnBetMoney.keySet()) {
-                sum += Math.min(g.getInitialBalances().get(p.getId()), turnBetMoney.get(s));
+            for (String s : turnBetdouble.keySet()) {
+                sum += Math.min(g.getInitialBalances().get(p.getId()).toDouble(), turnBetdouble.get(s));
             }
             finalLimitPot.put(p.getId(), finalLimitPot.get(p.getId()) + sum);
         }
@@ -1123,10 +1129,10 @@ public class CombinationAnalyzer {
                 HashMap<Hand, Double> handsEV = countEVPostFlop(g.getTurn().getBoard(), hands);
 
                 for (PlayerInGame p : playersAllIn) {
-                    if (moneyEVMap.get(p.getId()) == null) {
-                        moneyEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
+                    if (doubleEVMap.get(p.getId()) == null) {
+                        doubleEVMap.put(p.getId(), handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     } else {
-                        moneyEVMap.put(p.getId(), moneyEVMap.get(p.getId()) +
+                        doubleEVMap.put(p.getId(), doubleEVMap.get(p.getId()) +
                                 handsEV.get(g.getPlayer(p.getId()).getHand()) * finalLimitPot.get(minStackPlayerId));
                     }
                 }
@@ -1137,7 +1143,7 @@ public class CombinationAnalyzer {
                 finalLimitPot.remove(minStackPlayerId);
                 playersAllIn.remove(new PlayerInGame(minStackPlayerId));
             }
-            return moneyEVMap;
+            return doubleEVMap;
         }
 
         return null;
