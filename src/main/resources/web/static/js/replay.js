@@ -55,6 +55,40 @@ class PokerReplayViewer {
         }
     }
 
+     _getCsrfToken() {
+            return {
+                header: document.querySelector('meta[name="_csrf_header"]')?.content,
+                token: document.querySelector('meta[name="_csrf"]')?.content
+            };
+        }
+
+        // Wrapper for fetch that adds CSRF header for JSON requests
+        async _fetchWithCsrf(url, options = {}) {
+            const { header, token } = this._getCsrfToken();
+
+            // Ensure Content-Type is set for JSON
+            options.headers = {
+                'Content-Type': 'application/json',
+                ...(options.headers || {})
+            };
+
+            // Add CSRF token to header (NOT body for JSON)
+            if (header && token) {
+                options.headers[header] = token;
+            }
+
+            const response = await fetch(url, options);
+
+            // Handle 403 (token expired/invalid)
+            if (response.status === 403) {
+                console.warn('CSRF token invalid, reloading...');
+                window.location.reload();
+                throw new Error('CSRF token expired');
+            }
+
+            return response;
+        }
+
     initListeners() {
         const nextBtn = document.getElementById('nextActionBtn');
         if (nextBtn) {
@@ -727,6 +761,13 @@ class PokerReplayViewer {
 
     updatePot(amount) {
         document.getElementById('potLabel').textContent = `POT: ${this.formatMoney(amount)}$`;
+    }
+
+    updateUI(state) {
+        // Reuse the global updateUI logic or implement class-specific version
+        if (typeof window.updateUI === 'function') {
+            window.updateUI(state);
+        }
     }
 }
 

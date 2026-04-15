@@ -1,272 +1,224 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Poker Hand Replay</title>
-    <link rel="stylesheet" th:href="@{/css/replay.css}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Replay</title>
+    <style>
+        .balance-increase { animation: pulse-green 1s; }
+        .balance-decrease { animation: pulse-red 1s; }
+        @keyframes pulse-green { 0% { color: #2ecc71; } 100% { color: inherit; } }
+        @keyframes pulse-red { 0% { color: #e74c3c; } 100% { color: inherit; } }
+        .action-badge { display: none; padding: 4px 8px; background: #3498db; color: white; border-radius: 4px; }
+        .action-badge.show { display: inline-block; }
+        .card-rect { width: 40px; height: 60px; border: 1px solid #333; display: none; }
+        .card-rect.hearts, .card-rect.diamonds { color: red; }
+        .card-rect.spades, .card-rect.clubs { color: black; }
+        .card-rank { display: none; font-weight: bold; }
+        .card-back { display: block; }
+    </style>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
-<div class="main-container">
-    <!-- Game Info Panel -->
-    <div class="info-panel">
-        <div class="info-item">Game ID: <span th:text="${game.gameId}"></span></div>
-        <div class="info-item">Date: <span th:text="${game.date}"></span></div>
-        <div class="info-item">Pot Type: <span th:text="${potType}"></span></div>
-        <div class="info-item">Players Post Flop: <span th:text="${game.playersPostFlop}"></span></div>
-        <div class="info-item">Hero Win/Loss: <span th:text="${game.heroWinLoss}"></span></div>
-        <div class="info-item">Total Pot: <span th:text="${game.finalPot}"></span></div>
-    </div>
+<div id="potLabel">POT: </div>
+<div id="heroBalanceLabel"></div>
+<div id="heroActionBadge" class="action-badge"></div>
+<!-- Add opponent seats similarly with IDs: player1BalanceLabel, player1ActionBadge, etc. -->
 
-    <!-- Poker Table Container -->
-    <div class="table-wrapper">
-        <div class="table-container">
-            <!-- Table Ellipse -->
-            <div class="table-ellipse"></div>
+<button id="nextActionBtn">Next</button>
+<button id="restartBtn">Restart</button>
 
-            <!-- Community Cards -->
-            <div class="community-cards">
-                <div class="card-slot" id="flopCard1">
-                    <div class="card-rect" id="flopCard1Rect"></div>
-                    <div class="card-rank" id="flopCard1Rank"></div>
-                </div>
-                <div class="card-slot" id="flopCard2">
-                    <div class="card-rect" id="flopCard2Rect"></div>
-                    <div class="card-rank" id="flopCard2Rank"></div>
-                </div>
-                <div class="card-slot" id="flopCard3">
-                    <div class="card-rect" id="flopCard3Rect"></div>
-                    <div class="card-rank" id="flopCard3Rank"></div>
-                </div>
-                <div class="card-slot" id="turnCard">
-                    <div class="card-rect" id="turnCardRect"></div>
-                    <div class="card-rank" id="turnCardRank"></div>
-                </div>
-                <div class="card-slot" id="riverCard">
-                    <div class="card-rect" id="riverCardRect"></div>
-                    <div class="card-rank" id="riverCardRank"></div>
-                </div>
-            </div>
+<script th:src="@{/js/replay.js}"></script>
 
-            <!-- Pot Display -->
-            <div class="pot-display" id="potLabel">POT: </div>
-
-            <!-- Hero Seat -->
-            <div class="seat seat-hero" id="seat-hero">
-                <img class="dealer-button" id="heroButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="heroActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="heroLeftCardRect"></div>
-                        <div class="card-rank" id="heroLeftCardRank"></div>
-                        <img class="card-back" id="heroLeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="heroRightCardRect"></div>
-                        <div class="card-rank" id="heroRightCardRank"></div>
-                        <img class="card-back" id="heroRightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="heroPositionLabel"></div>
-                    <div class="balance-label" id="heroBalanceLabel"></div>
-                </div>
-            </div>
-
-            <!-- Opponent Seats 1-8 -->
-            <div class="seat seat-opponent" id="seat-1">
-                <img class="dealer-button" id="player1ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player1ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player1LeftCardRect"></div>
-                        <div class="card-rank" id="player1LeftCardRank"></div>
-                        <img class="card-back" id="player1LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player1RightCardRect"></div>
-                        <div class="card-rank" id="player1RightCardRank"></div>
-                        <img class="card-back" id="player1RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player1PositionLabel"></div>
-                    <div class="balance-label" id="player1BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-2">
-                <img class="dealer-button" id="player2ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player2ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player2LeftCardRect"></div>
-                        <div class="card-rank" id="player2LeftCardRank"></div>
-                        <img class="card-back" id="player2LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player2RightCardRect"></div>
-                        <div class="card-rank" id="player2RightCardRank"></div>
-                        <img class="card-back" id="player2RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player2PositionLabel"></div>
-                    <div class="balance-label" id="player2BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-3">
-                <img class="dealer-button" id="player3ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player3ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player3LeftCardRect"></div>
-                        <div class="card-rank" id="player3LeftCardRank"></div>
-                        <img class="card-back" id="player3LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player3RightCardRect"></div>
-                        <div class="card-rank" id="player3RightCardRank"></div>
-                        <img class="card-back" id="player3RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player3PositionLabel"></div>
-                    <div class="balance-label" id="player3BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-4">
-                <img class="dealer-button" id="player4ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player4ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player4LeftCardRect"></div>
-                        <div class="card-rank" id="player4LeftCardRank"></div>
-                        <img class="card-back" id="player4LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player4RightCardRect"></div>
-                        <div class="card-rank" id="player4RightCardRank"></div>
-                        <img class="card-back" id="player4RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player4PositionLabel"></div>
-                    <div class="balance-label" id="player4BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-5">
-                <img class="dealer-button" id="player5ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player5ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player5LeftCardRect"></div>
-                        <div class="card-rank" id="player5LeftCardRank"></div>
-                        <img class="card-back" id="player5LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player5RightCardRect"></div>
-                        <div class="card-rank" id="player5RightCardRank"></div>
-                        <img class="card-back" id="player5RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player5PositionLabel"></div>
-                    <div class="balance-label" id="player5BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-6">
-                <img class="dealer-button" id="player6ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player6ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player6LeftCardRect"></div>
-                        <div class="card-rank" id="player6LeftCardRank"></div>
-                        <img class="card-back" id="player6LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player6RightCardRect"></div>
-                        <div class="card-rank" id="player6RightCardRank"></div>
-                        <img class="card-back" id="player6RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player6PositionLabel"></div>
-                    <div class="balance-label" id="player6BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-7">
-                <img class="dealer-button" id="player7ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player7ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player7LeftCardRect"></div>
-                        <div class="card-rank" id="player7LeftCardRank"></div>
-                        <img class="card-back" id="player7LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player7RightCardRect"></div>
-                        <div class="card-rank" id="player7RightCardRank"></div>
-                        <img class="card-back" id="player7RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player7PositionLabel"></div>
-                    <div class="balance-label" id="player7BalanceLabel"></div>
-                </div>
-            </div>
-
-            <div class="seat seat-opponent" id="seat-8">
-                <img class="dealer-button" id="player8ButtonIcon" th:src="@{/assets/dealerButton.png}" style="display:none;">
-                <div class="action-badge" id="player8ActionBadge"></div>
-                <div class="cards-container">
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player8LeftCardRect"></div>
-                        <div class="card-rank" id="player8LeftCardRank"></div>
-                        <img class="card-back" id="player8LeftCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                    <div class="card-slot-player">
-                        <div class="card-rect" id="player8RightCardRect"></div>
-                        <div class="card-rank" id="player8RightCardRank"></div>
-                        <img class="card-back" id="player8RightCardBack" th:src="@{/assets/cardBackImage.png}">
-                    </div>
-                </div>
-                <div class="player-info">
-                    <div class="position-label" id="player8PositionLabel"></div>
-                    <div class="balance-label" id="player8BalanceLabel"></div>
-                </div>
-            </div>
-
-            <!-- Controls -->
-            <div class="next-action-btn" id="nextActionBtn" title="Next Action">
-                <div class="triangle"></div>
-            </div>
-            <div class="restart-btn" id="restartBtn" title="Restart">
-                <img th:src="@{/assets/restartIcon.png}" alt="Restart">
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Embed Game JSON for JavaScript -->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    console.log("=== Loading Game Data ===");
-    try {
-        window.gameData = JSON.parse([[${gameJson}]]);
-        console.log("✅ Game data loaded successfully!");
-    } catch (e) {
-        console.error("❌ Failed to parse game JSON:", e);
-        window.gameData = null;
+    const gameId = [[${gameId}]];
+    let sessionId = null;
+    let pokerReplay = null;  // Hold the class instance
+
+    // Standalone CSRF helpers (NOT inside class - accessible globally)
+    function _getCsrfToken() {
+        return {
+            header: document.querySelector('meta[name="_csrf_header"]')?.content,
+            token: document.querySelector('meta[name="_csrf"]')?.content
+        };
+    }
+
+    async function _fetchWithCsrf(url, options = {}) {
+        const { header, token } = _getCsrfToken();
+        options.headers = {
+            'Content-Type': 'application/json',
+            ...(options.headers || {})
+        };
+        if (header && token) {
+            options.headers[header] = token;
+        }
+        const response = await fetch(url, options);
+        if (response.status === 403) {
+            console.warn('CSRF token invalid, reloading...');
+            window.location.reload();
+            throw new Error('CSRF token expired');
+        }
+        return response;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Initialize the class first
+        if (typeof PokerReplayViewer !== 'undefined') {
+            pokerReplay = new PokerReplayViewer();
+        }
+
+        // Setup button listeners
+        const nextBtn = document.getElementById('nextActionBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        if (nextBtn) nextBtn.onclick = nextAction;
+        if (restartBtn) restartBtn.onclick = resetReplay;
+
+        // Start replay if game data exists
+        if (window.gameData) {
+            await initializeReplay();
+        }
+    });
+
+    async function initializeReplay() {
+        try {
+            const response = await _fetchWithCsrf('/api/replay/initialize', {
+                method: 'POST',
+                body: JSON.stringify({ game: window.gameData })
+            });
+            const data = await response.json();  // ✅ Fixed: was 'res.json()'
+            if (data.success) {
+                sessionId = data.sessionId;
+                if (pokerReplay && typeof pokerReplay.updateUI === 'function') {
+                    pokerReplay.updateUI(data.state);
+                } else {
+                    updateUI(data.state);  // Fallback to global function
+                }
+            }
+        } catch (e) {
+            console.error('Init error:', e);
+        }
+    }
+
+    async function nextAction() {
+        if (!sessionId) return;
+        try {
+            const response = await _fetchWithCsrf(`/api/replay/${sessionId}/next`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+            if (data.success) {
+                if (pokerReplay && typeof pokerReplay.updateUI === 'function') {
+                    pokerReplay.updateUI(data.state);
+                } else {
+                    updateUI(data.state);
+                }
+            }
+        } catch (e) {
+            console.error('Next action error:', e);
+        }
+    }
+
+    async function resetReplay() {
+        if (!sessionId) return;
+        try {
+            const response = await _fetchWithCsrf(`/api/replay/${sessionId}/reset`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+            if (data.success) {
+                if (pokerReplay && typeof pokerReplay.resetAllStates === 'function') {
+                    pokerReplay.resetAllStates();
+                }
+                if (pokerReplay && typeof pokerReplay.updateUI === 'function') {
+                    pokerReplay.updateUI(data.state);
+                } else {
+                    updateUI(data.state);
+                }
+            }
+        } catch (e) {
+            console.error('Reset error:', e);
+        }
+    }
+
+    // ✅ Global updateUI function (fallback if class method not available)
+    function updateUI(state) {
+        if (!state) return;
+
+        // Pot
+        const potEl = document.getElementById('potLabel');
+        if (potEl && state.pot !== undefined) {
+            potEl.textContent = `POT: ${formatMoney(state.pot)}$`;
+        }
+
+        // Hero balance
+        if (state.balances && state.balances['Hero'] !== undefined) {
+            const heroBalance = state.balances['Hero'];
+            const heroEl = document.getElementById('heroBalanceLabel');
+            if (heroEl) {
+                const oldText = heroEl.textContent;
+                heroEl.textContent = `${formatMoney(heroBalance)}$`;
+                if (oldText && heroBalance > parseFloat(oldText)) {
+                    heroEl.classList.add('balance-increase');
+                    setTimeout(() => heroEl.classList.remove('balance-increase'), 1000);
+                }
+            }
+        }
+
+        // Action badges
+        if (state.players) {
+            for (const [id, player] of Object.entries(state.players)) {
+                if (player.lastAction) {
+                    const prefix = id === 'Hero' ? 'hero' : `player${id}`;
+                    const badge = document.getElementById(`${prefix}ActionBadge`);
+                    if (badge) {
+                        badge.textContent = player.lastAction.displayText;
+                        badge.className = `action-badge show action-${player.lastAction.type.toLowerCase()}`;
+                    }
+                }
+            }
+        }
+
+        // Community cards
+        if (state.communityCards) {
+            const cc = state.communityCards;
+            if (cc.flopVisible && cc.flopCards) {
+                ['flopCard1','flopCard2','flopCard3'].forEach((slotId, i) => {
+                    if (cc.flopCards[i]) renderCard(slotId, cc.flopCards[i]);
+                });
+            }
+            if (cc.turnVisible && cc.turnCard) {
+                renderCard('turnCard', cc.turnCard);
+            }
+            if (cc.riverVisible && cc.riverCard) {
+                renderCard('riverCard', cc.riverCard);
+            }
+        }
+    }
+
+    function renderCard(slotId, card) {
+        if (!card) return;
+        const rect = document.getElementById(`${slotId}Rect`);
+        const rank = document.getElementById(`${slotId}Rank`);
+        if (rect && rank) {
+            rect.className = `card-rect ${card.suit.toString().toLowerCase()}`;
+            rect.style.display = 'block';
+            rank.textContent = rankChar(card.rank);
+            rank.style.display = 'flex';
+        }
+    }
+
+    function rankChar(rank) {
+        const map = {TWO:'2',THREE:'3',FOUR:'4',FIVE:'5',SIX:'6',SEVEN:'7',EIGHT:'8',NINE:'9',
+                     TEN:'T',JACK:'J',QUEEN:'Q',KING:'K',ACE:'A'};
+        return map[rank?.toString()] || '?';
+    }
+
+    function formatMoney(amount) {
+        if (amount === undefined || amount === null) return '0.00';
+        return (Math.round(amount * 100) / 100).toFixed(2).replace(',', '.');
     }
     /*]]>*/
 </script>
-
-<script th:src="@{/js/replay.js}"></script>
 </body>
 </html>
