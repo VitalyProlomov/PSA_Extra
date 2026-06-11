@@ -1,39 +1,29 @@
 version: '3.8'
 
 services:
-  mysql-db:
-    image: mysql:8.0
-    container_name: psa-db
-    restart: unless-stopped  # ← Auto-restart on failure
+  postgres:
+    image: postgres:latest
+    container_name: psa_postgres_container
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-psa_db_password}
-      MYSQL_DATABASE: psa-db
-      MYSQL_USER: psa_user
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-psa_user_password}
-      MYSQL_ROOT_HOST: '%'  # Allow root from anywhere (for admin tools)
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: psa_db
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql-data:/var/lib/mysql  # ← PERSIST DATA
-      - ./init-db:/docker-entrypoint-initdb.d  # ← Auto-run SQL scripts
-    command:
-      - --default_authentication_plugin=caching_sha2_password
-      - --require_secure_transport=OFF  # ← Modern SSL (not --ssl=1)
-      - --character-set-server=utf8mb4  # ← Unicode support
-      - --collation-server=utf8mb4_unicode_ci
-    healthcheck:  # ← Check if DB is ready
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "psa_user", "-p${MYSQL_PASSWORD:-psa_user_password}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-    networks:
-      - psa-network
+          - ./pgdata:/var/lib/postgresql/data/pgdata
+#    command: >
+#      postgres -c max_connections=1000
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres_user -d postgres_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
 
 volumes:
-  mysql-data:  # ← Named volume (persists across container recreations)
+  pgdata:
     driver: local
-
-networks:
-  psa-network:
-    driver: bridge
